@@ -14,6 +14,9 @@ export interface PersonaConfig {
   templates: { title: string; desc: string }[]
   zeekPersona: string
   zeekOpener: string
+  freePerks: string[]
+  showAllTemplates: boolean
+  showMakiAgents: boolean
 }
 
 export const personas: PersonaConfig[] = [
@@ -43,6 +46,15 @@ export const personas: PersonaConfig[] = [
     ],
     zeekPersona: 'students',
     zeekOpener: 'What are you trying to learn or build right now?',
+    freePerks: [
+      'COMP Cohort seat — 14-day sprint, one interest → paid offer',
+      'SoulFood Sushi OS — reads your goals, maps your path',
+      '52 AI skill templates — copy, customize, deploy',
+      'Client-getting system — first paid offer framework',
+      'NEO Life Rate — Seedling tier when you\'re ready ($29/mo)',
+    ],
+    showAllTemplates: true,
+    showMakiAgents: true,
   },
   {
     id: 'parents',
@@ -69,6 +81,15 @@ export const personas: PersonaConfig[] = [
     ],
     zeekPersona: 'parents',
     zeekOpener: 'What\'s the biggest financial challenge your household is facing right now?',
+    freePerks: [
+      'SoulFood Sushi OS — reads bank statements + goals, finds leaks',
+      'Avg $295/mo recovered from subscriptions + inefficiency',
+      'Family CFO system — budget, invest, plan generational wealth',
+      'Plain English coaching — we translate until you own it',
+      'Senior Support AI — benefits, healthcare, government programs',
+    ],
+    showAllTemplates: true,
+    showMakiAgents: false,
   },
   {
     id: 'solopreneur',
@@ -95,6 +116,14 @@ export const personas: PersonaConfig[] = [
     ],
     zeekPersona: 'solopreneur',
     zeekOpener: 'What task is eating the most time in your business right now?',
+    freePerks: [
+      'Free Pain Point Audit — we find your biggest bottleneck',
+      '70-agent library access — matched to your business type',
+      'AI agent recommendation — exactly which system to install first',
+      'First consultation free — 30-min strategy call',
+    ],
+    showAllTemplates: false,
+    showMakiAgents: false,
   },
   {
     id: 'creators',
@@ -126,5 +155,13 @@ export const personas: PersonaConfig[] = [
     ],
     zeekPersona: 'creators',
     zeekOpener: 'What platform are you trying to grow on, and what\'s holding you back?',
+    freePerks: [
+      '30-day content calendar — scripted for your niche + voice',
+      'Trinity pipeline intro — post, repurpose, grow on autopilot',
+      'ARIA audience intelligence — what\'s winning in your niche right now',
+      'Hook Generator — scroll-stopping openers for Reels + TikTok',
+    ],
+    showAllTemplates: false,
+    showMakiAgents: false,
   },
 ]
