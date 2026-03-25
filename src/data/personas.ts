@@ -1,5 +1,6 @@
 export interface PersonaConfig {
   id: string
+  codename: string
   route: string
   headline: string
   subhead: string
@@ -16,6 +17,7 @@ export interface PersonaConfig {
 export const personas: PersonaConfig[] = [
   {
     id: 'students',
+    codename: 'MAKI',
     route: '/students',
     headline: 'Skip the debt.',
     subhead: 'Build real skills. Get paid.',
@@ -40,6 +42,7 @@ export const personas: PersonaConfig[] = [
   },
   {
     id: 'parents',
+    codename: 'MAC',
     route: '/parents',
     headline: 'AI isn\'t leaving you behind.',
     subhead: 'We won\'t either.',
@@ -64,6 +67,7 @@ export const personas: PersonaConfig[] = [
   },
   {
     id: 'solopreneur',
+    codename: 'NORI',
     route: '/solopreneur',
     headline: 'Your competitors are already automating.',
     subhead: 'Are you?',
@@ -88,13 +92,14 @@ export const personas: PersonaConfig[] = [
   },
   {
     id: 'creators',
+    codename: 'N',
     route: '/creators',
     headline: 'Stop posting into the void.',
     subhead: 'Clone yourself at scale.',
     hook: 'You\'re creating. The algorithm is burying it.',
     hookSub: 'Trinity is our AI content pipeline — it posts, repurposes, and builds your audience 12x a month so you can focus on making.',
-    accentColor: '#D4A017',
-    glowColor: 'rgba(212, 160, 23, 0.2)',
+    accentColor: '#818CF8',
+    glowColor: 'rgba(129, 140, 248, 0.22)',
     features: [
       { icon: '◆', title: 'Trinity Content Engine', desc: '12 posts per month — scripted, designed, and scheduled by AI trained on your voice.' },
       { icon: '◈', title: 'Video Production AI', desc: 'Cinematic short-form content from your raw footage or ideas. Remotion-powered.' },

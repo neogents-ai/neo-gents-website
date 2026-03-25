@@ -14,17 +14,11 @@ const LABELS: Record<string, string> = {
   creators:    'TRACK 04',
 }
 
-const ICONS: Record<string, string> = {
-  students:    '⬡',
-  parents:     '◈',
-  solopreneur: '◆',
-  creators:    '◉',
-}
 
-function HologramEmblem({ color, glowColor, icon, index, hovered }: {
+function HologramEmblem({ color, glowColor, codename, index, hovered }: {
   color: string
   glowColor: string
-  icon: string
+  codename: string
   index: number
   hovered: boolean
 }) {
@@ -82,13 +76,61 @@ function HologramEmblem({ color, glowColor, icon, index, hovered }: {
             }}
           />
 
-          {/* Icon */}
-          <span
-            className="relative z-10 text-5xl select-none"
-            style={{ color, opacity: hovered ? 0.9 : 0.65, transition: 'opacity 0.3s' }}
-          >
-            {icon}
-          </span>
+          {/* Codename / Brand mark */}
+          {codename === 'N' ? (
+            /* Brand mark — diamond frame + gradient N */
+            <div className="relative z-10 flex items-center justify-center" style={{ width: 56, height: 56 }}>
+              {/* Diamond frame */}
+              <div
+                className="absolute inset-0 rotate-45"
+                style={{
+                  border: '1.5px solid transparent',
+                  background: 'linear-gradient(#0d0d0d, #0d0d0d) padding-box, linear-gradient(135deg, #D4A017, #9B59B6, #00B359) border-box',
+                  opacity: hovered ? 1 : 0.7,
+                  transition: 'opacity 0.3s',
+                }}
+              />
+              {/* Inner diamond dot */}
+              <div
+                className="absolute rotate-45"
+                style={{
+                  width: 10, height: 10,
+                  background: 'linear-gradient(135deg, #D4A017, #9B59B6, #00B359)',
+                  opacity: hovered ? 0.9 : 0.5,
+                  transition: 'opacity 0.3s',
+                }}
+              />
+              {/* N letter */}
+              <span
+                className="relative select-none font-display font-800"
+                style={{
+                  fontSize: '1.9rem',
+                  letterSpacing: '0.05em',
+                  background: 'linear-gradient(135deg, #D4A017 0%, #9B59B6 50%, #00B359 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: hovered ? 'drop-shadow(0 0 10px rgba(212,160,23,0.6))' : 'none',
+                  transition: 'filter 0.3s',
+                }}
+              >
+                N
+              </span>
+            </div>
+          ) : (
+            <span
+              className="relative z-10 select-none font-display font-800 tracking-[0.12em]"
+              style={{
+                color,
+                opacity: hovered ? 1 : 0.75,
+                transition: 'opacity 0.3s',
+                fontSize: '1.75rem',
+                textShadow: `0 0 18px ${color}`,
+              }}
+            >
+              {codename}
+            </span>
+          )}
 
           {/* Shimmer sweep */}
           <motion.div
@@ -197,7 +239,7 @@ function PersonaCard({ persona, index }: { persona: PersonaConfig; index: number
             <HologramEmblem
               color={persona.accentColor}
               glowColor={persona.glowColor}
-              icon={ICONS[persona.id] ?? '◆'}
+              codename={persona.codename}
               index={index}
               hovered={hovered}
             />
