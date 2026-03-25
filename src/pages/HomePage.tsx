@@ -54,21 +54,6 @@ export default function HomePage() {
         <DepthPersonaMenu personas={personas} />
       </section>
 
-      {/* Bottom HUD strip */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="border-t px-6 py-3 flex items-center justify-between"
-        style={{ borderColor: 'rgba(0,179,89,0.12)' }}
-      >
-        <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-muted/30">
-          NEO Gents AI — Build Track v2.0
-        </span>
-        <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-muted/30">
-          52 agents active
-        </span>
-      </motion.div>
     </div>
   )
 }

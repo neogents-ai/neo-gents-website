@@ -90,16 +90,6 @@ function HologramEmblem({ color, glowColor, codename, index, hovered }: {
                   transition: 'opacity 0.3s',
                 }}
               />
-              {/* Inner diamond dot */}
-              <div
-                className="absolute rotate-45"
-                style={{
-                  width: 10, height: 10,
-                  background: 'linear-gradient(135deg, #D4A017, #9B59B6, #00B359)',
-                  opacity: hovered ? 0.9 : 0.5,
-                  transition: 'opacity 0.3s',
-                }}
-              />
               {/* N letter */}
               <span
                 className="relative select-none font-display font-800"
