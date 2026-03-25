@@ -7,9 +7,11 @@ interface FlipCardProps {
   agentName: string
   agentDesc: string
   accentColor: string
+  ctaLabel?: string
+  ctaHref?: string
 }
 
-export default function FlipCard({ title, desc, agentName, agentDesc, accentColor }: FlipCardProps) {
+export default function FlipCard({ title, desc, agentName, agentDesc, accentColor, ctaLabel = 'Book a Consultation →', ctaHref }: FlipCardProps) {
   const [flipped, setFlipped] = useState(false)
   const navigate = useNavigate()
 
@@ -51,11 +53,11 @@ export default function FlipCard({ title, desc, agentName, agentDesc, accentColo
             <p className="font-body text-xs text-muted/80 leading-relaxed">{agentDesc}</p>
           </div>
           <button
-            onClick={(e) => { e.stopPropagation(); navigate('/supporter') }}
+            onClick={(e) => { e.stopPropagation(); navigate(ctaHref ?? '/supporter') }}
             className="mt-4 px-4 py-2 text-xs font-display font-700 tracking-[0.1em] uppercase text-black transition-opacity hover:opacity-90"
             style={{ backgroundColor: accentColor }}
           >
-            Book a Consultation →
+            {ctaLabel}
           </button>
         </div>
 

@@ -1,22 +1,34 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import DigitalRain from '../components/DigitalRain'
+import { personas } from '../data/personas'
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojkdakj'
 
-const perks = [
-  { icon: '◆', text: 'Full NORI access — AI system for families, students, and builders' },
-  { icon: '◈', text: '52+ ready-to-run templates across all 4 persona tracks' },
-  { icon: '◉', text: 'Early access to every new tool NEO Gents ships' },
-  { icon: '⬡', text: 'Supporter-tier pricing on all paid services — permanently locked' },
-  { icon: '◆', text: 'Direct line to Zeek — our AI agent trained on the full NEO Gents system' },
-  { icon: '◈', text: 'Monthly intel drops — what\'s working in AI for real people right now' },
+const PERK_ICONS = ['◆', '◈', '◉', '⬡', '◆', '◈']
+
+const FALLBACK_PERKS = [
+  'Full NORI access — AI system for families, students, and builders',
+  '52+ ready-to-run templates across all 4 persona tracks',
+  'Early access to every new tool NEO Gents ships',
+  'Supporter-tier pricing on all paid services — permanently locked',
+  'Direct line to Zeek — our AI agent trained on the full NEO Gents system',
+  'Monthly intel drops — what\'s working in AI for real people right now',
 ]
 
 export default function SupporterPage() {
+  const location = useLocation()
+  const trackParam = new URLSearchParams(location.search).get('track') ?? ''
+  const activePersona = personas.find(p => p.id === trackParam) ?? null
+
+  const headline = activePersona ? activePersona.codename : 'NORI'
+  const perkTexts = activePersona ? activePersona.freePerks : FALLBACK_PERKS
+  const perks = perkTexts.map((text, i) => ({ icon: PERK_ICONS[i % PERK_ICONS.length], text }))
+
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
-  const [track, setTrack] = useState('')
+  const [track, setTrack] = useState(trackParam)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -76,7 +88,7 @@ export default function SupporterPage() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="font-display font-800 text-5xl md:text-6xl text-light mb-4 leading-none"
           >
-            Meet NORI.
+            Meet {headline}.
             <br />
             <span className="text-shimmer">No credit card.</span>
           </motion.h1>
