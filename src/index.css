@@ -18,6 +18,8 @@
   --color-green: #00B359;
   --color-muted: #555555;
   --color-light: #CCCCCC;
+  /* Brand unity gradient — all 3 NEO Gents colors */
+  --gradient-brand: linear-gradient(135deg, #D4A017, #9B59B6, #00B359);
 }
 
 * {

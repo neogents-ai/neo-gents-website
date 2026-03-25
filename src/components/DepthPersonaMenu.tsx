@@ -195,6 +195,7 @@ function PersonaCard({
           ? { duration: 0.35, ease: 'easeIn' }
           : { delay: selectedId ? 0 : index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }
       }
+      onMouseLeave={onMouseLeave}
       className="relative flex flex-col items-center"
     >
       {/* Ground glow */}
@@ -237,17 +238,31 @@ function PersonaCard({
         {/* Card face */}
         <div
           className="relative flex flex-col items-center justify-between px-5 pt-5 pb-4 transition-all duration-300"
-          style={{
-            border: `1px solid ${hovered ? persona.accentColor + 'BB' : persona.accentColor + '28'}`,
-            background: hovered
-              ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(13,13,13,0.95) 70%)`
-              : 'rgba(13,13,13,0.85)',
-            boxShadow: hovered
-              ? `0 0 28px ${persona.accentColor}1a, inset 0 0 20px ${persona.accentColor}08`
-              : `0 0 6px ${persona.accentColor}06`,
-            minHeight: '320px',
-            borderRadius: '2px',
-          }}
+          style={
+            persona.codename === 'N'
+              ? {
+                  border: '1px solid transparent',
+                  background: hovered
+                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(13,13,13,0.95) 70%) padding-box, linear-gradient(135deg, #D4A017, #9B59B6, #00B359) border-box`
+                    : `linear-gradient(rgba(13,13,13,0.85), rgba(13,13,13,0.85)) padding-box, linear-gradient(135deg, #D4A01728, #9B59B628, #00B35928) border-box`,
+                  boxShadow: hovered
+                    ? `0 0 28px ${persona.accentColor}1a, inset 0 0 20px ${persona.accentColor}08`
+                    : `0 0 6px ${persona.accentColor}06`,
+                  minHeight: '320px',
+                  borderRadius: '2px',
+                }
+              : {
+                  border: `1px solid ${hovered ? persona.accentColor + 'BB' : persona.accentColor + '28'}`,
+                  background: hovered
+                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(13,13,13,0.95) 70%)`
+                    : 'rgba(13,13,13,0.85)',
+                  boxShadow: hovered
+                    ? `0 0 28px ${persona.accentColor}1a, inset 0 0 20px ${persona.accentColor}08`
+                    : `0 0 6px ${persona.accentColor}06`,
+                  minHeight: '320px',
+                  borderRadius: '2px',
+                }
+          }
         >
           {/* Track label */}
           <p
