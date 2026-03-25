@@ -4,6 +4,8 @@ export interface PersonaConfig {
   route: string
   headline: string
   subhead: string
+  cardLine: string
+  cardQuote?: string
   hook: string
   hookSub?: string
   accentColor: string
@@ -19,9 +21,10 @@ export const personas: PersonaConfig[] = [
     id: 'students',
     codename: 'M.A.K.I.',
     route: '/students',
-    headline: 'Esports, Health, Finances & Tech.',
-    subhead: '"Be handsome and touch grass" — Coach Berry',
-    subhead: '',
+    headline: 'Skip the debt.',
+    subhead: 'Build real skills. Get paid.',
+    cardLine: 'Esports, Health, Finances & Tech.',
+    cardQuote: '"Be handsome and touch grass" — Coach Berry',
     hook: 'You\'re being sold a $60,000 credential for a world that already moved on.',
     hookSub: 'We built 52 AI tools that teach you to outperform that credential — and make money doing it.',
     accentColor: '#D4A017',
@@ -45,8 +48,9 @@ export const personas: PersonaConfig[] = [
     id: 'parents',
     codename: 'M.A.C.',
     route: '/parents',
-    headline: 'Holidays, Cheat Meals & Distractions. Let\'s recalibrate.',
-    subhead: '',
+    headline: 'AI isn\'t leaving you behind.',
+    subhead: 'We won\'t either.',
+    cardLine: 'Holidays, Cheat Meals & Distractions. Let\'s recalibrate.',
     hook: 'The wealth gap is real. The AI gap is making it worse.',
     hookSub: 'Family CFO gives your household the same financial and AI tools corporations use — in plain English, no tech background required.',
     accentColor: '#9B59B6',
@@ -70,8 +74,9 @@ export const personas: PersonaConfig[] = [
     id: 'solopreneur',
     codename: 'N.O.R.I.',
     route: '/solopreneur',
-    headline: 'Beat the big wigs. The window is closing.',
-    subhead: '',
+    headline: 'Your competitors are already automating.',
+    subhead: 'Are you?',
+    cardLine: 'Beat the big wigs. The window is closing.',
     hook: 'The businesses winning right now aren\'t bigger. They\'re faster.',
     hookSub: 'We install AI agent teams that handle your repeat work — so you can focus on the 10% only you can do.',
     accentColor: '#00B359',
@@ -95,8 +100,10 @@ export const personas: PersonaConfig[] = [
     id: 'creators',
     codename: 'N',
     route: '/creators',
-    headline: 'Visionaries will ride this wave. "Skills + AI = Leverage"',
-    subhead: '— Sabrina Romanov',
+    headline: 'Stop posting into the void.',
+    subhead: 'Clone yourself at scale.',
+    cardLine: 'Visionaries will ride this wave.',
+    cardQuote: '"Skills + AI = Leverage" — Sabrina Romanov',
     hook: 'You\'re creating. The algorithm is burying it.',
     hookSub: 'Trinity is our AI content pipeline — it posts, repurposes, and builds your audience 12x a month so you can focus on making.',
     accentColor: '#818CF8',

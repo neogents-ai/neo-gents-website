@@ -300,10 +300,15 @@ function PersonaCard({
             {persona.id}
           </h3>
 
-          {/* Headline */}
-          <p className="font-body text-xs text-center leading-relaxed px-2 mb-3" style={{ color: 'rgba(200,200,200,0.5)' }}>
-            {persona.headline} {persona.subhead}
+          {/* Card copy */}
+          <p className="font-body text-xs text-center leading-relaxed px-2 mb-1" style={{ color: 'rgba(200,200,200,0.5)' }}>
+            {persona.cardLine}
           </p>
+          {persona.cardQuote && (
+            <p className="font-mono text-[9px] text-center px-2 mb-3" style={{ color: 'rgba(200,200,200,0.3)' }}>
+              {persona.cardQuote}
+            </p>
+          )}
 
           {/* CTA */}
           <p
