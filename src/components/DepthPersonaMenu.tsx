@@ -125,7 +125,7 @@ function HologramEmblem({ color, glowColor, codename, personaId, index, hovered 
                 color,
                 opacity: hovered ? 1 : 0.75,
                 transition: 'opacity 0.3s',
-                fontSize: '1.75rem',
+                fontSize: '1.1rem',
                 textShadow: `0 0 18px ${color}`,
               }}
             >
