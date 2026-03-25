@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useSpring, useTransform } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
@@ -153,10 +153,22 @@ function HologramEmblem({ color, glowColor, codename, index, hovered }: {
   )
 }
 
-function PersonaCard({ persona, index }: { persona: PersonaConfig; index: number }) {
-  const navigate = useNavigate()
+function PersonaCard({
+  persona,
+  index,
+  selectedId,
+  onSelect,
+}: {
+  persona: PersonaConfig
+  index: number
+  selectedId: string | null
+  onSelect: (id: string) => void
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
+
+  const isSelected = selectedId === persona.id
+  const isDeselected = selectedId !== null && !isSelected
 
   const rawX = useSpring(0, { stiffness: 160, damping: 20 })
   const rawY = useSpring(0, { stiffness: 160, damping: 20 })
@@ -164,6 +176,7 @@ function PersonaCard({ persona, index }: { persona: PersonaConfig; index: number
   const rotateY = useTransform(rawX, [-1, 1], [-12, 12])
 
   function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (selectedId) return
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -180,24 +193,44 @@ function PersonaCard({ persona, index }: { persona: PersonaConfig; index: number
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.92 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      animate={
+        isSelected
+          ? { opacity: 1, y: 0, scale: 1 }
+          : isDeselected
+          ? { opacity: 0, scale: 0.75, y: 30, filter: 'blur(4px)' }
+          : { opacity: 1, y: 0, scale: 1 }
+      }
+      transition={
+        isDeselected
+          ? { duration: 0.35, ease: 'easeIn' }
+          : { delay: selectedId ? 0 : index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+      }
       className="relative flex flex-col items-center"
     >
       {/* Ground glow */}
       <div
         className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 blur-2xl pointer-events-none transition-opacity duration-300"
-        style={{ background: persona.glowColor, opacity: hovered ? 0.7 : 0.35 }}
+        style={{ background: persona.glowColor, opacity: isSelected ? 1 : hovered ? 0.7 : 0.35 }}
       />
 
       {/* 3D card */}
       <motion.div
         ref={ref}
         onMouseMove={onMouseMove}
-        onMouseEnter={() => setHovered(true)}
+        onMouseEnter={() => !selectedId && setHovered(true)}
         onMouseLeave={onMouseLeave}
-        onClick={() => navigate(persona.route)}
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', cursor: 'pointer', willChange: 'transform' }}
+        onClick={() => !selectedId && onSelect(persona.id)}
+        animate={
+          isSelected
+            ? { rotate: [0, -8, 8, -4, 720], scale: [1, 1.08, 1.08, 1.08, 0] }
+            : {}
+        }
+        transition={
+          isSelected
+            ? { duration: 0.65, ease: [0.4, 0, 0.2, 1], times: [0, 0.15, 0.3, 0.45, 1] }
+            : {}
+        }
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', cursor: selectedId ? 'default' : 'pointer', willChange: 'transform' }}
         className="relative w-full select-none"
       >
         {/* Depth edge right */}
@@ -275,11 +308,31 @@ function PersonaCard({ persona, index }: { persona: PersonaConfig; index: number
 }
 
 export default function DepthPersonaMenu({ personas }: Props) {
+  const navigate = useNavigate()
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+
+  function handleSelect(id: string) {
+    setSelectedId(id)
+    const persona = personas.find(p => p.id === id)
+    if (!persona) return
+    // Wait for hyper-spin animation to finish, then navigate
+    setTimeout(() => navigate(persona.route), 650)
+  }
+
+  // Reset on back navigation
+  useEffect(() => { setSelectedId(null) }, [])
+
   return (
     <div style={{ perspective: '1200px' }}>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {personas.map((p, i) => (
-          <PersonaCard key={p.id} persona={p} index={i} />
+          <PersonaCard
+            key={p.id}
+            persona={p}
+            index={i}
+            selectedId={selectedId}
+            onSelect={handleSelect}
+          />
         ))}
       </div>
     </div>
