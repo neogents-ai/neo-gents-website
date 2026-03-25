@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion'
 import { personas } from '../data/personas'
 import DepthPersonaMenu from '../components/DepthPersonaMenu'
+import FlowingLines from '../components/FlowingLines'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="relative min-h-screen flex flex-col">
+      {/* Flowing lines — behind all content */}
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
+        <FlowingLines lineCount={18} opacity={0.85} />
+      </div>
       {/* Hero */}
-      <section className="pt-32 pb-10 px-6 text-center">
+      <section className="relative pt-32 pb-10 px-6 text-center" style={{ zIndex: 2 }}>
         {/* HUD status badge */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -45,7 +50,7 @@ export default function HomePage() {
       </section>
 
       {/* Character select grid */}
-      <section className="flex-1 px-6 pb-16 max-w-6xl mx-auto w-full">
+      <section className="relative flex-1 px-6 pb-16 max-w-6xl mx-auto w-full" style={{ zIndex: 2 }}>
         <DepthPersonaMenu personas={personas} />
       </section>
 

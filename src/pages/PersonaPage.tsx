@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
 import DigitalRain from '../components/DigitalRain'
+import FlowingLines from '../components/FlowingLines'
 import ZeekChat from '../components/ZeekChat'
 import FlipCard from '../components/FlipCard'
 
@@ -17,6 +18,7 @@ export default function PersonaPage({ persona }: Props) {
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
         <DigitalRain opacity={0.04} density={0.6} />
+        <FlowingLines dominantColor={persona.accentColor} opacity={0.55} lineCount={12} />
       </div>
       <div
         className="fixed inset-0 pointer-events-none"
