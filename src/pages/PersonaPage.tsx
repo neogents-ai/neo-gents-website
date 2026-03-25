@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
 import DigitalRain from '../components/DigitalRain'
 import ZeekChat from '../components/ZeekChat'
+import FlipCard from '../components/FlipCard'
 
 interface Props {
   persona: PersonaConfig
@@ -220,22 +221,14 @@ export default function PersonaPage({ persona }: Props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="p-4 border border-gold/10 hover:border-gold/30 cursor-pointer transition-all duration-200 group"
-                style={{ background: 'rgba(17,17,17,0.4)' }}
               >
-                <div
-                  className="w-6 h-6 border mb-3 flex items-center justify-center"
-                  style={{ borderColor: `${persona.accentColor}40` }}
-                >
-                  <div className="w-2 h-2" style={{ backgroundColor: persona.accentColor, opacity: 0.6 }} />
-                </div>
-                <h3 className="font-display font-700 text-xs text-light mb-1 group-hover:text-shimmer transition-all">
-                  {t.title}
-                </h3>
-                <p className="font-body text-xs text-muted/70 leading-relaxed">{t.desc}</p>
-                <div className="mt-3 text-xs font-mono group-hover:opacity-100 opacity-0 transition-opacity" style={{ color: persona.accentColor }}>
-                  Use template →
-                </div>
+                <FlipCard
+                  title={t.title}
+                  desc={t.desc}
+                  agentName="NEO Gents AI"
+                  agentDesc="Our agent team handles the heavy lifting — you just show up and use the result."
+                  accentColor={persona.accentColor}
+                />
               </motion.div>
             ))}
 
@@ -272,7 +265,7 @@ export default function PersonaPage({ persona }: Props) {
             className="px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity"
             style={{ backgroundColor: persona.accentColor }}
           >
-            Try the OS Free →
+            Try NORI Free →
           </button>
         </motion.section>
 

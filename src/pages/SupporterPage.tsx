@@ -5,7 +5,7 @@ import DigitalRain from '../components/DigitalRain'
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojkdakj'
 
 const perks = [
-  { icon: '◆', text: 'Full SFS-OS access — AI operating system for families, students, and builders' },
+  { icon: '◆', text: 'Full NORI access — AI system for families, students, and builders' },
   { icon: '◈', text: '52+ ready-to-run templates across all 4 persona tracks' },
   { icon: '◉', text: 'Early access to every new tool NEO Gents ships' },
   { icon: '⬡', text: 'Supporter-tier pricing on all paid services — permanently locked' },
@@ -76,7 +76,7 @@ export default function SupporterPage() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="font-display font-800 text-5xl md:text-6xl text-light mb-4 leading-none"
           >
-            Get inside the OS.
+            Meet NORI.
             <br />
             <span className="text-shimmer">No credit card.</span>
           </motion.h1>
@@ -87,7 +87,7 @@ export default function SupporterPage() {
             transition={{ delay: 0.4 }}
             className="font-body text-sm text-muted max-w-md mx-auto"
           >
-            The SFS-OS is the AI operating system we built for people Silicon Valley ignores. Supporters get free access — and stay inside as we build.
+            NORI is the AI system we built for people Silicon Valley ignores. Supporters get free access — and stay inside as we build.
           </motion.p>
         </section>
 

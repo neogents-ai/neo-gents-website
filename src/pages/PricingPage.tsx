@@ -12,7 +12,7 @@ const tiers = [
     glowColor: 'rgba(85,85,85,0.15)',
     features: [
       'AI chatbot for your website',
-      'Monthly content posts (Trinity)',
+      'Monthly content posts (Marketing Specialist)',
       'COMP Cohort access',
       'After-hours intake automation',
       'Email support',

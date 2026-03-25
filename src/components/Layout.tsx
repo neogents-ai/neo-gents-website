@@ -1,21 +1,26 @@
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import CaveBackground from './CaveBackground'
 
 const navLinks = [
-  { href: '/students', label: 'Students' },
-  { href: '/parents', label: 'Parents' },
-  { href: '/solopreneur', label: 'Solopreneur' },
-  { href: '/creators', label: 'Creators' },
-  { href: '/pricing', label: 'Pricing' },
+  { href: '/students',    label: 'Students',    hud: '01' },
+  { href: '/parents',     label: 'Parents',     hud: '02' },
+  { href: '/solopreneur', label: 'Solopreneur', hud: '03' },
+  { href: '/creators',    label: 'Creators',    hud: '04' },
+  { href: '/agents',      label: 'Agents',      hud: '05' },
+  { href: '/pricing',     label: 'Pricing',     hud: '06' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
 
   return (
-    <div className="min-h-screen bg-black text-light flex flex-col scanline">
+    <div className="min-h-screen bg-black text-light flex flex-col scanline-green relative">
+      {/* Cave background — global */}
+      <CaveBackground />
+
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
@@ -29,16 +34,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Nav links — desktop */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, label, hud }) => (
               <Link
                 key={href}
                 to={href}
-                className={`font-body text-xs tracking-[0.15em] uppercase transition-colors duration-200 ${
+                className={`font-body text-xs tracking-[0.15em] uppercase transition-colors duration-200 flex items-center gap-1.5 ${
                   location.pathname === href
-                    ? 'text-gold'
+                    ? 'text-green'
                     : 'text-muted hover:text-light'
                 }`}
               >
+                <span className="font-mono text-[9px] text-muted/40">{hud}/</span>
                 {label}
               </Link>
             ))}
@@ -47,26 +53,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* CTA */}
           <Link
             to="/supporter"
-            className="hidden md:flex items-center gap-2 px-4 py-2 border border-gold/40 text-gold text-xs tracking-[0.15em] uppercase font-body hover:bg-gold/10 hover:border-gold transition-all duration-200"
+            className="hidden md:flex items-center gap-2 px-4 py-2 border text-xs tracking-[0.15em] uppercase font-body transition-all duration-200"
+            style={{
+              borderColor: 'rgba(0,179,89,0.4)',
+              color: '#00B359',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(0,179,89,0.08)'
+              ;(e.currentTarget as HTMLElement).style.borderColor = '#00B359'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = ''
+              ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,179,89,0.4)'
+            }}
           >
-            Try Free
-            <span className="text-green">→</span>
+            ENTER HQ →
           </Link>
 
           {/* Mobile menu button */}
-          <button className="md:hidden text-muted hover:text-gold transition-colors">
+          <button className="md:hidden text-muted hover:text-green transition-colors">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
-        {/* Nav bottom line */}
-        <div className="mt-4 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+        {/* Nav bottom line — green */}
+        <div
+          className="mt-4 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(0,179,89,0.3), transparent)' }}
+        />
       </nav>
 
       {/* Page content */}
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-20 relative z-10">
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0, y: 8 }}
@@ -78,7 +98,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gold/10 px-6 md:px-12 py-8 mt-16">
+      <footer className="relative z-10 border-t px-6 md:px-12 py-8 mt-16" style={{ borderColor: 'rgba(0,179,89,0.1)' }}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-5 h-5 border border-gold/40 rotate-45 flex items-center justify-center">
@@ -93,14 +113,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </p>
           <div className="flex gap-6">
             {navLinks.slice(0, 3).map(({ href, label }) => (
-              <Link key={href} to={href} className="font-body text-xs text-muted hover:text-gold transition-colors uppercase tracking-widest">
+              <Link key={href} to={href} className="font-body text-xs text-muted hover:text-green transition-colors uppercase tracking-widest">
                 {label}
               </Link>
             ))}
           </div>
         </div>
-        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t border-gold/5 flex justify-center">
-          <p className="font-mono text-xs text-gold/20 tracking-widest">
+        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t flex justify-center" style={{ borderColor: 'rgba(0,179,89,0.05)' }}>
+          <p className="font-mono text-xs tracking-widest" style={{ color: 'rgba(0,179,89,0.2)' }}>
             © 2026 NEO GENTS — ALL RIGHTS RESERVED
           </p>
         </div>

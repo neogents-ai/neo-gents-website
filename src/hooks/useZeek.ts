@@ -7,32 +7,32 @@ export interface Message {
 
 const VPS_CHAT_URL = 'https://neogents.io/api/chat'
 
-// Stub responses for local dev
+// Stub responses — mirrors Zeek VPS personas (used when VPS unreachable)
 const STUB_RESPONSES: Record<string, string[]> = {
   students: [
-    "That's exactly what we built this for. Let me show you the right starting template.",
-    "Solid. The COMP 14-day sprint is probably your fastest path. Want me to walk you through it?",
-    "Most students coming through here start with the freelance stack — AI + one skill = income. What's your strongest skill right now?",
+    "M.A.K.I. here. The COMP 14-day sprint is the fastest path from zero to income — what's your strongest skill right now?",
+    "Solid move. Most students here start with the freelance stack — AI plus one skill equals real money. Let me show you a template.",
+    "That's the right question. Tell me what you're trying to build and I'll map the shortest route.",
   ],
   parents: [
-    "That's a real challenge. The Family CFO system was built specifically for this — let me point you to the right module.",
-    "Good question. Most families in that situation start with the benefits navigator first. Have you gone through that yet?",
-    "I hear you. Let's map this out step by step. What's the most urgent piece — budget, savings, or planning for the kids?",
+    "M.A.C. here — Chief Family Officer. The Family CFO system was built for exactly this. What's the most urgent piece right now — budget, savings, or planning for the kids?",
+    "Good question. Most families start with the benefits navigator first — it finds money you're already owed. Have you gone through that yet?",
+    "Plain English, no jargon — that's how we work here. Walk me through what's happening and I'll break it down.",
   ],
   solopreneur: [
-    "Classic bottleneck. The missed call problem alone usually costs businesses 3-5 bookings a week. We can fix that this week.",
-    "That's the right instinct. Let's audit your current workflow first — what does a typical day look like for you?",
-    "Good. The 70-agent library has something for exactly this. What industry are you in?",
+    "N.O.R.I. here. The missed call problem alone costs most businesses 3–5 bookings a week. What's eating the most time right now?",
+    "The 70-agent library has something for exactly this. What industry are you in — I'll match the right agent.",
+    "Let's audit the workflow first. What does a typical day look like and where does it break down?",
   ],
   creators: [
-    "The algorithm isn't the problem — it's the output frequency. Trinity can solve that. What platform are you on?",
-    "That's a hook problem. Let me show you the Hook Generator template — it's free and it works.",
-    "I hear that all the time. The key is repurposing. One video can become 7 pieces of content. Want to see how?",
+    "Marketing Specialist here. The algorithm isn't the problem — it's output frequency. What platform are you trying to grow and how often are you posting?",
+    "That's a hook problem. I have a template built for this — want to see it?",
+    "One piece of content can become 7. Let me show you how the repurpose pipeline works.",
   ],
   general: [
-    "Good question. Which describes you best — student, parent, solopreneur, or creator? I'll point you to the right track.",
-    "We've got tools for all of that. Tell me more about what's actually blocking you right now.",
-    "Let's figure out the right starting point. What's the one thing you wish was handled automatically in your life or business?",
+    "Which describes you best — student, parent, solopreneur, or creator? I'll route you to the right track.",
+    "We've got tools for all of that. What's the one thing you wish was handled automatically right now?",
+    "Tell me what's actually blocking you and I'll point you to the right starting point.",
   ],
 }
 
