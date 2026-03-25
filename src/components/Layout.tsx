@@ -53,7 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* CTA */}
           <Link
             to="/supporter"
-            className="hidden md:flex items-center gap-2 px-4 py-2 border text-xs tracking-[0.15em] uppercase font-body transition-all duration-200"
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border text-[10px] tracking-[0.15em] uppercase font-body transition-all duration-200"
             style={{
               borderColor: 'rgba(0,179,89,0.4)',
               color: '#00B359',
@@ -98,30 +98,75 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t px-6 md:px-12 py-8 mt-16" style={{ borderColor: 'rgba(0,179,89,0.1)' }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-5 h-5 border border-gold/40 rotate-45 flex items-center justify-center">
-              <div className="w-2 h-2 bg-gold/60" />
+      <footer className="relative z-10 border-t px-6 md:px-12 py-10 mt-16" style={{ borderColor: 'rgba(0,179,89,0.1)' }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          {/* Brand col */}
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 border border-gold/40 rotate-45 flex items-center justify-center">
+                <div className="w-2 h-2 bg-gold/60" />
+              </div>
+              <span className="font-display text-xs tracking-[0.2em] uppercase text-gold">
+                NEO GENTS AI
+              </span>
             </div>
-            <span className="font-display text-xs tracking-[0.2em] uppercase text-muted">
-              NEO GENTS AI
-            </span>
+            <p className="font-body text-xs text-muted leading-relaxed max-w-xs">
+              Pain-point-first AI consultancy. We audit bottlenecks, install AI teams, and stack solutions.
+            </p>
+            <p className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(0,179,89,0.35)' }}>
+              neogents.io
+            </p>
           </div>
-          <p className="font-body text-xs text-muted text-center">
-            Pain-point-first AI consultancy. We audit bottlenecks, install AI teams, and stack solutions.
-          </p>
-          <div className="flex gap-6">
-            {navLinks.slice(0, 3).map(({ href, label }) => (
-              <Link key={href} to={href} className="font-body text-xs text-muted hover:text-green transition-colors uppercase tracking-widest">
-                {label}
-              </Link>
-            ))}
+
+          {/* Tracks col */}
+          <div className="flex flex-col gap-3">
+            <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-muted/40">Tracks</span>
+            <div className="flex flex-col gap-2">
+              {navLinks.map(({ href, label, hud }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  className="font-body text-xs text-muted hover:text-green transition-colors flex items-center gap-2"
+                >
+                  <span className="font-mono text-[9px] text-muted/30">{hud}/</span>
+                  {label}
+                </Link>
+              ))}
+            </div>
           </div>
+
+          {/* Legal + Company col */}
+          <div className="flex flex-col gap-3">
+            <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-muted/40">Company</span>
+            <div className="flex flex-col gap-2">
+              {[
+                { href: '/faq',      label: 'FAQ' },
+                { href: '/careers',  label: 'Careers' },
+                { href: '/contact',  label: 'Contact' },
+                { href: '/privacy',  label: 'Privacy Policy' },
+                { href: '/terms',    label: 'Terms of Service' },
+              ].map(({ href, label }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  className="font-body text-xs text-muted hover:text-green transition-colors"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
         </div>
-        <div className="max-w-7xl mx-auto mt-6 pt-6 border-t flex justify-center" style={{ borderColor: 'rgba(0,179,89,0.05)' }}>
-          <p className="font-mono text-xs tracking-widest" style={{ color: 'rgba(0,179,89,0.2)' }}>
+
+        {/* Bottom bar */}
+        <div className="max-w-7xl mx-auto mt-8 pt-6 border-t flex flex-col md:flex-row items-center justify-between gap-2" style={{ borderColor: 'rgba(0,179,89,0.05)' }}>
+          <p className="font-mono text-[10px] tracking-widest" style={{ color: 'rgba(0,179,89,0.2)' }}>
             © 2026 NEO GENTS — ALL RIGHTS RESERVED
+          </p>
+          <p className="font-mono text-[9px] tracking-widest" style={{ color: 'rgba(0,179,89,0.15)' }}>
+            52 AGENTS ACTIVE
           </p>
         </div>
       </footer>
