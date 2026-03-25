@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useSpring, useTransform } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
+import HologramEmblem from './HologramEmblem'
 
 interface Props {
   personas: PersonaConfig[]
@@ -15,144 +16,6 @@ const LABELS: Record<string, string> = {
 }
 
 
-const BRAND = { gold: '#D4A017', purple: '#9B59B6', green: '#00B359' }
-
-const RING_COLORS: Record<string, [string, string]> = {
-  students:    [BRAND.purple, BRAND.green],
-  parents:     [BRAND.green,  BRAND.gold],
-  solopreneur: [BRAND.gold,   BRAND.purple],
-}
-
-function HologramEmblem({ color, glowColor, codename, personaId, index, hovered }: {
-  color: string
-  glowColor: string
-  codename: string
-  personaId: string
-  index: number
-  hovered: boolean
-}) {
-  const [outerRing, midRing] = RING_COLORS[personaId] ?? [color, color]
-
-  return (
-    <div className="relative flex items-center justify-center" style={{ width: 120, height: 140 }}>
-      {/* Outer dashed ring */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        className="absolute rounded-full border border-dashed"
-        style={{
-          borderColor: outerRing,
-          opacity: hovered ? 0.45 : 0.07,
-          inset: -16,
-          transition: 'opacity 0.3s',
-        }}
-      />
-
-      {/* Mid ring */}
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-        className="absolute rounded-full border"
-        style={{
-          borderColor: midRing,
-          opacity: hovered ? 0.3 : 0.05,
-          inset: -8,
-          transition: 'opacity 0.3s',
-        }}
-      />
-
-      {/* Core hologram body — floating */}
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 5 + index * 0.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative"
-        style={{ filter: `drop-shadow(0 0 12px ${glowColor}) drop-shadow(0 0 30px ${glowColor})` }}
-      >
-        {/* Octagon silhouette */}
-        <div
-          className="relative overflow-hidden flex items-center justify-center"
-          style={{
-            width: 88,
-            height: 108,
-            background: `linear-gradient(180deg, ${color}18 0%, ${color}06 60%, transparent 100%)`,
-            border: `1px solid ${color}35`,
-            clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)',
-          }}
-        >
-          {/* Scan lines */}
-          <div
-            className="absolute inset-0 opacity-25"
-            style={{
-              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 3px, ${color}12 3px, ${color}12 4px)`,
-            }}
-          />
-
-          {/* Codename / Brand mark */}
-          {codename === 'N' ? (
-            /* Brand mark — diamond frame + gradient N */
-            <div className="relative z-10 flex items-center justify-center" style={{ width: 56, height: 56 }}>
-              {/* Diamond frame */}
-              <div
-                className="absolute inset-0 rotate-45"
-                style={{
-                  border: '1.5px solid transparent',
-                  background: 'linear-gradient(#0d0d0d, #0d0d0d) padding-box, linear-gradient(135deg, #D4A017, #9B59B6, #00B359) border-box',
-                  opacity: hovered ? 1 : 0.7,
-                  transition: 'opacity 0.3s',
-                }}
-              />
-              {/* N letter */}
-              <span
-                className="relative select-none font-display font-800"
-                style={{
-                  fontSize: '1.9rem',
-                  letterSpacing: '0.05em',
-                  background: 'linear-gradient(135deg, #D4A017 0%, #9B59B6 50%, #00B359 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: hovered ? 'drop-shadow(0 0 10px rgba(212,160,23,0.6))' : 'none',
-                  transition: 'filter 0.3s',
-                }}
-              >
-                N
-              </span>
-            </div>
-          ) : (
-            <span
-              className="relative z-10 select-none font-display font-800 tracking-[0.12em]"
-              style={{
-                color,
-                opacity: hovered ? 1 : 0.75,
-                transition: 'opacity 0.3s',
-                fontSize: '1.1rem',
-                textShadow: `0 0 18px ${color}`,
-              }}
-            >
-              {codename}
-            </span>
-          )}
-
-          {/* Shimmer sweep */}
-          <motion.div
-            animate={{ y: ['-100%', '200%'] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear', delay: index * 0.7 }}
-            className="absolute left-0 right-0 h-8 pointer-events-none"
-            style={{
-              background: `linear-gradient(180deg, transparent 0%, ${color}20 50%, transparent 100%)`,
-            }}
-          />
-
-          {/* Corner accents */}
-          <div className="absolute top-1 left-1 w-2 h-2 border-t border-l pointer-events-none" style={{ borderColor: `${color}60` }} />
-          <div className="absolute top-1 right-1 w-2 h-2 border-t border-r pointer-events-none" style={{ borderColor: `${color}60` }} />
-          <div className="absolute bottom-1 left-1 w-2 h-2 border-b border-l pointer-events-none" style={{ borderColor: `${color}60` }} />
-          <div className="absolute bottom-1 right-1 w-2 h-2 border-b border-r pointer-events-none" style={{ borderColor: `${color}60` }} />
-        </div>
-      </motion.div>
-    </div>
-  )
-}
 
 function PersonaCard({
   persona,
@@ -292,6 +155,7 @@ function PersonaCard({
               personaId={persona.id}
               index={index}
               hovered={hovered}
+              mascotSrc={persona.id === 'solopreneur' ? '/nori-mascot.jpg' : undefined}
             />
           </div>
 

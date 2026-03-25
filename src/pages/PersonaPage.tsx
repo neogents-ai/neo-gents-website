@@ -1,17 +1,30 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
+import { youthTemplates, youthCategories } from '../data/youthTemplates'
+import { makiAgents, makiPillars, type MakiPillar } from '../data/makiAgents'
 import DigitalRain from '../components/DigitalRain'
 import FlowingLines from '../components/FlowingLines'
 import ZeekChat from '../components/ZeekChat'
 import FlipCard from '../components/FlipCard'
+import HologramEmblem from '../components/HologramEmblem'
 
 interface Props {
   persona: PersonaConfig
 }
 
+function ctaLabel(persona: PersonaConfig): string {
+  if (persona.id === 'creators') return 'Get Free Access →'
+  return `Try ${persona.codename} Free →`
+}
+
 export default function PersonaPage({ persona }: Props) {
   const navigate = useNavigate()
+  const [activePillar, setActivePillar] = useState<MakiPillar>('Esports')
+  const [activeYouthCat, setActiveYouthCat] = useState<string>(youthCategories[0])
+
+  const supporterUrl = `/supporter?track=${persona.id}`
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -31,7 +44,6 @@ export default function PersonaPage({ persona }: Props) {
 
         {/* ── HERO ── */}
         <section className="pt-20 pb-16">
-          {/* Breadcrumb */}
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -44,7 +56,6 @@ export default function PersonaPage({ persona }: Props) {
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              {/* Label tag */}
               <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -95,7 +106,7 @@ export default function PersonaPage({ persona }: Props) {
                 className="flex gap-3 mt-8"
               >
                 <button
-                  onClick={() => navigate('/supporter')}
+                  onClick={() => navigate(supporterUrl)}
                   className="px-6 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black transition-all duration-200 hover:opacity-90"
                   style={{ backgroundColor: persona.accentColor }}
                 >
@@ -111,52 +122,23 @@ export default function PersonaPage({ persona }: Props) {
               </motion.div>
             </div>
 
-            {/* Hologram accent — right side */}
+            {/* Hologram emblem — right side */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="hidden lg:flex items-center justify-center"
             >
-              <div className="relative w-64 h-64">
-                {/* Outer rings */}
-                {[1, 0.6, 0.35].map((scale, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-                    transition={{ duration: 12 + i * 4, repeat: Infinity, ease: 'linear' }}
-                    className="absolute inset-0 rounded-full border"
-                    style={{
-                      borderColor: `${persona.accentColor}${i === 0 ? '20' : i === 1 ? '15' : '30'}`,
-                      transform: `scale(${scale})`,
-                      top: `${(1 - scale) * 50}%`,
-                      left: `${(1 - scale) * 50}%`,
-                      width: `${scale * 100}%`,
-                      height: `${scale * 100}%`,
-                    }}
-                  />
-                ))}
-                {/* Center */}
-                <motion.div
-                  animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{ filter: `drop-shadow(0 0 24px ${persona.glowColor})` }}
-                >
-                  <div
-                    className="w-32 h-32 flex items-center justify-center"
-                    style={{
-                      background: `linear-gradient(135deg, ${persona.accentColor}15, ${persona.accentColor}05)`,
-                      border: `1px solid ${persona.accentColor}30`,
-                      clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                    }}
-                  >
-                    <span className="font-display font-800 text-4xl" style={{ color: persona.accentColor, opacity: 0.7 }}>
-                      {persona.id[0].toUpperCase()}
-                    </span>
-                  </div>
-                </motion.div>
-              </div>
+              <HologramEmblem
+                color={persona.accentColor}
+                glowColor={persona.glowColor}
+                codename={persona.codename}
+                personaId={persona.id}
+                index={0}
+                hovered={false}
+                size={180}
+                mascotSrc={persona.id === 'solopreneur' ? '/nori-mascot.jpg' : undefined}
+              />
             </motion.div>
           </div>
         </section>
@@ -181,18 +163,12 @@ export default function PersonaPage({ persona }: Props) {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 className="p-5 border border-gold/10 hover:border-gold/25 transition-all duration-300 group"
-                style={{
-                  background: 'rgba(17,17,17,0.6)',
-                }}
+                style={{ background: 'rgba(17,17,17,0.6)' }}
               >
                 <div className="flex items-start gap-4">
-                  <span className="text-2xl mt-0.5" style={{ color: persona.accentColor }}>
-                    {f.icon}
-                  </span>
+                  <span className="text-2xl mt-0.5" style={{ color: persona.accentColor }}>{f.icon}</span>
                   <div>
-                    <h3 className="font-display font-700 text-sm text-light mb-1 group-hover:text-shimmer transition-all">
-                      {f.title}
-                    </h3>
+                    <h3 className="font-display font-700 text-sm text-light mb-1 group-hover:text-shimmer transition-all">{f.title}</h3>
                     <p className="font-body text-xs text-muted leading-relaxed">{f.desc}</p>
                   </div>
                 </div>
@@ -212,44 +188,181 @@ export default function PersonaPage({ persona }: Props) {
             <h2 className="font-display font-700 text-xs tracking-[0.3em] uppercase" style={{ color: persona.accentColor }}>
               // Start here — templates
             </h2>
-            <span className="font-mono text-xs text-muted/40">52 available</span>
+            <span className="font-mono text-xs text-muted/40">
+              {persona.showAllTemplates ? '52 available' : '52+ available'}
+            </span>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {persona.templates.map((t, i) => (
+          {persona.showAllTemplates ? (
+            /* ── FULL 52 (students + parents) ── */
+            <>
+              {/* Category tabs */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {youthCategories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveYouthCat(cat)}
+                    className="px-3 py-1.5 font-mono text-[10px] tracking-[0.2em] uppercase transition-all duration-200 border"
+                    style={{
+                      borderColor: activeYouthCat === cat ? persona.accentColor : `${persona.accentColor}25`,
+                      color: activeYouthCat === cat ? persona.accentColor : 'rgba(200,200,200,0.4)',
+                      background: activeYouthCat === cat ? `${persona.accentColor}10` : 'transparent',
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {youthTemplates
+                  .filter(t => t.category === activeYouthCat)
+                  .map((t, i) => (
+                    <motion.div
+                      key={t.title}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.04 }}
+                    >
+                      <FlipCard
+                        title={t.title}
+                        desc={t.desc}
+                        agentName={t.cta === 'learn' ? 'NEO Gents Team' : 'NEO Gents AI'}
+                        agentDesc={t.cta === 'learn' ? 'Apply or learn more about this opportunity.' : 'Our agent team handles the heavy lifting — you just show up and use the result.'}
+                        accentColor={persona.accentColor}
+                        ctaLabel={t.cta === 'learn' ? 'Learn More →' : 'Book a Demo →'}
+                        ctaHref={supporterUrl}
+                      />
+                    </motion.div>
+                  ))}
+              </div>
+            </>
+          ) : (
+            /* ── 4 + MORE CARD (solopreneur / creators) ── */
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {persona.templates.map((t, i) => (
+                <motion.div
+                  key={t.title}
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                >
+                  <FlipCard
+                    title={t.title}
+                    desc={t.desc}
+                    agentName="NEO Gents AI"
+                    agentDesc="Our agent team handles the heavy lifting — you just show up and use the result."
+                    accentColor={persona.accentColor}
+                  />
+                </motion.div>
+              ))}
+
+              {/* +48 more card */}
               <motion.div
-                key={t.title}
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
+                transition={{ delay: 0.28 }}
+                className="p-4 border border-dashed cursor-pointer transition-all duration-200 flex flex-col items-center justify-center text-center gap-3"
+                style={{
+                  borderColor: `${persona.accentColor}25`,
+                  background: `${persona.accentColor}05`,
+                }}
               >
-                <FlipCard
-                  title={t.title}
-                  desc={t.desc}
-                  agentName="NEO Gents AI"
-                  agentDesc="Our agent team handles the heavy lifting — you just show up and use the result."
-                  accentColor={persona.accentColor}
-                />
-              </motion.div>
-            ))}
+                <span className="font-mono text-2xl" style={{ color: `${persona.accentColor}60` }}>+48</span>
+                <span className="font-body text-xs text-muted">more templates</span>
 
-            {/* View all card */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.32 }}
-              onClick={() => navigate('/supporter')}
-              className="p-4 border border-dashed border-gold/20 hover:border-gold/40 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center text-center gap-2"
-              style={{ background: 'rgba(212,160,23,0.03)' }}
-            >
-              <span className="font-mono text-2xl text-gold/40">+48</span>
-              <span className="font-body text-xs text-muted">more templates</span>
-              <span className="font-mono text-xs text-gold/60">Get free access →</span>
-            </motion.div>
-          </div>
+                {persona.id === 'creators' ? (
+                  /* Creators — two buttons */
+                  <div className="flex flex-col gap-2 w-full mt-1">
+                    <button
+                      onClick={() => navigate(supporterUrl)}
+                      className="w-full px-3 py-2 font-mono text-[10px] tracking-[0.2em] uppercase text-black hover:opacity-90 transition-opacity"
+                      style={{ backgroundColor: persona.accentColor }}
+                    >
+                      Get Free Access →
+                    </button>
+                    <button
+                      onClick={() => navigate(supporterUrl + '&intent=consult')}
+                      className="w-full px-3 py-2 font-mono text-[10px] tracking-[0.2em] uppercase border hover:opacity-80 transition-opacity"
+                      style={{ borderColor: `${persona.accentColor}50`, color: persona.accentColor }}
+                    >
+                      Book a Consultation →
+                    </button>
+                  </div>
+                ) : (
+                  /* N.O.R.I. — consultation only */
+                  <button
+                    onClick={() => navigate(supporterUrl + '&intent=consult')}
+                    className="w-full px-3 py-2 font-mono text-[10px] tracking-[0.2em] uppercase border hover:opacity-80 transition-opacity"
+                    style={{ borderColor: `${persona.accentColor}50`, color: persona.accentColor }}
+                  >
+                    Book a Consultation →
+                  </button>
+                )}
+              </motion.div>
+            </div>
+          )}
         </section>
+
+        {/* ── MAKI AGENT LIBRARY (students only) ── */}
+        {persona.showMakiAgents && (
+          <section className="py-12 border-t border-gold/10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="flex items-center justify-between mb-8"
+            >
+              <h2 className="font-display font-700 text-xs tracking-[0.3em] uppercase" style={{ color: persona.accentColor }}>
+                // M.A.K.I. Agent Library
+              </h2>
+              <span className="font-mono text-xs text-muted/40">Esports · Health · Finance · Tech</span>
+            </motion.div>
+
+            {/* Pillar tabs */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {makiPillars.map(pillar => (
+                <button
+                  key={pillar}
+                  onClick={() => setActivePillar(pillar)}
+                  className="px-4 py-2 font-mono text-[10px] tracking-[0.2em] uppercase transition-all duration-200 border"
+                  style={{
+                    borderColor: activePillar === pillar ? persona.accentColor : `${persona.accentColor}25`,
+                    color: activePillar === pillar ? persona.accentColor : 'rgba(200,200,200,0.4)',
+                    background: activePillar === pillar ? `${persona.accentColor}10` : 'transparent',
+                  }}
+                >
+                  {pillar}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {makiAgents[activePillar].map((agent, i) => (
+                <motion.div
+                  key={agent.title}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="p-4 border border-gold/10 hover:border-gold/25 transition-all duration-300 group"
+                  style={{ background: 'rgba(17,17,17,0.6)' }}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="font-mono text-xs mt-0.5" style={{ color: `${persona.accentColor}70` }}>◆</span>
+                    <div>
+                      <h3 className="font-display font-700 text-sm text-light mb-1 group-hover:text-shimmer transition-all">
+                        {agent.title}
+                      </h3>
+                      <p className="font-body text-xs text-muted leading-relaxed">{agent.desc}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* ── CTA STRIP ── */}
         <motion.section
@@ -263,17 +376,16 @@ export default function PersonaPage({ persona }: Props) {
           <p className="font-display font-800 text-2xl text-light mb-2">Ready to start?</p>
           <p className="font-body text-sm text-muted mb-6">Access everything free. No credit card.</p>
           <button
-            onClick={() => navigate('/supporter')}
+            onClick={() => navigate(supporterUrl)}
             className="px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity"
             style={{ backgroundColor: persona.accentColor }}
           >
-            Try NORI Free →
+            {ctaLabel(persona)}
           </button>
         </motion.section>
 
       </div>
 
-      {/* Zeek Chat */}
       <ZeekChat persona={persona.zeekPersona} opener={persona.zeekOpener} accentColor={persona.accentColor} />
     </div>
   )
