@@ -15,13 +15,24 @@ const LABELS: Record<string, string> = {
 }
 
 
-function HologramEmblem({ color, glowColor, codename, index, hovered }: {
+const BRAND = { gold: '#D4A017', purple: '#9B59B6', green: '#00B359' }
+
+const RING_COLORS: Record<string, [string, string]> = {
+  students:    [BRAND.purple, BRAND.green],
+  parents:     [BRAND.green,  BRAND.gold],
+  solopreneur: [BRAND.gold,   BRAND.purple],
+}
+
+function HologramEmblem({ color, glowColor, codename, personaId, index, hovered }: {
   color: string
   glowColor: string
   codename: string
+  personaId: string
   index: number
   hovered: boolean
 }) {
+  const [outerRing, midRing] = RING_COLORS[personaId] ?? [color, color]
+
   return (
     <div className="relative flex items-center justify-center" style={{ width: 120, height: 140 }}>
       {/* Outer dashed ring */}
@@ -30,8 +41,8 @@ function HologramEmblem({ color, glowColor, codename, index, hovered }: {
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
         className="absolute rounded-full border border-dashed"
         style={{
-          borderColor: color,
-          opacity: hovered ? 0.45 : 0.18,
+          borderColor: outerRing,
+          opacity: hovered ? 0.45 : 0.07,
           inset: -16,
           transition: 'opacity 0.3s',
         }}
@@ -43,8 +54,8 @@ function HologramEmblem({ color, glowColor, codename, index, hovered }: {
         transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
         className="absolute rounded-full border"
         style={{
-          borderColor: color,
-          opacity: hovered ? 0.3 : 0.12,
+          borderColor: midRing,
+          opacity: hovered ? 0.3 : 0.05,
           inset: -8,
           transition: 'opacity 0.3s',
         }}
@@ -278,6 +289,7 @@ function PersonaCard({
               color={persona.accentColor}
               glowColor={persona.glowColor}
               codename={persona.codename}
+              personaId={persona.id}
               index={index}
               hovered={hovered}
             />
