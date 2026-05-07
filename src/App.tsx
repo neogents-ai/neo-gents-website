@@ -25,6 +25,7 @@ function App() {
           <Route path="/contact"  element={<ComingSoonPage title="Contact" />} />
           <Route path="/privacy"  element={<ComingSoonPage title="Privacy Policy" />} />
           <Route path="/terms"    element={<ComingSoonPage title="Terms of Service" />} />
+          <Route path="*"         element={<ComingSoonPage title="404 — Page Not Found" />} />
         </Routes>
       </Layout>
     </BrowserRouter>
