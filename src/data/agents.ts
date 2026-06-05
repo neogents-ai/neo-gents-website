@@ -100,9 +100,9 @@ export const stacks: AgentStack[] = [
 export const CATEGORY_COLORS: Record<AgentCategory, string> = {
   Ops: '#D4A017',
   Sales: '#00B359',
-  Content: '#9B59B6',
+  Content: '#0D9488',
   Support: '#3A9BD5',
   Finance: '#E67E22',
-  Research: '#3A1A6E',
+  Research: '#1e293b',
   Creators: '#E74C3C',
 }

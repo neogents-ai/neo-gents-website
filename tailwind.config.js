@@ -4,15 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: '#0D0D0D',
-        surface: '#111111',
+        black: '#0f1115',
+        surface: '#161a20',
         gold: '#D4A017',
         'gold-dim': '#8A6A0F',
-        violet: '#1E0D3D',
-        'violet-bright': '#3A1A6E',
+        violet: '#0f172a',
+        'violet-bright': '#1e293b',
         green: '#00B359',
-        muted: '#555555',
-        light: '#CCCCCC',
+        muted: '#6B7280',
+        light: '#E2E2E2',
       },
       fontFamily: {
         display: ['Syne', 'sans-serif'],

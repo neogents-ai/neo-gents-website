@@ -65,7 +65,7 @@ export default function SupporterPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 60% 50% at 50% 20%, rgba(212,160,23,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 50% 90%, rgba(30,13,61,0.4) 0%, transparent 60%), #0D0D0D',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 20%, rgba(212,160,23,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 30% at 50% 90%, rgba(15,23,42,0.4) 0%, transparent 60%), #0f1115',
         }}
       />
 

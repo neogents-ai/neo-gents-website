@@ -8,7 +8,7 @@ const tiers = [
     tagline: 'For individuals and early-stage builders',
     range: 'Starting at $75/mo',
     setup: 'Setup from $150',
-    color: '#555555',
+    color: '#6B7280',
     glowColor: 'rgba(85,85,85,0.15)',
     features: [
       'AI chatbot for your website',
@@ -84,7 +84,7 @@ export default function PricingPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(30,13,61,0.4) 0%, transparent 70%), #0D0D0D',
+          background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(15,23,42,0.4) 0%, transparent 70%), #0f1115',
         }}
       />
 

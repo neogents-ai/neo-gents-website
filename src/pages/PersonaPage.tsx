@@ -36,7 +36,7 @@ export default function PersonaPage({ persona }: Props) {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 50% 40% at 50% 0%, ${persona.glowColor} 0%, transparent 70%), linear-gradient(180deg, #0D0D0D 0%, #0A0514 50%, #0D0D0D 100%)`,
+          background: `radial-gradient(ellipse 50% 40% at 50% 0%, ${persona.glowColor} 0%, transparent 70%), linear-gradient(180deg, #0f1115 0%, #0a0f1a 50%, #0f1115 100%)`,
         }}
       />
 
@@ -163,7 +163,7 @@ export default function PersonaPage({ persona }: Props) {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 className="p-5 border border-gold/10 hover:border-gold/25 transition-all duration-300 group"
-                style={{ background: 'rgba(17,17,17,0.6)' }}
+                style={{ background: 'rgba(22,26,32,0.6)' }}
               >
                 <div className="flex items-start gap-4">
                   <span className="text-2xl mt-0.5" style={{ color: persona.accentColor }}>{f.icon}</span>
@@ -347,7 +347,7 @@ export default function PersonaPage({ persona }: Props) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                   className="p-4 border border-gold/10 hover:border-gold/25 transition-all duration-300 group"
-                  style={{ background: 'rgba(17,17,17,0.6)' }}
+                  style={{ background: 'rgba(22,26,32,0.6)' }}
                 >
                   <div className="flex items-start gap-3">
                     <span className="font-mono text-xs mt-0.5" style={{ color: `${persona.accentColor}70` }}>◆</span>
@@ -370,7 +370,7 @@ export default function PersonaPage({ persona }: Props) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="py-10 text-center border border-gold/15 relative overflow-hidden"
-          style={{ background: `linear-gradient(135deg, ${persona.glowColor} 0%, rgba(13,13,13,0.9) 100%)` }}
+          style={{ background: `linear-gradient(135deg, ${persona.glowColor} 0%, rgba(15,23,42,0.9) 100%)` }}
         >
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
           <p className="font-display font-800 text-2xl text-light mb-2">Ready to start?</p>

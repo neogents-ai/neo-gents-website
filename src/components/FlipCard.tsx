@@ -27,7 +27,7 @@ export default function FlipCard({ title, desc, agentName, agentDesc, accentColo
         {/* Front */}
         <div
           className="flip-card-face flip-card-front p-5 flex flex-col"
-          style={{ borderColor: `${accentColor}25`, background: 'rgba(17,17,17,0.6)' }}
+          style={{ borderColor: `${accentColor}25`, background: 'rgba(22,26,32,0.6)' }}
         >
           <div
             className="w-6 h-6 border mb-3 flex items-center justify-center shrink-0"
@@ -43,7 +43,7 @@ export default function FlipCard({ title, desc, agentName, agentDesc, accentColo
         {/* Back */}
         <div
           className="flip-card-face flip-card-back p-5 flex flex-col justify-between"
-          style={{ borderColor: `${accentColor}40`, background: `linear-gradient(135deg, ${accentColor}08, rgba(13,13,13,0.95))` }}
+          style={{ borderColor: `${accentColor}40`, background: `linear-gradient(135deg, ${accentColor}08, rgba(22,26,32,0.95))` }}
         >
           <div>
             <p className="font-mono text-xs tracking-[0.15em] uppercase mb-1" style={{ color: accentColor }}>

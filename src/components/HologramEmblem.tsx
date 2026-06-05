@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 
 const RING_COLORS: Record<string, [string, string]> = {
-  students:    ['#9B59B6', '#00B359'],
+  students:    ['#1e293b', '#00B359'],
   parents:     ['#00B359', '#D4A017'],
-  solopreneur: ['#D4A017', '#9B59B6'],
-  creators:    ['#D4A017', '#9B59B6'],
+  solopreneur: ['#D4A017', '#1e293b'],
+  creators:    ['#D4A017', '#1e293b'],
 }
 
 interface HologramEmblemProps {
@@ -113,7 +113,7 @@ export default function HologramEmblem({
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(ellipse 90% 85% at 50% 50%, transparent 55%, rgba(13,13,13,0.85) 100%)`,
+                  background: `radial-gradient(ellipse 90% 85% at 50% 50%, transparent 55%, rgba(15,23,42,0.85) 100%)`,
                 }}
               />
               {/* Accent tint overlay */}
@@ -144,7 +144,7 @@ export default function HologramEmblem({
                     className="absolute inset-0 rotate-45"
                     style={{
                       border: '1.5px solid transparent',
-                      background: 'linear-gradient(#0d0d0d, #0d0d0d) padding-box, linear-gradient(135deg, #D4A017, #9B59B6, #00B359) border-box',
+                      background: 'linear-gradient(#0f1115, #0f1115) padding-box, linear-gradient(135deg, #D4A017, #1e293b, #00B359) border-box',
                       opacity: hovered ? 1 : 0.7,
                       transition: 'opacity 0.3s',
                     }}
@@ -154,7 +154,7 @@ export default function HologramEmblem({
                     style={{
                       fontSize: '1.9rem',
                       letterSpacing: '0.05em',
-                      background: 'linear-gradient(135deg, #D4A017 0%, #9B59B6 50%, #00B359 100%)',
+                      background: 'linear-gradient(135deg, #D4A017 0%, #1e293b 50%, #00B359 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',

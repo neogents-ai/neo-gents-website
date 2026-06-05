@@ -117,8 +117,8 @@ function PersonaCard({
               ? {
                   border: '1px solid transparent',
                   background: hovered
-                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(13,13,13,0.95) 70%) padding-box, linear-gradient(135deg, #D4A017, #9B59B6, #00B359) border-box`
-                    : `linear-gradient(rgba(13,13,13,0.85), rgba(13,13,13,0.85)) padding-box, linear-gradient(135deg, #D4A01728, #9B59B628, #00B35928) border-box`,
+                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(22,26,32,0.95) 70%) padding-box, linear-gradient(135deg, #D4A017, #1e293b, #00B359) border-box`
+                    : `linear-gradient(rgba(22,26,32,0.85), rgba(22,26,32,0.85)) padding-box, linear-gradient(135deg, #D4A01728, #1e293b28, #00B35928) border-box`,
                   boxShadow: hovered
                     ? `0 0 28px ${persona.accentColor}1a, inset 0 0 20px ${persona.accentColor}08`
                     : `0 0 6px ${persona.accentColor}06`,
@@ -128,8 +128,8 @@ function PersonaCard({
               : {
                   border: `1px solid ${hovered ? persona.accentColor + 'BB' : persona.accentColor + '28'}`,
                   background: hovered
-                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(13,13,13,0.95) 70%)`
-                    : 'rgba(13,13,13,0.85)',
+                    ? `radial-gradient(ellipse at 50% 20%, ${persona.accentColor}0e 0%, rgba(22,26,32,0.95) 70%)`
+                    : 'rgba(22,26,32,0.85)',
                   boxShadow: hovered
                     ? `0 0 28px ${persona.accentColor}1a, inset 0 0 20px ${persona.accentColor}08`
                     : `0 0 6px ${persona.accentColor}06`,

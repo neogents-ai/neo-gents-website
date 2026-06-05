@@ -70,22 +70,22 @@ export default function HQBackground() {
         ))}
 
         {/* Diagonal accent traces */}
-        <line x1="0" y1="0" x2="240" y2="225" stroke="#3A1A6E" strokeWidth="1" />
-        <line x1="1440" y1="0" x2="1200" y2="225" stroke="#3A1A6E" strokeWidth="1" />
-        <line x1="0" y1="900" x2="240" y2="675" stroke="#3A1A6E" strokeWidth="1" />
-        <line x1="1440" y1="900" x2="1200" y2="675" stroke="#3A1A6E" strokeWidth="1" />
-        {/* Additional violet diagonals for depth */}
-        <line x1="480" y1="0" x2="720" y2="225" stroke="#3A1A6E" strokeWidth="0.5" opacity="0.5" />
-        <line x1="960" y1="0" x2="720" y2="225" stroke="#3A1A6E" strokeWidth="0.5" opacity="0.5" />
-        <line x1="480" y1="900" x2="720" y2="675" stroke="#3A1A6E" strokeWidth="0.5" opacity="0.5" />
-        <line x1="960" y1="900" x2="720" y2="675" stroke="#3A1A6E" strokeWidth="0.5" opacity="0.5" />
+        <line x1="0" y1="0" x2="240" y2="225" stroke="#1e293b" strokeWidth="1" />
+        <line x1="1440" y1="0" x2="1200" y2="225" stroke="#1e293b" strokeWidth="1" />
+        <line x1="0" y1="900" x2="240" y2="675" stroke="#1e293b" strokeWidth="1" />
+        <line x1="1440" y1="900" x2="1200" y2="675" stroke="#1e293b" strokeWidth="1" />
+        {/* Additional slate diagonals for depth */}
+        <line x1="480" y1="0" x2="720" y2="225" stroke="#1e293b" strokeWidth="0.5" opacity="0.5" />
+        <line x1="960" y1="0" x2="720" y2="225" stroke="#1e293b" strokeWidth="0.5" opacity="0.5" />
+        <line x1="480" y1="900" x2="720" y2="675" stroke="#1e293b" strokeWidth="0.5" opacity="0.5" />
+        <line x1="960" y1="900" x2="720" y2="675" stroke="#1e293b" strokeWidth="0.5" opacity="0.5" />
       </svg>
 
       {/* Layer 3 — Depth vignette */}
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(13,13,13,0.75) 100%)',
+          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(15,23,42,0.75) 100%)',
         }}
       />
     </div>

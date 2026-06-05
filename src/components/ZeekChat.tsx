@@ -116,7 +116,7 @@ export default function ZeekChat({ persona, opener, accentColor = '#D4A017' }: P
                     className="text-xs font-body leading-relaxed px-3 py-2 max-w-[80%]"
                     style={
                       msg.role === 'user'
-                        ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: '#CCCCCC' }
+                        ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', color: '#E2E2E2' }
                         : { background: `${accentColor}08`, border: `1px solid ${accentColor}15`, color: 'rgba(204,204,204,0.85)' }
                     }
                   >
@@ -204,7 +204,7 @@ export default function ZeekChat({ persona, opener, accentColor = '#D4A017' }: P
         whileTap={{ scale: 0.95 }}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 flex flex-col items-center justify-center gap-0.5 transition-all duration-200"
         style={{
-          backgroundColor: open ? 'rgba(13,13,13,0.95)' : accentColor,
+          backgroundColor: open ? 'rgba(22,26,32,0.95)' : accentColor,
           border: `1px solid ${open ? accentColor + '40' : 'transparent'}`,
           boxShadow: open ? `0 0 20px ${accentColor}30` : `0 4px 24px ${accentColor}50`,
         }}

@@ -65,8 +65,8 @@ export const personas: PersonaConfig[] = [
     cardLine: 'Holidays, Cheat Meals & Distractions. Let\'s recalibrate.',
     hook: 'The wealth gap is real. The AI gap is making it worse.',
     hookSub: 'Family CFO gives your household the same financial and AI tools corporations use — in plain English, no tech background required.',
-    accentColor: '#9B59B6',
-    glowColor: 'rgba(155, 89, 182, 0.25)',
+    accentColor: '#0D9488',
+    glowColor: 'rgba(13, 148, 136, 0.25)',
     features: [
       { icon: '◆', title: 'Family CFO System', desc: 'Budget, invest, and plan generational wealth with an AI advisor that knows your household.' },
       { icon: '◈', title: 'Senior Support AI', desc: 'Helps navigate benefits, healthcare, and government programs — without the runaround.' },

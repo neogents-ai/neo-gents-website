@@ -10,13 +10,13 @@ const PARTICLES = Array.from({ length: 26 }, (_, i) => ({
   color:
     i % 3 === 0 ? 'rgba(0,179,89,0.55)'
     : i % 3 === 1 ? 'rgba(212,160,23,0.38)'
-    : 'rgba(58,26,110,0.45)',
+    : 'rgba(30,41,59,0.45)',
 }))
 
 const ORBS = [
   { x: '10%', y: '72%', color: 'rgba(0,179,89,0.10)',   size: 380 },
   { x: '34%', y: '58%', color: 'rgba(212,160,23,0.07)', size: 300 },
-  { x: '63%', y: '48%', color: 'rgba(30,13,61,0.18)',   size: 280 },
+  { x: '63%', y: '48%', color: 'rgba(15,23,42,0.18)',   size: 280 },
   { x: '86%', y: '38%', color: 'rgba(0,179,89,0.06)',   size: 240 },
 ]
 
@@ -29,7 +29,7 @@ export default function CaveBackground() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 130% 80% at 50% 105%, #0d1a0e 0%, #0D0D0D 50%, #08030f 100%)',
+            'radial-gradient(ellipse 130% 80% at 50% 105%, #0d1a0e 0%, #0f1115 50%, #0a0f1a 100%)',
         }}
       />
 
@@ -69,7 +69,7 @@ export default function CaveBackground() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to bottom, #0D0D0D 0%, transparent 30%, transparent 75%, #0D0D0D 100%)',
+              'linear-gradient(to bottom, #0f1115 0%, transparent 30%, transparent 75%, #0f1115 100%)',
           }}
         />
       </div>
@@ -121,13 +121,13 @@ export default function CaveBackground() {
       {/* Top fog */}
       <div
         className="absolute top-0 left-0 right-0"
-        style={{ height: '22%', background: 'linear-gradient(to bottom, #0D0D0D, transparent)' }}
+        style={{ height: '22%', background: 'linear-gradient(to bottom, #0f1115, transparent)' }}
       />
 
       {/* Bottom fog */}
       <div
         className="absolute bottom-0 left-0 right-0"
-        style={{ height: '18%', background: 'linear-gradient(to top, #0D0D0D, transparent)' }}
+        style={{ height: '18%', background: 'linear-gradient(to top, #0f1115, transparent)' }}
       />
 
       <div className="scanline-green" />
