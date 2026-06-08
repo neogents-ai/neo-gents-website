@@ -144,7 +144,7 @@ export default function HologramEmblem({
                     className="absolute inset-0 rotate-45"
                     style={{
                       border: '1.5px solid transparent',
-                      background: 'linear-gradient(#0f1115, #0f1115) padding-box, linear-gradient(135deg, #D4A017, #1e293b, #00B359) border-box',
+                      background: 'linear-gradient(#161b22, #161b22) padding-box, linear-gradient(135deg, #D4A017, #1e293b, #00B359) border-box',
                       opacity: hovered ? 1 : 0.7,
                       transition: 'opacity 0.3s',
                     }}

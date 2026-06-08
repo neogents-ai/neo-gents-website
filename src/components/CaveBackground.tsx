@@ -8,16 +8,16 @@ const PARTICLES = Array.from({ length: 26 }, (_, i) => ({
   duration: 10 + (i % 9),
   delay: (i * 0.55) % 9,
   color:
-    i % 3 === 0 ? 'rgba(0,179,89,0.55)'
-    : i % 3 === 1 ? 'rgba(212,160,23,0.38)'
-    : 'rgba(30,41,59,0.45)',
+    i % 3 === 0 ? 'rgba(0,179,89,0.65)'
+    : i % 3 === 1 ? 'rgba(212,160,23,0.48)'
+    : 'rgba(30,41,59,0.55)',
 }))
 
 const ORBS = [
-  { x: '10%', y: '72%', color: 'rgba(0,179,89,0.10)',   size: 380 },
-  { x: '34%', y: '58%', color: 'rgba(212,160,23,0.07)', size: 300 },
-  { x: '63%', y: '48%', color: 'rgba(15,23,42,0.18)',   size: 280 },
-  { x: '86%', y: '38%', color: 'rgba(0,179,89,0.06)',   size: 240 },
+  { x: '10%', y: '72%', color: 'rgba(0,179,89,0.18)',   size: 420 },
+  { x: '34%', y: '58%', color: 'rgba(212,160,23,0.14)', size: 360 },
+  { x: '63%', y: '48%', color: 'rgba(30,41,59,0.25)',   size: 340 },
+  { x: '86%', y: '38%', color: 'rgba(0,179,89,0.12)',   size: 300 },
 ]
 
 export default function CaveBackground() {
@@ -29,7 +29,7 @@ export default function CaveBackground() {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 130% 80% at 50% 105%, #0d1a0e 0%, #0f1115 50%, #0a0f1a 100%)',
+            'radial-gradient(ellipse 130% 80% at 50% 105%, #1a221a 0%, #161b22 50%, #111820 100%)',
         }}
       />
 
@@ -69,7 +69,7 @@ export default function CaveBackground() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to bottom, #0f1115 0%, transparent 30%, transparent 75%, #0f1115 100%)',
+              'linear-gradient(to bottom, #161b22 0%, transparent 30%, transparent 75%, #161b22 100%)',
           }}
         />
       </div>
@@ -121,13 +121,13 @@ export default function CaveBackground() {
       {/* Top fog */}
       <div
         className="absolute top-0 left-0 right-0"
-        style={{ height: '22%', background: 'linear-gradient(to bottom, #0f1115, transparent)' }}
+        style={{ height: '14%', background: 'linear-gradient(to bottom, #161b22, transparent)' }}
       />
 
       {/* Bottom fog */}
       <div
         className="absolute bottom-0 left-0 right-0"
-        style={{ height: '18%', background: 'linear-gradient(to top, #0f1115, transparent)' }}
+        style={{ height: '12%', background: 'linear-gradient(to top, #161b22, transparent)' }}
       />
 
       <div className="scanline-green" />

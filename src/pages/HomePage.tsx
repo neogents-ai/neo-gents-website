@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="relative min-h-screen flex flex-col">
       {/* Flowing lines — behind all content */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
-        <FlowingLines lineCount={18} opacity={0.85} />
+        <FlowingLines lineCount={18} opacity={1.2} />
       </div>
       {/* Hero */}
       <section className="relative pt-32 pb-10 px-6 text-center" style={{ zIndex: 2 }}>

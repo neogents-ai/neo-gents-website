@@ -19,7 +19,7 @@ export default function AgentsPage() {
       </div>
       <div
         className="fixed inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #0f1115 0%, #0a0f1a 50%, #0f1115 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #161b22 0%, #111820 50%, #161b22 100%)' }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24">
@@ -200,7 +200,7 @@ export default function AgentsPage() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="py-10 text-center border border-gold/10 mt-4"
-          style={{ background: 'linear-gradient(135deg, rgba(15,23,42,0.3), rgba(15,23,42,0.8))' }}
+          style={{ background: 'linear-gradient(135deg, rgba(22,27,34,0.4), rgba(22,27,34,0.9))' }}
         >
           <p className="font-body text-sm text-muted mb-2">Don't see what you need?</p>
           <p className="font-display font-700 text-xl text-light mb-6">

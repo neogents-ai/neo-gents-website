@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: '#0f1115',
-        surface: '#161a20',
+        black: '#161b22',
+        surface: '#1e232c',
         gold: '#D4A017',
         'gold-dim': '#8A6A0F',
         violet: '#0f172a',

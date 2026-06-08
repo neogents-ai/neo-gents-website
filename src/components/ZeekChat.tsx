@@ -204,7 +204,7 @@ export default function ZeekChat({ persona, opener, accentColor = '#D4A017' }: P
         whileTap={{ scale: 0.95 }}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 flex flex-col items-center justify-center gap-0.5 transition-all duration-200"
         style={{
-          backgroundColor: open ? 'rgba(22,26,32,0.95)' : accentColor,
+          backgroundColor: open ? 'rgba(30,35,44,0.98)' : accentColor,
           border: `1px solid ${open ? accentColor + '40' : 'transparent'}`,
           boxShadow: open ? `0 0 20px ${accentColor}30` : `0 4px 24px ${accentColor}50`,
         }}

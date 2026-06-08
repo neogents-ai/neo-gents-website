@@ -85,7 +85,7 @@ export default function HQBackground() {
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(15,23,42,0.75) 100%)',
+          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(22,27,34,0.6) 100%)',
         }}
       />
     </div>
