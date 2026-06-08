@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const BRAND_COLORS = ['#D4A017', '#1e293b', '#00B359']
+const BRAND_COLORS = ['#D4A017', '#9B59B6', '#00B359']
 
 interface Line {
   baseY: number

@@ -18,8 +18,8 @@
   --color-green: #00B359;
   --color-muted: #6B7280;
   --color-light: #E2E2E2;
-  /* Brand unity gradient — gold, deep slate, green (no berry) */
-  --gradient-brand: linear-gradient(135deg, #D4A017, #1e293b, #00B359);
+  /* Brand unity gradient — gold, berry, green */
+  --gradient-brand: linear-gradient(135deg, #D4A017, #9B59B6, #00B359);
 }
 
 * {
