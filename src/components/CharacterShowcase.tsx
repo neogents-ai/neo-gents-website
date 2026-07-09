@@ -18,8 +18,7 @@ interface Props {
  */
 export default function CharacterShowcase({ persona }: Props) {
   const color = persona.accentColor
-  const codename = persona.codename
-  const name = persona.id
+  const characterName = persona.characterName ?? persona.codename
 
   return (
     <motion.div
@@ -57,7 +56,7 @@ export default function CharacterShowcase({ persona }: Props) {
       {/* Bottom-left label */}
       <div className="absolute bottom-4 left-4 z-20">
         <span className="font-mono text-[10px] tracking-[0.3em] uppercase" style={{ color: `${color}90` }}>
-          {name} // {codename}
+          {characterName}
         </span>
       </div>
 

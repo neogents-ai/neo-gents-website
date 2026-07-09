@@ -247,7 +247,7 @@ export default function PersonaPage({ persona }: Props) {
             className="flex items-center justify-between mb-8"
           >
             <h2 className="font-display font-700 text-xs tracking-[0.3em] uppercase" style={{ color: persona.accentColor }}>
-              // Meet {persona.codename}
+              // Meet {persona.characterName ?? persona.codename}
             </h2>
             <span className="font-mono text-xs text-muted/40">
               Your AI companion

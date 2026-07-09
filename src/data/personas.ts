@@ -17,7 +17,10 @@ export interface PersonaAudience {
 
 export interface PersonaConfig {
   id: string
+  /** Brand/track label shown on selector cards, e.g. "SOULFOOD SUSHI" */
   codename: string
+  /** The mascot's own name for "Meet ___" sections, e.g. "M.A.K.I." — falls back to codename when unset */
+  characterName?: string
   route: string
   headline: string
   subhead: string
@@ -44,6 +47,7 @@ export const personas: PersonaConfig[] = [
   {
     id: 'soulfood-sushi',
     codename: 'SOULFOOD SUSHI',
+    characterName: 'M.A.K.I.',
     route: '/soulfood-sushi',
     headline: 'Skip the college debt.',
     subhead: 'Keep the dream.',
