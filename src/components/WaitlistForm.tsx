@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-// Same Formspree endpoint the Supporter form already uses — one inbox for all leads
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojkdakj'
+// "website" form on Formspree — dedicated to neogents.io leads
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnjwzrwy'
 
 export type WaitlistProfile = 'soulfood-sushi' | 'nori'
 

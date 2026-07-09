@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import DigitalRain from '../components/DigitalRain'
 import { personas } from '../data/personas'
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mojkdakj'
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xnjwzrwy'
 
 const PERK_ICONS = ['◆', '◈', '◉', '⬡', '◆', '◈']
 
