@@ -1,14 +1,16 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useSpring, useTransform } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { type PersonaConfig } from '../data/personas'
-import HologramEmblem from './HologramEmblem'
+import PersonaSprite from './PersonaSprite'
 
 interface Props {
   personas: PersonaConfig[]
 }
 
 const LABELS: Record<string, string> = {
+  'soulfood-sushi': 'TRACK 01',
+  nori:        'TRACK 02',
   students:    'TRACK 01',
   parents:     'TRACK 02',
   solopreneur: 'TRACK 03',
@@ -146,26 +148,24 @@ function PersonaCard({
             {LABELS[persona.id] ?? 'TRACK'}
           </p>
 
-          {/* Spinning hologram emblem */}
-          <div className="flex-1 flex items-center justify-center py-2">
-            <HologramEmblem
-              color={persona.accentColor}
-              glowColor={persona.glowColor}
-              codename={persona.codename}
-              personaId={persona.id}
-              index={index}
-              hovered={hovered}
-              mascotSrc={persona.id === 'solopreneur' ? '/nori-mascot.jpg' : undefined}
-            />
+          {/* Persona 3D sprite / mascot */}
+          <div className="flex-1 flex items-center justify-center py-2 overflow-hidden">
+            <div className="scale-[0.72] sm:scale-[0.85] md:scale-100 origin-center transition-transform duration-300">
+              <PersonaSprite
+                persona={persona}
+                index={index}
+                hovered={hovered}
+              />
+            </div>
           </div>
 
           {/* Name */}
           <h3 className="font-display font-800 text-sm tracking-[0.18em] uppercase text-center text-light mt-3 mb-1">
-            {persona.id}
+            {persona.codename}
           </h3>
 
-          {/* Card copy */}
-          <p className="font-body text-xs text-center leading-relaxed px-2 mb-1" style={{ color: 'rgba(200,200,200,0.5)' }}>
+          {/* Card copy — fixed height so cards stay level regardless of how many lines the copy wraps to */}
+          <p className="font-body text-xs text-center leading-relaxed px-2 mb-1 min-h-[58px] flex items-center justify-center" style={{ color: 'rgba(200,200,200,0.5)' }}>
             {persona.cardLine}
           </p>
           {persona.cardQuote && (
@@ -205,12 +205,9 @@ export default function DepthPersonaMenu({ personas }: Props) {
     setTimeout(() => navigate(persona.route), 650)
   }
 
-  // Reset on back navigation
-  useEffect(() => { setSelectedId(null) }, [])
-
   return (
     <div style={{ perspective: '1200px' }}>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-2 gap-4 lg:gap-6 max-w-2xl mx-auto">
         {personas.map((p, i) => (
           <PersonaCard
             key={p.id}

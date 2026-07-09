@@ -3,12 +3,10 @@ import { motion } from 'framer-motion'
 import CaveBackground from './CaveBackground'
 
 const navLinks = [
-  { href: '/students',    label: 'Students',    hud: '01' },
-  { href: '/parents',     label: 'Parents',     hud: '02' },
-  { href: '/solopreneur', label: 'Solopreneur', hud: '03' },
-  { href: '/creators',    label: 'Creators',    hud: '04' },
-  { href: '/agents',      label: 'Agents',      hud: '05' },
-  { href: '/pricing',     label: 'Pricing',     hud: '06' },
+  { href: '/soulfood-sushi', label: 'Soulfood Sushi', hud: '01' },
+  { href: '/nori',           label: 'Nori',           hud: '02' },
+  { href: '/agents',         label: 'Agents',         hud: '03' },
+  { href: '/pricing',        label: 'Pricing',        hud: '04' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -52,7 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* CTA */}
           <Link
-            to="/supporter"
+            to="/waitlist"
             className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border text-[10px] tracking-[0.15em] uppercase font-body transition-all duration-200"
             style={{
               borderColor: 'rgba(0,179,89,0.4)',
@@ -67,7 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,179,89,0.4)'
             }}
           >
-            ENTER HQ →
+            JOIN THE COHORT →
           </Link>
 
           {/* Mobile menu button */}

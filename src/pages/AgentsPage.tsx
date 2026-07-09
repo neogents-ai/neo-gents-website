@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { agents, stacks, CATEGORY_COLORS, type AgentCategory } from '../data/agents'
+import { agents, stacks, CATEGORY_COLORS, CATEGORY_ORDER, type AgentCategory } from '../data/agents'
 import DigitalRain from '../components/DigitalRain'
-
-const CATEGORIES: AgentCategory[] = ['Ops', 'Sales', 'Content', 'Support', 'Finance', 'Research', 'Creators']
 
 export default function AgentsPage() {
   const navigate = useNavigate()
   const [activeCategory, setActiveCategory] = useState<AgentCategory | 'All'>('All')
+  const [search, setSearch] = useState('')
 
-  const filtered = activeCategory === 'All' ? agents : agents.filter((a) => a.category === activeCategory)
+  const filtered = agents
+    .filter((a) => activeCategory === 'All' || a.category === activeCategory)
+    .filter((a) => {
+      const q = search.trim().toLowerCase()
+      if (!q) return true
+      return a.name.toLowerCase().includes(q) || a.desc.toLowerCase().includes(q)
+    })
+    .sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category))
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -59,10 +65,10 @@ export default function AgentsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45 }}
-            onClick={() => navigate('/supporter')}
+            onClick={() => navigate('/intro-session')}
             className="px-8 py-3 bg-gold text-black font-display font-700 text-sm tracking-[0.12em] uppercase hover:bg-gold/90 transition-colors"
           >
-            Book a free audit — we'll build your stack →
+            Book a 30-min intro — we'll build your stack →
           </motion.button>
         </section>
 
@@ -75,7 +81,16 @@ export default function AgentsPage() {
             <span className="font-mono text-xs text-muted/40">{filtered.length} agents</span>
           </div>
 
-          {/* Category filter */}
+          {/* Search */}
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search agents — e.g. invoicing, leads, grants..."
+            className="w-full max-w-md mb-4 px-4 py-2 bg-transparent border border-gold/20 focus:border-gold/50 outline-none font-body text-sm text-light placeholder:text-muted/40 transition-colors"
+          />
+
+          {/* Category filter — ordered by business operation, Sales first */}
           <div className="flex flex-wrap gap-2 mb-8">
             <button
               onClick={() => setActiveCategory('All')}
@@ -87,7 +102,7 @@ export default function AgentsPage() {
             >
               All
             </button>
-            {CATEGORIES.map((cat) => (
+            {CATEGORY_ORDER.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -136,7 +151,7 @@ export default function AgentsPage() {
                   </div>
                 </div>
                 <button
-                  onClick={() => navigate('/supporter')}
+                  onClick={() => navigate('/intro-session')}
                   className="mt-3 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{ color: CATEGORY_COLORS[agent.category] }}
                 >
@@ -184,7 +199,7 @@ export default function AgentsPage() {
                   ))}
                 </div>
                 <button
-                  onClick={() => navigate('/supporter')}
+                  onClick={() => navigate('/intro-session')}
                   className="font-mono text-xs text-gold/60 hover:text-gold transition-colors"
                 >
                   Get this stack →
@@ -208,7 +223,7 @@ export default function AgentsPage() {
             <span className="text-gold">We scope custom agents.</span>
           </p>
           <button
-            onClick={() => navigate('/supporter')}
+            onClick={() => navigate('/intro-session')}
             className="px-8 py-3 bg-gold text-black font-display font-700 text-sm tracking-[0.12em] uppercase hover:bg-gold/90 transition-colors"
           >
             Ask us →

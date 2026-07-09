@@ -29,8 +29,18 @@ const STUB_RESPONSES: Record<string, string[]> = {
     "That's a hook problem. I have a template built for this — want to see it?",
     "One piece of content can become 7. Let me show you how the repurpose pipeline works.",
   ],
+  sfs: [
+    "Welcome to the Soulfood Sushi family. Whether it's your kid leveling up or your household budget — tell me who we're building this future for.",
+    "The daily quest loop is where most families start — four pillars a day, real skills, no debt at the end. Want the tour?",
+    "Parents get the weekly Life Audit, kids get the game. Which side of the table are you on today?",
+  ],
+  nori: [
+    "N.O.R.I. here. The missed call problem alone costs most businesses 3–5 bookings a week. What's eating the most time right now?",
+    "The agent library has something for exactly this. What industry are you in — I'll match the right agent.",
+    "Creator or operator, same answer: automate the repeat work. What does a typical day look like and where does it break down?",
+  ],
   general: [
-    "Which describes you best — student, parent, solopreneur, or creator? I'll route you to the right track.",
+    "Which describes you best — a family with kids to launch, or a business/creator ready to automate? I'll route you to the right track.",
     "We've got tools for all of that. What's the one thing you wish was handled automatically right now?",
     "Tell me what's actually blocking you and I'll point you to the right starting point.",
   ],

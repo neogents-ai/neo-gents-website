@@ -8,15 +8,15 @@ import DigitalRain from '../components/DigitalRain'
 import FlowingLines from '../components/FlowingLines'
 import ZeekChat from '../components/ZeekChat'
 import FlipCard from '../components/FlipCard'
-import HologramEmblem from '../components/HologramEmblem'
+import PersonaSprite from '../components/PersonaSprite'
+import CharacterShowcase from '../components/CharacterShowcase'
 
 interface Props {
   persona: PersonaConfig
 }
 
-function ctaLabel(persona: PersonaConfig): string {
-  if (persona.id === 'creators') return 'Get Free Access →'
-  return `Try ${persona.codename} Free →`
+function ctaLabel(): string {
+  return 'Join the Cohort Waitlist →'
 }
 
 export default function PersonaPage({ persona }: Props) {
@@ -24,7 +24,7 @@ export default function PersonaPage({ persona }: Props) {
   const [activePillar, setActivePillar] = useState<MakiPillar>('Esports')
   const [activeYouthCat, setActiveYouthCat] = useState<string>(youthCategories[0])
 
-  const supporterUrl = `/supporter?track=${persona.id}`
+  const supporterUrl = `/waitlist?profile=${persona.id === 'nori' ? 'nori' : 'soulfood-sushi'}`
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -110,7 +110,7 @@ export default function PersonaPage({ persona }: Props) {
                   className="px-6 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black transition-all duration-200 hover:opacity-90"
                   style={{ backgroundColor: persona.accentColor }}
                 >
-                  Get Started Free →
+                  Join the Cohort →
                 </button>
                 <button
                   onClick={() => navigate('/pricing')}
@@ -129,16 +129,7 @@ export default function PersonaPage({ persona }: Props) {
               transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="hidden lg:flex items-center justify-center"
             >
-              <HologramEmblem
-                color={persona.accentColor}
-                glowColor={persona.glowColor}
-                codename={persona.codename}
-                personaId={persona.id}
-                index={0}
-                hovered={false}
-                size={180}
-                mascotSrc={persona.id === 'solopreneur' ? '/nori-mascot.jpg' : undefined}
-              />
+              <PersonaSprite persona={persona} size={180} hovered={false} index={0} />
             </motion.div>
           </div>
         </section>
@@ -174,6 +165,121 @@ export default function PersonaPage({ persona }: Props) {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* ── AUDIENCE SUB-SECTIONS (kids→parents / businesses→creators) ── */}
+        {persona.audiences?.map((aud, ai) => (
+          <section key={aud.id} className="py-12 border-t border-gold/10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="flex items-center justify-between mb-4"
+            >
+              <h2 className="font-display font-700 text-xs tracking-[0.3em] uppercase" style={{ color: persona.accentColor }}>
+                // {aud.label}
+              </h2>
+              <span className="font-mono text-xs text-muted/40">{String(ai + 1).padStart(2, '0')}</span>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-display font-700 text-xl md:text-2xl text-light mb-2 max-w-2xl"
+            >
+              {aud.hook}
+            </motion.p>
+            {aud.hookSub && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="font-body text-sm text-muted/80 mb-8 max-w-2xl"
+              >
+                {aud.hookSub}
+              </motion.p>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              {aud.features.map((f, i) => (
+                <motion.div
+                  key={f.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08 }}
+                  className="p-5 border border-gold/10 hover:border-gold/25 transition-all duration-300 group"
+                  style={{ background: 'rgba(30,35,44,0.8)' }}
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="text-2xl mt-0.5" style={{ color: persona.accentColor }}>{f.icon}</span>
+                    <div>
+                      <h3 className="font-display font-700 text-sm text-light mb-1 group-hover:text-shimmer transition-all">{f.title}</h3>
+                      <p className="font-body text-xs text-muted leading-relaxed">{f.desc}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {aud.perks.map(perk => (
+                <span
+                  key={perk}
+                  className="px-3 py-1.5 font-mono text-[10px] border text-muted/70"
+                  style={{ borderColor: `${persona.accentColor}20`, background: `${persona.accentColor}06` }}
+                >
+                  {perk}
+                </span>
+              ))}
+            </div>
+          </section>
+        ))}
+
+        {/* ── CHARACTER SHOWCASE ── */}
+        <section className="py-12 border-t border-gold/10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex items-center justify-between mb-8"
+          >
+            <h2 className="font-display font-700 text-xs tracking-[0.3em] uppercase" style={{ color: persona.accentColor }}>
+              // Meet {persona.codename}
+            </h2>
+            <span className="font-mono text-xs text-muted/40">
+              Your AI companion
+            </span>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="order-2 lg:order-1">
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="font-body text-base text-muted leading-relaxed mb-4"
+              >
+                {persona.hook}
+              </motion.p>
+              {persona.hookSub && (
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="font-body text-sm text-muted/70 leading-relaxed"
+                >
+                  {persona.hookSub}
+                </motion.p>
+              )}
+            </div>
+            <div className="order-1 lg:order-2">
+              <CharacterShowcase persona={persona} />
+            </div>
           </div>
         </section>
 
@@ -284,21 +390,21 @@ export default function PersonaPage({ persona }: Props) {
                       Get Free Access →
                     </button>
                     <button
-                      onClick={() => navigate(supporterUrl + '&intent=consult')}
+                      onClick={() => navigate('/intro-session')}
                       className="w-full px-3 py-2 font-mono text-[10px] tracking-[0.2em] uppercase border hover:opacity-80 transition-opacity"
                       style={{ borderColor: `${persona.accentColor}50`, color: persona.accentColor }}
                     >
-                      Book a Consultation →
+                      Book a 30-min Intro →
                     </button>
                   </div>
                 ) : (
                   /* N.O.R.I. — consultation only */
                   <button
-                    onClick={() => navigate(supporterUrl + '&intent=consult')}
+                    onClick={() => navigate('/intro-session')}
                     className="w-full px-3 py-2 font-mono text-[10px] tracking-[0.2em] uppercase border hover:opacity-80 transition-opacity"
                     style={{ borderColor: `${persona.accentColor}50`, color: persona.accentColor }}
                   >
-                    Book a Consultation →
+                    Book a 30-min Intro →
                   </button>
                 )}
               </motion.div>
@@ -374,13 +480,13 @@ export default function PersonaPage({ persona }: Props) {
         >
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
           <p className="font-display font-800 text-2xl text-light mb-2">Ready to start?</p>
-          <p className="font-body text-sm text-muted mb-6">Access everything free. No credit card.</p>
+          <p className="font-body text-sm text-muted mb-6">Waitlist → 30-min intro session → 14-day free trial. No credit card.</p>
           <button
             onClick={() => navigate(supporterUrl)}
             className="px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity"
             style={{ backgroundColor: persona.accentColor }}
           >
-            {ctaLabel(persona)}
+            {ctaLabel()}
           </button>
         </motion.section>
 

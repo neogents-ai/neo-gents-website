@@ -5,6 +5,8 @@ const RING_COLORS: Record<string, [string, string]> = {
   parents:     ['#00B359', '#D4A017'],
   solopreneur: ['#D4A017', '#9B59B6'],
   creators:    ['#D4A017', '#9B59B6'],
+  'soulfood-sushi': ['#9B59B6', '#00B359'],
+  nori:        ['#D4A017', '#9B59B6'],
 }
 
 interface HologramEmblemProps {

@@ -29,8 +29,13 @@ export default {
         'hud-flicker': 'hudFlicker 6s ease-in-out infinite',
         'particle-drift': 'particleDrift 12s ease-in-out infinite',
         'grid-scroll': 'gridScroll 10s linear infinite',
+        ticker: 'ticker 40s linear infinite',
       },
       keyframes: {
+        ticker: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         glowCycle: {
           '0%, 100%': { boxShadow: '0 0 20px rgba(212, 160, 23, 0.2)' },
           '50%': { boxShadow: '0 0 40px rgba(212, 160, 23, 0.5), 0 0 80px rgba(212, 160, 23, 0.2)' },
