@@ -129,7 +129,7 @@ function BuildMapPanel({
       {previewVisible && (
         <div className="nori-preview" role="status">
           <div>
-            <span>RECOMMENDED START</span>
+            <span>DRAFT BUILD MAP</span>
             <strong>{content.recommendation}</strong>
           </div>
           <p>{content.outcome}</p>
@@ -214,11 +214,16 @@ function DesktopExperience({
 
         <motion.section className="nori-scene nori-scene--hero" style={{ opacity: heroOpacity, y: heroY, scale: heroScale, ...sceneStyle('hero') }} aria-hidden={scene !== 'hero'}>
           <div className="nori-hero__copy">
-            <p className="nori-kicker">N.O.R.I. / ROOT AGENT</p>
-            <h1>Give the work a system.</h1>
-            <p className="nori-hero__lede">Nori maps the decision, routes it to the right lane, and keeps the human handoff visible.</p>
+            <p className="nori-kicker">N.O.R.I. / AI OPERATING SYSTEM</p>
+            <h1>Turn your bottleneck into an agent system.</h1>
+            <p className="nori-hero__lede">For businesses and creators: Nori maps the work, recommends the right agent lane, and gives you a human-approved system plan to install.</p>
+            <div className="nori-offer-path" aria-label="Nori Build Map delivery path">
+              <span><b>01</b> Map the bottleneck</span>
+              <span><b>02</b> Review the system</span>
+              <span><b>03</b> Approve the install</span>
+            </div>
             <button className="nori-command-button" type="button" onClick={() => window.scrollBy({ top: window.innerHeight * 1.1, behavior: 'smooth' })}>
-              Map a workflow <span aria-hidden="true">-&gt;</span>
+              Build your system <span aria-hidden="true">-&gt;</span>
             </button>
           </div>
           <div className="nori-hero__mascot-wrap">
@@ -252,7 +257,7 @@ function DesktopExperience({
         <motion.section className="nori-scene nori-scene--pipeline" style={{ opacity: pipelineOpacity, y: pipelineY, ...sceneStyle('pipeline') }} aria-hidden={scene !== 'pipeline'}>
           <Pipeline mode={mode} />
           <div className="nori-scene--pipeline__actions">
-            <Link className="nori-command-button" to="/waitlist?profile=nori">Join the cohort <span aria-hidden="true">-&gt;</span></Link>
+            <Link className="nori-command-button" to="/waitlist?profile=nori">Request your Build Map <span aria-hidden="true">-&gt;</span></Link>
             <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
           </div>
         </motion.section>
@@ -272,9 +277,14 @@ function FlowExperience({
   return (
     <main className="nori-flow">
       <section className="nori-flow__hero">
-        <p className="nori-kicker">N.O.R.I. / ROOT AGENT</p>
-        <h1>Give the work a system.</h1>
-        <p>Nori maps the decision, routes it to the right lane, and keeps the human handoff visible.</p>
+        <p className="nori-kicker">N.O.R.I. / AI OPERATING SYSTEM</p>
+        <h1>Turn your bottleneck into an agent system.</h1>
+        <p>For businesses and creators: Nori maps the work, recommends the right agent lane, and gives you a human-approved system plan to install.</p>
+        <div className="nori-offer-path" aria-label="Nori Build Map delivery path">
+          <span><b>01</b> Map the bottleneck</span>
+          <span><b>02</b> Review the system</span>
+          <span><b>03</b> Approve the install</span>
+        </div>
         <img src="/nori-full.png" alt="Nori, the NEO Gents root agent" />
       </section>
       <BuildMapPanel compact mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
@@ -295,7 +305,7 @@ function FlowExperience({
       <section className="nori-flow__section">
         <Pipeline mode={mode} />
         <div className="nori-flow__actions">
-          <Link className="nori-command-button" to="/waitlist?profile=nori">Join the cohort <span aria-hidden="true">-&gt;</span></Link>
+          <Link className="nori-command-button" to="/waitlist?profile=nori">Request your Build Map <span aria-hidden="true">-&gt;</span></Link>
           <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
         </div>
       </section>
