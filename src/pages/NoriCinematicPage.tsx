@@ -49,11 +49,23 @@ const agentLanes = [
   { code: '06', name: 'Production', detail: 'Turn approved plans into polished assets and handoffs.' },
 ]
 
-const libraryPreviews = [
-  { title: 'Lead Response', detail: 'Capture intent and route a qualified prospect to your team.' },
-  { title: 'Content Engine', detail: 'Map ideas, production, review, and repurposing in one rhythm.' },
-  { title: 'Operations Desk', detail: 'Outline repeatable handoffs before operational work is automated.' },
+const systemCapabilities = [
+  { label: 'Business Strategy', owner: 'NORI', detail: 'Revenue operations, priorities, decisions, and cross-functional routing.' },
+  { label: 'Research & Intelligence', owner: 'ARIA', detail: 'Evidence gathering, market signals, and source-grounded briefs.' },
+  { label: 'Content & Distribution', owner: 'TRINITY / REMI', detail: 'Content systems, creative direction, publishing, and workflow triggers.' },
+  { label: 'Agent & System Design', owner: 'SOLITH', detail: 'Agent architecture, product builds, integrations, and technical execution.' },
+  { label: 'Security & Governance', owner: 'CISO', detail: 'Permissions, safe defaults, review, and security escalation.' },
+  { label: 'Production & Delivery', owner: 'NEO PRODUCTION', detail: 'Approved media production, delivery assets, and production handoffs.' },
 ]
+
+const agentBlueprints = [
+  { title: 'Lead & Follow-up Agent', detail: 'Captures an inquiry, qualifies intent, follows up, and routes a real human handoff.' },
+  { title: 'Creator Content Agent', detail: 'Moves an idea through concept, script, production, review, and publishing.' },
+  { title: 'Operations Agent', detail: 'Drafts repeatable onboarding, coordination, proposal, and delivery workflows.' },
+  { title: 'Research Agent', detail: 'Collects evidence, organizes signals, and produces a decision-ready brief.' },
+]
+
+const approvalStages = ['Clarify the job', 'Draft the agent', 'Review the build', 'Approve deployment']
 
 function useCompactLayout() {
   const [compact, setCompact] = useState(false)
@@ -160,6 +172,68 @@ function Pipeline({ mode }: { mode: SystemMode }) {
         ))}
       </ol>
     </div>
+  )
+}
+
+function NoriSystemDossier() {
+  return (
+    <section className="nori-dossier" aria-labelledby="nori-dossier-heading">
+      <header className="nori-dossier__intro">
+        <p className="nori-kicker">NORI SYSTEM DOSSIER</p>
+        <h2 id="nori-dossier-heading">What Nori is. What she can build with you.</h2>
+        <p>N.O.R.I. means NEO Optimization &amp; Revenue Infrastructure. She is NEO Gents' root intelligence system: she listens to the bottleneck, audits the moving parts, and routes the next strategic move.</p>
+      </header>
+      <ol className="nori-dossier__sequence" aria-label="Nori's internal operating sequence">
+        <li><span>01</span><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
+        <li><span>02</span><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
+        <li><span>03</span><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
+      </ol>
+
+      <div className="nori-dossier__section">
+        <div className="nori-dossier__heading">
+          <p className="nori-kicker">ROUTED SKILL NETWORK</p>
+          <h3>242 mapped skills. Clear ownership.</h3>
+          <p>Nori does not pretend one agent can do every job. She routes work through a defined network, keeping each specialist in its lane.</p>
+        </div>
+        <div className="nori-capability-grid">
+          {systemCapabilities.map((capability) => (
+            <article key={capability.label}>
+              <span>{capability.owner}</span>
+              <h4>{capability.label}</h4>
+              <p>{capability.detail}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="nori-dossier__section nori-dossier__section--agents">
+        <div className="nori-dossier__heading">
+          <p className="nori-kicker">AGENT BLUEPRINTS</p>
+          <h3>What Nori can draft.</h3>
+          <p>These are build patterns, not instant automations. Nori turns the selected pattern into a scoped proposal with lane boundaries and a human handoff.</p>
+        </div>
+        <div className="nori-blueprint-grid">
+          {agentBlueprints.map((blueprint, index) => (
+            <article key={blueprint.title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h4>{blueprint.title}</h4>
+              <p>{blueprint.detail}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <aside className="nori-approval-path">
+        <div>
+          <p className="nori-kicker">HUMAN APPROVAL REQUIRED</p>
+          <h3>No agent goes live by accident.</h3>
+          <p>Nori can recommend and draft the system. A person approves the plan, build, and deployment before it becomes active.</p>
+        </div>
+        <ol>
+          {approvalStages.map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, '0')}</span>{stage}</li>)}
+        </ol>
+      </aside>
+    </section>
   )
 }
 
@@ -288,20 +362,7 @@ function FlowExperience({
         <img src="/nori-full.png" alt="Nori, the NEO Gents root agent" />
       </section>
       <BuildMapPanel compact mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
-      <section className="nori-flow__section">
-        <p className="nori-kicker">THE NEO GENTS MATRIX</p>
-        <h2>One root agent. Clear lanes.</h2>
-        <div className="nori-matrix__grid">
-          {agentLanes.map((lane) => <article key={lane.code}><span>{lane.code}</span><h3>{lane.name}</h3><p>{lane.detail}</p></article>)}
-        </div>
-      </section>
-      <section className="nori-flow__section nori-flow__library">
-        <p className="nori-kicker">AGENT LIBRARY / CURATED PREVIEW</p>
-        <h2>Start with a defined job.</h2>
-        <div className="nori-library__grid">
-          {libraryPreviews.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.detail}</p></article>)}
-        </div>
-      </section>
+      <NoriSystemDossier />
       <section className="nori-flow__section">
         <Pipeline mode={mode} />
         <div className="nori-flow__actions">
@@ -354,6 +415,7 @@ export default function NoriCinematicPage() {
           onPreview={() => setPreviewVisible(true)}
         />
       )}
+      {immersive && <NoriSystemDossier />}
     </div>
   )
 }

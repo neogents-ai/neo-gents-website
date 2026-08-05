@@ -169,11 +169,36 @@
 .nori-pipeline__number { color: var(--nori-green); font-family: 'Orbitron', sans-serif; font-size: 0.66rem; }
 .nori-scene--pipeline__actions, .nori-flow__actions { display: flex; gap: 0.7rem; justify-content: center; margin-top: 2rem; }
 
+.nori-dossier { background: linear-gradient(180deg, #0d0d0d, #111411 46%, #0d0d0d); border-top: 1px solid rgba(0, 179, 89, 0.22); padding: clamp(4rem, 9vw, 8rem) max(1.5rem, 8vw); }
+.nori-dossier__intro { max-width: 47rem; }
+.nori-dossier__intro h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 4.8rem); line-height: 1.05; margin: 1rem 0 1.25rem; max-width: 14ch; }
+.nori-dossier__intro > p:last-child { color: var(--nori-muted); font-size: 1.05rem; line-height: 1.7; max-width: 43rem; }
+.nori-dossier__sequence { display: grid; gap: 0.65rem; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; margin: 3rem 0 clamp(4rem, 7vw, 6rem); max-width: 68rem; }
+.nori-dossier__sequence li { border-top: 1px solid rgba(212, 160, 23, 0.62); padding: 1rem 1rem 0 0; }
+.nori-dossier__sequence span, .nori-approval-path li span { color: var(--nori-green); font-family: 'Orbitron', sans-serif; font-size: 0.64rem; }
+.nori-dossier__sequence strong { display: block; font-family: 'Orbitron', sans-serif; font-size: 1rem; margin: 0.75rem 0 0.45rem; }
+.nori-dossier__sequence p { color: var(--nori-muted); font-size: 0.82rem; line-height: 1.5; max-width: 16rem; }
+.nori-dossier__section { border-top: 1px solid rgba(230, 232, 232, 0.14); display: grid; gap: 3rem; grid-template-columns: minmax(14rem, 0.7fr) minmax(28rem, 1.3fr); padding: clamp(3rem, 7vw, 6rem) 0; }
+.nori-dossier__section--agents { border-bottom: 1px solid rgba(230, 232, 232, 0.14); }
+.nori-dossier__heading h3, .nori-approval-path h3 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.45rem, 2.6vw, 2.45rem); line-height: 1.16; margin: 0.85rem 0; }
+.nori-dossier__heading > p:last-child, .nori-approval-path p:last-child { color: var(--nori-muted); line-height: 1.62; max-width: 30rem; }
+.nori-capability-grid { display: grid; gap: 0.65rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nori-capability-grid article, .nori-blueprint-grid article { border: 1px solid rgba(230, 232, 232, 0.15); min-height: 10rem; padding: 1rem; }
+.nori-capability-grid article > span, .nori-blueprint-grid article > span { color: var(--nori-gold); font-family: 'Orbitron', sans-serif; font-size: 0.58rem; letter-spacing: 0.08em; }
+.nori-capability-grid h4, .nori-blueprint-grid h4 { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; margin: 0.78rem 0 0.48rem; }
+.nori-capability-grid p, .nori-blueprint-grid p { color: var(--nori-muted); font-size: 0.8rem; line-height: 1.5; }
+.nori-blueprint-grid { display: grid; gap: 0.65rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nori-approval-path { align-items: center; background: rgba(30, 13, 61, 0.34); border-left: 2px solid var(--nori-gold); display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.7fr); margin-top: 3rem; padding: clamp(1.5rem, 4vw, 3rem); }
+.nori-approval-path ol { display: grid; gap: 0.75rem; list-style: none; }
+.nori-approval-path li { align-items: center; border-bottom: 1px solid rgba(230, 232, 232, 0.12); display: flex; gap: 0.65rem; font-size: 0.9rem; padding-bottom: 0.6rem; }
+
 .nori-flow { background: radial-gradient(circle at 80% 10%, rgba(30, 13, 61, 0.42), transparent 30%), #0d0d0d; padding: 2.2rem max(1.2rem, 5vw) 4rem; }
 .nori-flow__hero { border-bottom: 1px solid rgba(0, 179, 89, 0.28); padding: 2.5rem 0; position: relative; }
 .nori-flow__hero img { display: block; filter: drop-shadow(0 0 28px rgba(0, 179, 89, 0.23)); margin: 1rem auto -1.25rem; max-height: 25rem; max-width: min(100%, 28rem); object-fit: contain; }
 .nori-flow__hero .nori-offer-path { margin-bottom: 1.2rem; }
 .nori-flow .nori-build-map, .nori-flow__section { margin: 2.25rem auto 0; max-width: 48rem; }
+.nori-flow .nori-dossier { margin: 2.25rem -1.2rem 0; padding: 3.5rem 1.2rem; }
+.nori-flow .nori-dossier__section { grid-template-columns: 1fr; }
 .nori-flow__section { padding-top: 0.6rem; }
 .nori-flow__library { border-top: 1px solid rgba(230, 232, 232, 0.12); padding-top: 2.25rem; }
 .nori-library__grid { display: grid; gap: 0.65rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -186,12 +211,13 @@
   .nori-build-map__actions { align-items: flex-start; flex-direction: column; }
   .nori-build-map__actions .nori-command-button { width: 100%; justify-content: center; }
   .nori-library__grid { grid-template-columns: 1fr; }
+  .nori-dossier__sequence, .nori-dossier__section, .nori-approval-path { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
   .nori-flow { padding-inline: 1rem; }
   .nori-flow__hero h1 { font-size: clamp(2.6rem, 14vw, 4rem); }
-  .nori-flow .nori-pipeline ol, .nori-matrix__grid { grid-template-columns: 1fr; }
+  .nori-flow .nori-pipeline ol, .nori-matrix__grid, .nori-capability-grid, .nori-blueprint-grid { grid-template-columns: 1fr; }
   .nori-flow__actions { align-items: stretch; flex-direction: column; }
   .nori-flow__actions > * { justify-content: center; }
 }
