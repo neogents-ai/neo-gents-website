@@ -13,6 +13,7 @@ import './NoriCinematicPage.css'
 
 type SystemMode = 'growth' | 'creator'
 type Scene = 'hero' | 'map' | 'matrix' | 'pipeline'
+type AgentDepartmentId = 'sales' | 'ops' | 'content' | 'research' | 'support' | 'creators' | 'finance'
 
 const systemContent: Record<SystemMode, {
   label: string
@@ -58,11 +59,133 @@ const systemCapabilities = [
   { label: 'Production & Delivery', owner: 'NEO PRODUCTION', detail: 'Approved media production, delivery assets, and production handoffs.' },
 ]
 
-const agentBlueprints = [
-  { title: 'Lead & Follow-up Agent', detail: 'Captures an inquiry, qualifies intent, follows up, and routes a real human handoff.' },
-  { title: 'Creator Content Agent', detail: 'Moves an idea through concept, script, production, review, and publishing.' },
-  { title: 'Operations Agent', detail: 'Drafts repeatable onboarding, coordination, proposal, and delivery workflows.' },
-  { title: 'Research Agent', detail: 'Collects evidence, organizes signals, and produces a decision-ready brief.' },
+const featureGroups = [
+  {
+    label: 'Core intelligence',
+    description: 'The files and decisions that make Nori a root seed agent instead of a general chatbot.',
+    features: [
+      { title: 'Root-agent routing', detail: 'Nori receives the business request, identifies the owner, and keeps one lane accountable for the result.', status: 'SDK DEFINED' },
+      { title: 'Progressive skill loading', detail: 'A mapped network of 242 skills can be loaded by job instead of crowding every request with every instruction.', status: 'SDK DEFINED' },
+      { title: 'Agent registry', detail: 'Specialists carry an ID, role, prompt, workflow, parameters, and assigned skills so the workforce stays inspectable.', status: 'SDK DEFINED' },
+      { title: 'Model routing', detail: 'Complex agent design and lighter operational work can be assigned to different approved model tiers.', status: 'RUNTIME HOOK' },
+    ],
+  },
+  {
+    label: 'Orchestration',
+    description: 'How Nori turns one request into a coordinated, reviewable operating flow.',
+    features: [
+      { title: 'Specialist delegation', detail: 'Nori breaks the job into bounded assignments and briefs the right sales, operations, research, content, or security specialist.', status: 'SDK DEFINED' },
+      { title: 'Triggered work sessions', detail: 'The runtime plan supports deliberate wake events from the dashboard, a message, or a system check-in.', status: 'RUNTIME HOOK' },
+      { title: 'Morning business brief', detail: 'A daily brief can combine agent errors, handoff failures, activity, service health, and recommended next moves.', status: 'RUNTIME HOOK' },
+      { title: 'Fleet monitoring', detail: 'Nori watches for repeated tool errors, lane violations, failed handoffs, drift, and service-health anomalies.', status: 'SDK DEFINED' },
+    ],
+  },
+  {
+    label: 'Memory & context',
+    description: 'The context layer is curated on purpose. Nori is not given unrestricted access to the whole computer or vault.',
+    features: [
+      { title: 'Curated workspace context', detail: 'Only approved business, agent, dashboard, product, and security files are selected for the working package.', status: 'APPROVAL GATED' },
+      { title: 'File-aware intake', detail: 'The seed-agent design can classify approved input files and route them to the correct business analysis path.', status: 'RUNTIME HOOK' },
+      { title: 'Persistent operating state', detail: 'Memory, logs, draft records, and findings are designed to survive across sessions in an approved external store.', status: 'INTEGRATION' },
+      { title: 'Run history', detail: 'Structured agent runs, handoffs, summaries, confidence, and approval records create an auditable operating trail.', status: 'INTEGRATION' },
+    ],
+  },
+  {
+    label: 'Connections',
+    description: 'Nori connects to business systems through narrow interfaces rather than uncontrolled access.',
+    features: [
+      { title: 'MCP tool layer', detail: 'Defined tools can list agents, read prompts, inspect performance, log bugs, and raise alerts through authenticated interfaces.', status: 'INTEGRATION' },
+      { title: 'Command Center', detail: 'The dashboard is the operator surface for briefs, approvals, health, agent status, and the next recommended move.', status: 'RUNTIME HOOK' },
+      { title: 'Database-backed records', detail: 'Agent proposals, runs, messages, handoffs, reports, and approval queues have defined storage contracts.', status: 'INTEGRATION' },
+      { title: 'Provider flexibility', detail: 'The runtime design separates the Nori identity from the approved model provider used for a particular job.', status: 'RUNTIME HOOK' },
+    ],
+  },
+  {
+    label: 'Control & safety',
+    description: 'Nori can prepare and stage work. External action stays under explicit operator control.',
+    features: [
+      { title: 'Four-stage approval gate', detail: 'Every new or modified agent moves through Draft, Build, Deploy, and Live checkpoints.', status: 'APPROVAL GATED' },
+      { title: 'Lane enforcement', detail: 'Sales sells, fulfillment delivers, operations coordinates, security governs, and content stays in its assigned scope.', status: 'APPROVAL GATED' },
+      { title: 'Backups & rollback', detail: 'Prompt changes are designed to create backups and support rollback before a replacement becomes final.', status: 'SDK DEFINED' },
+      { title: 'CISO escalation', detail: 'Secrets, permissions, public actions, payments, legal work, and deployment risks route through the required review lane.', status: 'APPROVAL GATED' },
+    ],
+  },
+]
+
+const agentDepartments: Array<{
+  id: AgentDepartmentId
+  label: string
+  boundary: string
+  agents: Array<{ name: string; detail: string }>
+}> = [
+  {
+    id: 'sales', label: 'Sales', boundary: 'Pipeline and prospect relationships', agents: [
+      { name: 'Lead Scoring', detail: 'Ranks incoming leads by fit, intent, and readiness.' },
+      { name: 'Follow-up Sequences', detail: 'Drafts a reviewable cadence for each lead stage.' },
+      { name: 'Outbound Prospecting', detail: 'Organizes prospect research and outreach preparation.' },
+      { name: 'Proposal Writer', detail: 'Turns approved scope into a proposal draft.' },
+      { name: 'Quote Generator', detail: 'Structures approved pricing inputs into a quote draft.' },
+      { name: 'Upsell Trigger', detail: 'Flags expansion signals for a human sales decision.' },
+      { name: 'Churn Predictor', detail: 'Surfaces retention risks and recommended interventions.' },
+      { name: 'Win-Loss Analyst', detail: 'Finds patterns across closed and lost opportunities.' },
+    ],
+  },
+  {
+    id: 'ops', label: 'Operations', boundary: 'Internal coordination and business workflows', agents: [
+      { name: 'CRM Data', detail: 'Structures records and flags missing operational fields.' },
+      { name: 'Document Summarizer', detail: 'Turns approved documents into concise action briefs.' },
+      { name: 'Invoice', detail: 'Prepares invoice records from approved business inputs.' },
+      { name: 'Meeting Prep', detail: 'Builds agendas, context packets, and decision lists.' },
+      { name: 'Onboarding', detail: 'Maps client or team onboarding into owned steps.' },
+      { name: 'Scheduling', detail: 'Drafts booking, reminder, and rescheduling workflows.' },
+      { name: 'Task Delegation', detail: 'Splits work into bounded assignments with owners.' },
+      { name: 'Contract Drafting', detail: 'Prepares first-pass language for mandatory legal review.' },
+    ],
+  },
+  {
+    id: 'content', label: 'Content', boundary: 'Creative drafts, systems, and distribution', agents: [
+      { name: 'Ad Copy', detail: 'Drafts campaign variations from an approved offer.' },
+      { name: 'Caption Writer', detail: 'Creates platform-aware captions in the brand voice.' },
+      { name: 'Content Repurposing', detail: 'Maps one source asset into multiple formats.' },
+      { name: 'Hook Generator', detail: 'Develops opening angles for short-form content.' },
+      { name: 'Launch Copywriter', detail: 'Builds the copy set around an approved launch.' },
+      { name: 'Newsletter Drafter', detail: 'Turns source material into a reviewable edition.' },
+      { name: 'Trend Spotter', detail: 'Surfaces relevant topics for the research lane to validate.' },
+    ],
+  },
+  {
+    id: 'research', label: 'Research', boundary: 'Evidence, intelligence, and source-grounded briefs', agents: [
+      { name: 'Competitive Intelligence', detail: 'Tracks competitors, offers, positioning, and market shifts.' },
+      { name: 'Market Research', detail: 'Builds evidence around buyers, pain, demand, and opportunity.' },
+      { name: 'News Monitor', detail: 'Watches approved sources for decision-relevant changes.' },
+      { name: 'Prospect Researcher', detail: 'Prepares account context before human outreach.' },
+    ],
+  },
+  {
+    id: 'support', label: 'Support', boundary: 'Customer response and human escalation', agents: [
+      { name: 'After-hours SMS', detail: 'Drafts a fast response and routes urgent needs.' },
+      { name: 'Appointment Booker', detail: 'Guides booking and confirms the human handoff.' },
+      { name: 'FAQ Responder', detail: 'Answers from an approved knowledge source.' },
+      { name: 'Review Response', detail: 'Drafts brand-safe responses for human review.' },
+      { name: 'Ticket Triage', detail: 'Classifies support requests by owner and urgency.' },
+    ],
+  },
+  {
+    id: 'creators', label: 'Creator', boundary: 'Audience operations and creator-business workflows', agents: [
+      { name: 'Brand Deal Inbox', detail: 'Sorts opportunities and prepares response context.' },
+      { name: 'Course Outline', detail: 'Structures expertise into a teachable sequence.' },
+      { name: 'DM Manager', detail: 'Classifies inbound messages and drafts next actions.' },
+      { name: 'Fan Q&A', detail: 'Organizes repeat questions into reusable answers.' },
+    ],
+  },
+  {
+    id: 'finance', label: 'Finance', boundary: 'Business signals, drafts, and review queues', agents: [
+      { name: 'Cash-flow Monitor', detail: 'Summarizes cash movement and flags operating concerns.' },
+      { name: 'Grant Finder', detail: 'Surfaces candidate grants for mandatory human review.' },
+      { name: 'Invoice Chaser', detail: 'Drafts payment reminders without sending them.' },
+      { name: 'Weekly Revenue Briefer', detail: 'Summarizes revenue movement and open questions.' },
+    ],
+  },
 ]
 
 const approvalStages = ['Clarify the job', 'Draft the agent', 'Review the build', 'Approve deployment']
@@ -175,6 +298,92 @@ function Pipeline({ mode }: { mode: SystemMode }) {
   )
 }
 
+function NoriFeatureOverview() {
+  return (
+    <section className="nori-feature-overview" aria-labelledby="nori-features-heading">
+      <header className="nori-feature-overview__intro">
+        <p className="nori-kicker">FEATURES OVERVIEW</p>
+        <h3 id="nori-features-heading">A business operator with a visible system underneath.</h3>
+        <p>These capabilities are defined in the Nori SDK and runtime plan. Live availability depends on the installed runtime, approved integrations, and the permissions you choose to enable.</p>
+      </header>
+      <div className="nori-feature-overview__groups">
+        {featureGroups.map((group) => (
+          <section className="nori-feature-group" key={group.label}>
+            <div className="nori-feature-group__intro">
+              <h4>{group.label}</h4>
+              <p>{group.description}</p>
+            </div>
+            <div className="nori-feature-grid">
+              {group.features.map((feature) => (
+                <article key={feature.title}>
+                  <span>{feature.status}</span>
+                  <h5>{feature.title}</h5>
+                  <p>{feature.detail}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function NoriAgentRoster() {
+  const [activeDepartmentId, setActiveDepartmentId] = useState<AgentDepartmentId>('sales')
+  const activeDepartment = agentDepartments.find((department) => department.id === activeDepartmentId) ?? agentDepartments[0]
+
+  return (
+    <section className="nori-agent-roster" aria-labelledby="nori-agent-roster-heading">
+      <header className="nori-agent-roster__intro">
+        <div>
+          <p className="nori-kicker">CURRENT SDK ROSTER</p>
+          <h3 id="nori-agent-roster-heading">40 specialist agent templates.</h3>
+        </div>
+        <p>Nori can use an existing template or draft a new specialist around a clearly defined job. Templates remain proposals until the approval gates are complete.</p>
+      </header>
+      <div className="nori-agent-tabs" role="tablist" aria-label="Agent departments">
+        {agentDepartments.map((department) => (
+          <button
+            aria-controls={`nori-agent-panel-${department.id}`}
+            aria-selected={activeDepartment.id === department.id}
+            className={activeDepartment.id === department.id ? 'is-active' : ''}
+            id={`nori-agent-tab-${department.id}`}
+            key={department.id}
+            onClick={() => setActiveDepartmentId(department.id)}
+            role="tab"
+            type="button"
+          >
+            <span>{department.label}</span>
+            <b>{String(department.agents.length).padStart(2, '0')}</b>
+          </button>
+        ))}
+      </div>
+      <div
+        aria-labelledby={`nori-agent-tab-${activeDepartment.id}`}
+        className="nori-agent-panel"
+        id={`nori-agent-panel-${activeDepartment.id}`}
+        role="tabpanel"
+      >
+        <div className="nori-agent-panel__heading">
+          <span>{activeDepartment.label.toUpperCase()} LANE</span>
+          <h4>{activeDepartment.boundary}</h4>
+          <p>Each specialist receives only the context, skills, tools, and actions required for its assigned job.</p>
+        </div>
+        <ul>
+          {activeDepartment.agents.map((agent) => (
+            <li key={agent.name}>
+              <strong>{agent.name}</strong>
+              <p>{agent.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="nori-agent-roster__boundary">Legal, financial, payment, credential, publishing, and production actions always require the appropriate review before execution.</p>
+    </section>
+  )
+}
+
 function NoriSystemDossier() {
   return (
     <section className="nori-dossier" aria-labelledby="nori-dossier-heading">
@@ -188,6 +397,8 @@ function NoriSystemDossier() {
         <li><span>02</span><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
         <li><span>03</span><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
       </ol>
+
+      <NoriFeatureOverview />
 
       <div className="nori-dossier__section">
         <div className="nori-dossier__heading">
@@ -206,22 +417,7 @@ function NoriSystemDossier() {
         </div>
       </div>
 
-      <div className="nori-dossier__section nori-dossier__section--agents">
-        <div className="nori-dossier__heading">
-          <p className="nori-kicker">AGENT BLUEPRINTS</p>
-          <h3>What Nori can draft.</h3>
-          <p>These are build patterns, not instant automations. Nori turns the selected pattern into a scoped proposal with lane boundaries and a human handoff.</p>
-        </div>
-        <div className="nori-blueprint-grid">
-          {agentBlueprints.map((blueprint, index) => (
-            <article key={blueprint.title}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <h4>{blueprint.title}</h4>
-              <p>{blueprint.detail}</p>
-            </article>
-          ))}
-        </div>
-      </div>
+      <NoriAgentRoster />
 
       <aside className="nori-approval-path">
         <div>
