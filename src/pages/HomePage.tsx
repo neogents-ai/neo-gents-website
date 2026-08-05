@@ -20,7 +20,6 @@ const tickerAgents = [...agents.slice(0, 18), ...agents.slice(0, 18)]
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll()
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
 
   const heroTextY = useTransform(heroProgress, [0, 1], [0, -120])
@@ -73,7 +72,6 @@ export default function HomePage() {
           <HeroMascot3D
             modelUrl="/models/nori.glb"
             fallbackSrc="/nori-full.png"
-            scrollProgress={scrollYProgress}
             className="w-[280px] h-[280px] md:w-[400px] md:h-[400px] mt-6"
           />
 

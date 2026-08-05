@@ -1,19 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from 'framer-motion'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroMascot3D from '../components/three/HeroMascot3D'
 import './NoriCinematicPage.css'
 
 type SystemMode = 'growth' | 'creator'
-type Scene = 'hero' | 'map' | 'matrix' | 'pipeline'
+type Scene = 'hero' | 'map' | 'matrix' | 'pipeline' | 'dossier'
 type AgentDepartmentId = 'sales' | 'ops' | 'content' | 'research' | 'support' | 'creators' | 'finance'
+type DossierChapterId = 'identity' | 'features' | 'network' | 'agents' | 'guardrails'
 
 const systemContent: Record<SystemMode, {
   label: string
@@ -190,6 +185,14 @@ const agentDepartments: Array<{
 
 const approvalStages = ['Clarify the job', 'Draft the agent', 'Review the build', 'Approve deployment']
 
+const dossierChapters: Array<{ id: DossierChapterId; label: string }> = [
+  { id: 'identity', label: 'Identity' },
+  { id: 'features', label: 'Capabilities' },
+  { id: 'network', label: 'Skill network' },
+  { id: 'agents', label: 'Agent roster' },
+  { id: 'guardrails', label: 'Guardrails' },
+]
+
 function useCompactLayout() {
   const [compact, setCompact] = useState(false)
 
@@ -202,6 +205,36 @@ function useCompactLayout() {
   }, [])
 
   return compact
+}
+
+function useReducedMotionPreference() {
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setReducedMotion(query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
+
+  return reducedMotion
+}
+
+const heroHeadline = 'Turn your bottleneck into an agent system.'
+
+function SplitHeroHeadline() {
+  return (
+    <h1 aria-label={heroHeadline}>
+      {heroHeadline.split(' ').map((word, wordIndex) => (
+        <span className="nori-hero__word" aria-hidden="true" key={`${word}-${wordIndex}`}>
+          {Array.from(word).map((letter, letterIndex) => (
+            <span className="nori-hero__letter" key={`${letter}-${letterIndex}`}>{letter}</span>
+          ))}
+        </span>
+      ))}
+    </h1>
+  )
 }
 
 interface BuildMapPanelProps {
@@ -299,32 +332,55 @@ function Pipeline({ mode }: { mode: SystemMode }) {
 }
 
 function NoriFeatureOverview() {
+  const [activeGroupLabel, setActiveGroupLabel] = useState(featureGroups[0].label)
+  const activeGroup = featureGroups.find((group) => group.label === activeGroupLabel) ?? featureGroups[0]
+
   return (
     <section className="nori-feature-overview" aria-labelledby="nori-features-heading">
       <header className="nori-feature-overview__intro">
-        <p className="nori-kicker">FEATURES OVERVIEW</p>
-        <h3 id="nori-features-heading">A business operator with a visible system underneath.</h3>
+        <div>
+          <p className="nori-kicker">CAPABILITY INDEX</p>
+          <h3 id="nori-features-heading">A visible system underneath.</h3>
+        </div>
         <p>These capabilities are defined in the Nori SDK and runtime plan. Live availability depends on the installed runtime, approved integrations, and the permissions you choose to enable.</p>
       </header>
-      <div className="nori-feature-overview__groups">
-        {featureGroups.map((group) => (
-          <section className="nori-feature-group" key={group.label}>
-            <div className="nori-feature-group__intro">
-              <h4>{group.label}</h4>
-              <p>{group.description}</p>
-            </div>
-            <div className="nori-feature-grid">
-              {group.features.map((feature) => (
-                <article key={feature.title}>
-                  <span>{feature.status}</span>
-                  <h5>{feature.title}</h5>
-                  <p>{feature.detail}</p>
-                </article>
-              ))}
-            </div>
-          </section>
+      <div className="nori-feature-switcher" role="tablist" aria-label="Capability groups">
+        {featureGroups.map((group, index) => (
+          <button
+            aria-controls="nori-feature-panel"
+            aria-selected={activeGroup.label === group.label}
+            className={activeGroup.label === group.label ? 'is-active' : ''}
+            id={`nori-feature-tab-${index}`}
+            key={group.label}
+            onClick={() => setActiveGroupLabel(group.label)}
+            role="tab"
+            type="button"
+          >
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            {group.label}
+          </button>
         ))}
       </div>
+      <section
+        aria-labelledby={`nori-feature-tab-${featureGroups.indexOf(activeGroup)}`}
+        className="nori-feature-group"
+        id="nori-feature-panel"
+        role="tabpanel"
+      >
+        <div className="nori-feature-group__intro">
+          <h4>{activeGroup.label}</h4>
+          <p>{activeGroup.description}</p>
+        </div>
+        <div className="nori-feature-grid">
+          {activeGroup.features.map((feature) => (
+            <article key={feature.title}>
+              <span>{feature.status}</span>
+              <h5>{feature.title}</h5>
+              <p>{feature.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </section>
   )
 }
@@ -385,57 +441,100 @@ function NoriAgentRoster() {
 }
 
 function NoriSystemDossier() {
+  const [activeChapter, setActiveChapter] = useState<DossierChapterId>('identity')
+  const activeChapterIndex = dossierChapters.findIndex((chapter) => chapter.id === activeChapter)
+
   return (
     <section className="nori-dossier" aria-labelledby="nori-dossier-heading">
       <header className="nori-dossier__intro">
-        <p className="nori-kicker">NORI SYSTEM DOSSIER</p>
-        <h2 id="nori-dossier-heading">What Nori is. What she can build with you.</h2>
-        <p>N.O.R.I. means NEO Optimization &amp; Revenue Infrastructure. She is NEO Gents' root intelligence system: she listens to the bottleneck, audits the moving parts, and routes the next strategic move.</p>
+        <div>
+          <p className="nori-kicker">NORI OPERATING FILE / 05</p>
+          <h2 id="nori-dossier-heading">What she is. What she can build.</h2>
+        </div>
+        <p>Nori's complete operating model, condensed into one inspectable file. Select a chapter to see the underlying capability, ownership, roster, or approval boundary.</p>
       </header>
-      <ol className="nori-dossier__sequence" aria-label="Nori's internal operating sequence">
-        <li><span>01</span><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
-        <li><span>02</span><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
-        <li><span>03</span><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
-      </ol>
-
-      <NoriFeatureOverview />
-
-      <div className="nori-dossier__section">
-        <div className="nori-dossier__heading">
-          <p className="nori-kicker">ROUTED SKILL NETWORK</p>
-          <h3>242 mapped skills. Clear ownership.</h3>
-          <p>Nori does not pretend one agent can do every job. She routes work through a defined network, keeping each specialist in its lane.</p>
-        </div>
-        <div className="nori-capability-grid">
-          {systemCapabilities.map((capability) => (
-            <article key={capability.label}>
-              <span>{capability.owner}</span>
-              <h4>{capability.label}</h4>
-              <p>{capability.detail}</p>
-            </article>
-          ))}
-        </div>
+      <div className="nori-dossier__chapters" role="tablist" aria-label="Nori operating file chapters">
+        {dossierChapters.map((chapter, index) => (
+          <button
+            aria-controls={`nori-dossier-panel-${chapter.id}`}
+            aria-selected={activeChapter === chapter.id}
+            className={activeChapter === chapter.id ? 'is-active' : ''}
+            id={`nori-dossier-tab-${chapter.id}`}
+            key={chapter.id}
+            onClick={() => setActiveChapter(chapter.id)}
+            role="tab"
+            type="button"
+          >
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            {chapter.label}
+          </button>
+        ))}
       </div>
 
-      <NoriAgentRoster />
+      <div
+        aria-labelledby={`nori-dossier-tab-${activeChapter}`}
+        className="nori-dossier__panel"
+        id={`nori-dossier-panel-${activeChapter}`}
+        role="tabpanel"
+      >
+        <span className="nori-dossier__folio" aria-hidden="true">{String(activeChapterIndex + 1).padStart(2, '0')} / 05</span>
 
-      <aside className="nori-approval-path">
-        <div>
-          <p className="nori-kicker">HUMAN APPROVAL REQUIRED</p>
-          <h3>No agent goes live by accident.</h3>
-          <p>Nori can recommend and draft the system. A person approves the plan, build, and deployment before it becomes active.</p>
-        </div>
-        <ol>
-          {approvalStages.map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, '0')}</span>{stage}</li>)}
-        </ol>
-      </aside>
+        {activeChapter === 'identity' && (
+          <div className="nori-dossier__identity">
+            <div>
+              <p className="nori-kicker">ROOT INTELLIGENCE</p>
+              <h3>N.O.R.I. means NEO Optimization &amp; Revenue Infrastructure.</h3>
+              <p>She listens to the bottleneck, audits the moving parts, and routes the next strategic move without pretending one agent should own every job.</p>
+            </div>
+            <ol className="nori-dossier__sequence" aria-label="Nori's internal operating sequence">
+              <li><span>01</span><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
+              <li><span>02</span><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
+              <li><span>03</span><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
+            </ol>
+          </div>
+        )}
+
+        {activeChapter === 'features' && <NoriFeatureOverview />}
+
+        {activeChapter === 'network' && (
+          <section className="nori-skill-network" aria-labelledby="nori-skill-network-heading">
+            <header>
+              <p className="nori-kicker">ROUTED SKILL NETWORK</p>
+              <h3 id="nori-skill-network-heading">242 mapped skills. Clear ownership.</h3>
+              <p>Nori routes work through a defined network and keeps each specialist in its lane.</p>
+            </header>
+            <ul>
+              {systemCapabilities.map((capability) => (
+                <li key={capability.label}>
+                  <span>{capability.owner}</span>
+                  <strong>{capability.label}</strong>
+                  <p>{capability.detail}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {activeChapter === 'agents' && <NoriAgentRoster />}
+
+        {activeChapter === 'guardrails' && (
+          <aside className="nori-approval-path">
+            <div>
+              <p className="nori-kicker">HUMAN APPROVAL REQUIRED</p>
+              <h3>No agent goes live by accident.</h3>
+              <p>Nori can recommend and draft the system. A person approves the plan, build, and deployment before it becomes active.</p>
+            </div>
+            <ol>
+              {approvalStages.map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, '0')}</span>{stage}</li>)}
+            </ol>
+          </aside>
+        )}
+      </div>
     </section>
   )
 }
 
 function DesktopExperience({
-  trackRef,
-  scrollProgress,
   mode,
   setMode,
   prompt,
@@ -443,8 +542,6 @@ function DesktopExperience({
   previewVisible,
   onPreview,
 }: {
-  trackRef: React.RefObject<HTMLElement | null>
-  scrollProgress: MotionValue<number>
   mode: SystemMode
   setMode: (mode: SystemMode) => void
   prompt: string
@@ -453,26 +550,153 @@ function DesktopExperience({
   onPreview: () => void
 }) {
   const [scene, setScene] = useState<Scene>('hero')
-  const heroOpacity = useTransform(scrollProgress, [0, 0.17, 0.25], [1, 1, 0])
-  const heroY = useTransform(scrollProgress, [0, 0.25], ['0%', '-18%'])
-  const heroScale = useTransform(scrollProgress, [0, 0.25], [1, 0.82])
-  const mapOpacity = useTransform(scrollProgress, [0.16, 0.27, 0.45, 0.54], [0, 1, 1, 0])
-  const mapY = useTransform(scrollProgress, [0.16, 0.27, 0.54], ['16%', '0%', '-16%'])
-  const matrixOpacity = useTransform(scrollProgress, [0.45, 0.55, 0.72, 0.8], [0, 1, 1, 0])
-  const matrixScale = useTransform(scrollProgress, [0.45, 0.55, 0.8], [0.86, 1, 1.08])
-  const pipelineOpacity = useTransform(scrollProgress, [0.7, 0.81], [0, 1])
-  const pipelineY = useTransform(scrollProgress, [0.7, 0.81], ['15%', '0%'])
+  const trackRef = useRef<HTMLElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLElement>(null)
+  const mapRef = useRef<HTMLDivElement>(null)
+  const matrixRef = useRef<HTMLElement>(null)
+  const pipelineRef = useRef<HTMLElement>(null)
+  const dossierRef = useRef<HTMLElement>(null)
 
-  useMotionValueEvent(scrollProgress, 'change', (value) => {
-    const next: Scene = value < 0.24 ? 'hero' : value < 0.52 ? 'map' : value < 0.77 ? 'matrix' : 'pipeline'
-    setScene((current) => current === next ? current : next)
-  })
+  useLayoutEffect(() => {
+    const track = trackRef.current
+    const video = videoRef.current
+    const cursor = cursorRef.current
+    const scenes = [heroRef.current, mapRef.current, matrixRef.current, pipelineRef.current, dossierRef.current]
+    if (!track || !video || scenes.some((item) => !item)) return
+
+    gsap.registerPlugin(ScrollTrigger)
+    const cleanups: Array<() => void> = []
+    const context = gsap.context(() => {
+      const [hero, map, matrix, pipeline, dossier] = scenes as HTMLElement[]
+      const incoming = { autoAlpha: 0, z: -1450, scale: 0.62 }
+
+      gsap.set(hero, { autoAlpha: 1, z: 0, scale: 1 })
+      gsap.set([map, matrix, pipeline, dossier], incoming)
+      gsap.set('.nori-cinema__depth--far', { z: -900, scale: 1.55 })
+      gsap.set('.nori-cinema__depth--mid', { z: -420, scale: 1.25 })
+      gsap.set('.nori-cinema__depth--near', { z: 120, scale: 1.04 })
+
+      gsap.fromTo('.nori-hero__letter',
+        { autoAlpha: 0, y: 50 },
+        { autoAlpha: 1, y: 0, duration: 1, ease: 'power4.out', stagger: 0.018, delay: 0.12 },
+      )
+      gsap.fromTo('.nori-hero__copy > .nori-kicker, .nori-hero__lede, .nori-offer-path, .nori-hero__copy > .nori-command-button',
+        { autoAlpha: 0, y: 20 },
+        { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, delay: 0.5 },
+      )
+
+      const timeline = gsap.timeline({
+        defaults: { duration: 0.86, ease: 'power2.inOut' },
+        scrollTrigger: {
+          trigger: track,
+          start: 'top top',
+          end: '+=5200',
+          pin: track,
+          pinSpacing: true,
+          scrub: 1.05,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: ({ progress }) => {
+            const next: Scene = progress < 0.17
+              ? 'hero'
+              : progress < 0.38
+                ? 'map'
+                : progress < 0.59
+                  ? 'matrix'
+                  : progress < 0.79
+                    ? 'pipeline'
+                    : 'dossier'
+            setScene((current) => current === next ? current : next)
+          },
+        },
+      })
+
+      timeline
+        .addLabel('root', 0)
+        .to(video, { scale: 1.14, xPercent: -1.2, duration: 6.2, ease: 'none' }, 'root')
+        .to('.nori-cinema__depth--far', { z: -380, yPercent: -3, duration: 6.2, ease: 'none' }, 'root')
+        .to('.nori-cinema__depth--mid', { z: 40, yPercent: -6, duration: 6.2, ease: 'none' }, 'root')
+        .to('.nori-cinema__depth--near', { z: 520, yPercent: -10, duration: 6.2, ease: 'none' }, 'root')
+        .to(hero, { autoAlpha: 0, z: 720, scale: 1.18, yPercent: -6, duration: 0.5 }, 0.6)
+        .fromTo(map, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 0.82)
+        .addLabel('map', 1.5)
+        .to(map, { autoAlpha: 0, z: 720, scale: 1.16, yPercent: -5, duration: 0.5 }, 1.8)
+        .fromTo(matrix, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 2.02)
+        .addLabel('matrix', 2.7)
+        .to(matrix, { autoAlpha: 0, z: 720, scale: 1.15, yPercent: -5, duration: 0.5 }, 3)
+        .fromTo(pipeline, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 3.22)
+        .addLabel('pipeline', 3.9)
+        .to(pipeline, { autoAlpha: 0, z: 720, scale: 1.14, yPercent: -5, duration: 0.5 }, 4.2)
+        .fromTo(dossier, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 4.42)
+        .addLabel('dossier', 5.1)
+        .to(dossier, { z: 70, scale: 1.01, duration: 0.7, ease: 'power1.out' }, 5.1)
+
+      if (cursor && window.matchMedia('(pointer: fine)').matches) {
+        gsap.set(cursor, { autoAlpha: 0 })
+        const moveX = gsap.quickTo(cursor, 'x', { duration: 0.32, ease: 'power3.out' })
+        const moveY = gsap.quickTo(cursor, 'y', { duration: 0.32, ease: 'power3.out' })
+        const handlePointerMove = (event: PointerEvent) => {
+          gsap.to(cursor, { autoAlpha: 1, duration: 0.2, overwrite: 'auto' })
+          moveX(event.clientX)
+          moveY(event.clientY)
+        }
+        window.addEventListener('pointermove', handlePointerMove)
+        cleanups.push(() => window.removeEventListener('pointermove', handlePointerMove))
+
+        track.querySelectorAll<HTMLElement>('.nori-command-button, .nori-link-button').forEach((button) => {
+          const enter = () => gsap.to(cursor, { scale: 1.8, duration: 0.35, ease: 'power3.out' })
+          const move = (event: PointerEvent) => {
+            const bounds = button.getBoundingClientRect()
+            gsap.to(button, {
+              x: (event.clientX - bounds.left - bounds.width / 2) * 0.14,
+              y: (event.clientY - bounds.top - bounds.height / 2) * 0.2,
+              duration: 0.4,
+              ease: 'power3.out',
+              overwrite: 'auto',
+            })
+          }
+          const leave = () => {
+            gsap.to(cursor, { scale: 1, duration: 0.35, ease: 'power3.out' })
+            gsap.to(button, { x: 0, y: 0, duration: 0.6, ease: 'power4.out', overwrite: 'auto' })
+          }
+          button.addEventListener('pointerenter', enter)
+          button.addEventListener('pointermove', move)
+          button.addEventListener('pointerleave', leave)
+          cleanups.push(() => {
+            button.removeEventListener('pointerenter', enter)
+            button.removeEventListener('pointermove', move)
+            button.removeEventListener('pointerleave', leave)
+          })
+        })
+      }
+    }, track)
+
+    const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => {
+      window.cancelAnimationFrame(refreshFrame)
+      cleanups.forEach((cleanup) => cleanup())
+      context.revert()
+    }
+  }, [])
 
   const sceneStyle = (name: Scene) => ({ pointerEvents: scene === name ? 'auto' as const : 'none' as const })
 
   return (
     <section className="nori-cinematic__track" ref={trackRef}>
-      <div className="nori-cinematic__viewport">
+      <div className="nori-cinematic__viewport" ref={viewportRef}>
+        <div className="nori-cinema-bg" aria-hidden="true">
+          <video ref={videoRef} autoPlay loop muted playsInline preload="metadata" poster="/media/nori-command-chamber.png">
+            <source src="/media/nori-command-chamber-loop.mp4" type="video/mp4" />
+          </video>
+          <div className="nori-cinema-bg__shade" />
+        </div>
+        <div className="nori-cinema__grain" aria-hidden="true" />
+        <div className="nori-cinema__depth nori-cinema__depth--far" aria-hidden="true" />
+        <div className="nori-cinema__depth nori-cinema__depth--mid" aria-hidden="true" />
+        <div className="nori-cinema__depth nori-cinema__depth--near" aria-hidden="true" />
         <div className="nori-cinematic__stars" aria-hidden="true" />
         <div className="nori-cinematic__horizon" aria-hidden="true" />
         <div className="nori-cinematic__progress" aria-hidden="true">
@@ -480,12 +704,13 @@ function DesktopExperience({
           <span className={scene === 'map' ? 'is-current' : ''}>02 MAP</span>
           <span className={scene === 'matrix' ? 'is-current' : ''}>03 ROUTE</span>
           <span className={scene === 'pipeline' ? 'is-current' : ''}>04 SYSTEM</span>
+          <span className={scene === 'dossier' ? 'is-current' : ''}>05 FILE</span>
         </div>
 
-        <motion.section className="nori-scene nori-scene--hero" style={{ opacity: heroOpacity, y: heroY, scale: heroScale, ...sceneStyle('hero') }} aria-hidden={scene !== 'hero'}>
+        <section ref={heroRef} className="nori-scene nori-scene--hero" style={sceneStyle('hero')} aria-hidden={scene !== 'hero'}>
           <div className="nori-hero__copy">
             <p className="nori-kicker">N.O.R.I. / AI OPERATING SYSTEM</p>
-            <h1>Turn your bottleneck into an agent system.</h1>
+            <SplitHeroHeadline />
             <p className="nori-hero__lede">For businesses and creators: Nori maps the work, recommends the right agent lane, and gives you a human-approved system plan to install.</p>
             <div className="nori-offer-path" aria-label="Nori Build Map delivery path">
               <span><b>01</b> Map the bottleneck</span>
@@ -498,16 +723,16 @@ function DesktopExperience({
           </div>
           <div className="nori-hero__mascot-wrap">
             <div className="nori-hero__halo" aria-hidden="true" />
-            <HeroMascot3D modelUrl="/models/nori.glb" fallbackSrc="/nori-full.png" scrollProgress={scrollProgress} className="nori-hero__mascot" />
+            <HeroMascot3D modelUrl="/models/nori.glb" fallbackSrc="/nori-full.png" className="nori-hero__mascot" />
             <span className="nori-hero__caption">N.O.R.I. / NEO OPTIMIZATION &amp; REVENUE INFRASTRUCTURE</span>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.div className="nori-scene nori-scene--map" style={{ opacity: mapOpacity, y: mapY, ...sceneStyle('map') }} aria-hidden={scene !== 'map'}>
+        <div ref={mapRef} className="nori-scene nori-scene--map" style={sceneStyle('map')} aria-hidden={scene !== 'map'}>
           <BuildMapPanel mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
-        </motion.div>
+        </div>
 
-        <motion.section className="nori-scene nori-scene--matrix" style={{ opacity: matrixOpacity, scale: matrixScale, ...sceneStyle('matrix') }} aria-hidden={scene !== 'matrix'}>
+        <section ref={matrixRef} className="nori-scene nori-scene--matrix" style={sceneStyle('matrix')} aria-hidden={scene !== 'matrix'}>
           <div className="nori-matrix__intro">
             <p className="nori-kicker">THE NEO GENTS MATRIX</p>
             <h2>One root agent. Clear lanes.</h2>
@@ -522,15 +747,20 @@ function DesktopExperience({
               </article>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section className="nori-scene nori-scene--pipeline" style={{ opacity: pipelineOpacity, y: pipelineY, ...sceneStyle('pipeline') }} aria-hidden={scene !== 'pipeline'}>
+        <section ref={pipelineRef} className="nori-scene nori-scene--pipeline" style={sceneStyle('pipeline')} aria-hidden={scene !== 'pipeline'}>
           <Pipeline mode={mode} />
           <div className="nori-scene--pipeline__actions">
             <Link className="nori-command-button" to="/waitlist?profile=nori">Request your Build Map <span aria-hidden="true">-&gt;</span></Link>
             <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
           </div>
-        </motion.section>
+        </section>
+
+        <section ref={dossierRef} className="nori-scene nori-scene--dossier" style={sceneStyle('dossier')} aria-hidden={scene !== 'dossier'}>
+          <NoriSystemDossier />
+        </section>
+        <div className="nori-cursor" ref={cursorRef} aria-hidden="true" />
       </div>
     </section>
   )
@@ -571,10 +801,8 @@ function FlowExperience({
 }
 
 export default function NoriCinematicPage() {
-  const trackRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] })
   const compact = useCompactLayout()
-  const reducedMotion = useReducedMotion()
+  const reducedMotion = useReducedMotionPreference()
   const [mode, setMode] = useState<SystemMode>('growth')
   const [prompt, setPrompt] = useState('')
   const [previewVisible, setPreviewVisible] = useState(false)
@@ -592,8 +820,6 @@ export default function NoriCinematicPage() {
     <div className="nori-cinematic">
       {immersive ? (
         <DesktopExperience
-          trackRef={trackRef}
-          scrollProgress={scrollYProgress}
           mode={mode}
           setMode={selectMode}
           prompt={prompt}
@@ -611,7 +837,6 @@ export default function NoriCinematicPage() {
           onPreview={() => setPreviewVisible(true)}
         />
       )}
-      {immersive && <NoriSystemDossier />}
     </div>
   )
 }

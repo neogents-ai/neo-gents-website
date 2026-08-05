@@ -49,4 +49,21 @@ Hermes informed the grouped feature-overview structure only. Nori copy, taxonomy
 
 The page may explain what Nori is designed to do and what templates exist. It must not imply that every integration is live, that private files are mounted, or that Nori may publish, send, charge, deploy, access credentials, or perform legal and financial actions without approval.
 
+## Cinematic Page Implementation
+
+- Route: `/nori`
+- Source: `src/pages/NoriCinematicPage.tsx` and `src/pages/NoriCinematicPage.css`
+- Orchestration: GSAP `ScrollTrigger` pins a 100vh viewport and moves five scenes through Z-space: Root, Map, Route, System, and File.
+- Accessibility: viewports below 900px and reduced-motion preferences receive the linear document flow instead of the pinned camera sequence.
+- Character: `public/models/nori.glb` renders through `<model-viewer>` with a fixed camera orbit. Auto-rotation and scroll-linked character rotation are disabled.
+- Background plate: `public/media/nori-command-chamber.png`
+- Video loop: `public/media/nori-command-chamber-loop.mp4`, a 3840x2160, 24 fps, ten-second H.264 loop built from the approved plate with a restrained camera push and no audio.
+- Visual effects: a film-grain overlay, subtle depth planes, split-letter GSAP introduction, and pointer-fine magnetic actions. UI text and controls stay outside the video layer.
+
+The command-chamber plate was generated with Codex image generation using this direction:
+
+> Full-screen cinematic website background plate, 16:9; premium luxury-minimalist cyberpunk command chamber for N.O.R.I.; no people, robots, characters, or weapons; photoreal ARRI Alexa 35, 35mm anamorphic, f/2.8, HDR; locked wide frame; left 42 percent dark and uncluttered; circular intelligence recess on the right; pitch black and charcoal, white highlights, muted titanium gold under 5 percent, trace green; no text, logos, UI panels, purple or cyan neon, red lasers, bokeh orbs, lens flare, or watermark.
+
+Browser verification covered 1440x900 and 1024x768 immersive frames plus the 390x844 linear fallback. The checks included all five depth stops, nested dossier tabs, 4K video readiness and autoplay, static model attributes, horizontal overflow, production build, and targeted lint.
+
 Source snapshot: 2026-08-05.
