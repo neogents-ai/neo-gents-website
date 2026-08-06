@@ -219,10 +219,17 @@
 .nori-build-map__topline { align-items: center; display: flex; justify-content: space-between; gap: 1rem; }
 .nori-build-map__status { color: var(--nori-green); font-family: var(--nori-utility); font-size: 0.6rem; letter-spacing: 0.08em; }
 .nori-build-map h2, .nori-matrix__intro h2, .nori-flow__section > h2, .nori-flow__library h2 { font-family: var(--nori-display); font-size: clamp(1.45rem, 3vw, 2.55rem); line-height: 1.15; margin: 1.2rem 0; }
-.nori-system-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin: 1.3rem 0; }
-.nori-system-toggle button { background: rgba(230, 232, 232, 0.04); border: 1px solid rgba(230, 232, 232, 0.18); color: var(--nori-muted); cursor: pointer; min-height: 2.6rem; padding: 0.5rem; }
-.nori-system-toggle button.is-active { background: rgba(212, 175, 55, 0.1); border-color: var(--nori-gold); color: var(--nori-ink); }
+.nori-example { border-bottom: 1px solid rgba(212, 175, 55, 0.34); border-top: 1px solid rgba(212, 175, 55, 0.34); margin: 1.25rem 0; padding: 0.9rem 0; }
+.nori-example h2 { font-size: clamp(1.2rem, 2.2vw, 1.8rem); margin: 0.5rem 0; }
+.nori-example > p:not(.nori-kicker) { color: var(--nori-muted); font-size: 0.8rem; line-height: 1.5; margin-bottom: 0.85rem; max-width: 42rem; }
+.nori-example__path, .nori-build-map__starters { display: flex; gap: 0.5rem; list-style: none; overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 0.35rem; scrollbar-color: rgba(212, 175, 55, 0.55) transparent; scrollbar-width: thin; }
+.nori-example__path li { align-items: center; color: var(--nori-ink); display: flex; flex: 0 0 auto; font-size: 0.74rem; gap: 0.35rem; white-space: nowrap; }
+.nori-example__path li:not(:last-child)::after { color: var(--nori-gold); content: '->'; margin-left: 0.15rem; }
+.nori-example__path span { color: var(--nori-green); font-family: var(--nori-utility); font-size: 0.58rem; }
 .nori-build-map__label { color: var(--nori-ink); display: block; font-size: 0.84rem; font-weight: 500; margin-bottom: 0.55rem; }
+.nori-build-map__starters { margin-bottom: 0.8rem; }
+.nori-build-map__starters button { background: rgba(230, 232, 232, 0.04); border: 1px solid rgba(230, 232, 232, 0.18); color: var(--nori-muted); cursor: pointer; flex: 0 0 auto; font-size: 0.7rem; line-height: 1.35; padding: 0.45rem 0.6rem; text-align: left; white-space: nowrap; }
+.nori-build-map__starters button:hover { border-color: var(--nori-gold); color: var(--nori-ink); }
 .nori-build-map textarea { background: rgba(0, 0, 0, 0.36); border: 1px solid rgba(230, 232, 232, 0.18); border-radius: 2px; color: var(--nori-ink); line-height: 1.55; padding: 0.8rem; resize: vertical; width: 100%; }
 .nori-build-map textarea::placeholder { color: rgba(162, 170, 166, 0.7); }
 .nori-build-map__actions { align-items: center; display: flex; gap: 1rem; justify-content: space-between; margin-top: 1rem; }

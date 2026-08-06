@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroMascot3D from '../components/three/HeroMascot3D'
-import { noriHero } from '../data/noriPositioning'
+import { buildMapExamples, leadGenerationExample, noriHero } from '../data/noriPositioning'
 import './NoriCinematicPage.css'
 
 type SystemMode = 'growth' | 'creator'
@@ -240,8 +240,6 @@ function SplitHeroHeadline() {
 }
 
 interface BuildMapPanelProps {
-  mode: SystemMode
-  setMode: (mode: SystemMode) => void
   prompt: string
   setPrompt: (value: string) => void
   previewVisible: boolean
@@ -250,62 +248,61 @@ interface BuildMapPanelProps {
 }
 
 function BuildMapPanel({
-  mode,
-  setMode,
   prompt,
   setPrompt,
   previewVisible,
   onPreview,
   compact = false,
 }: BuildMapPanelProps) {
-  const content = systemContent[mode]
-
   return (
     <section className={`nori-build-map ${compact ? 'nori-build-map--compact' : ''}`} aria-labelledby="build-map-heading">
       <div className="nori-build-map__topline">
         <span className="nori-kicker">BUILD MAP / LOCAL PREVIEW</span>
         <span className="nori-build-map__status">NO DATA SENT</span>
       </div>
-      <h2 id="build-map-heading">Start with the work that keeps slipping.</h2>
-      <div className="nori-system-toggle" role="group" aria-label="Choose a system type">
-        {(['growth', 'creator'] as const).map((item) => (
-          <button
-            className={mode === item ? 'is-active' : ''}
-            key={item}
-            type="button"
-            onClick={() => setMode(item)}
-          >
-            {systemContent[item].label}
-          </button>
-        ))}
+      <h2 id="build-map-heading">What part of your business is unclear or not working the way you want?</h2>
+      <div className="nori-example">
+        <p className="nori-kicker">ONE QUESTION / THE CONNECTED WORK</p>
+        <h2>{leadGenerationExample.request}</h2>
+        <p>{leadGenerationExample.explanation}</p>
+        <ol className="nori-example__path" aria-label="Customer acquisition workflow">
+          {leadGenerationExample.stages.map((stage, index) => (
+            <li key={stage}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{stage}</strong>
+            </li>
+          ))}
+        </ol>
       </div>
       <label className="nori-build-map__label" htmlFor={compact ? 'nori-goal-compact' : 'nori-goal'}>
-        What outcome are you trying to create?
+        Describe one problem in plain language.
       </label>
+      <div className="nori-build-map__starters" aria-label="Example business problems">
+        {buildMapExamples.map((example) => (
+          <button type="button" key={example} onClick={() => setPrompt(example)}>{example}</button>
+        ))}
+      </div>
       <textarea
         id={compact ? 'nori-goal-compact' : 'nori-goal'}
         value={prompt}
         onChange={(event) => setPrompt(event.target.value.slice(0, 420))}
-        placeholder={mode === 'growth' ? 'Example: stop losing leads after a missed call' : 'Example: turn one long video into a weekly content system'}
+        placeholder="Example: I need more customers."
         maxLength={420}
         rows={compact ? 4 : 3}
       />
       <div className="nori-build-map__actions">
-        <p>Use non-confidential details only. This preview stays in your browser.</p>
+        <p>Use non-confidential details only. Nothing is sent or analyzed by AI in this preview.</p>
         <button className="nori-command-button" type="button" onClick={onPreview}>
-          Generate preview <span aria-hidden="true">-&gt;</span>
+          Generate example map <span aria-hidden="true">-&gt;</span>
         </button>
       </div>
       {previewVisible && (
         <div className="nori-preview" role="status">
           <div>
-            <span>DRAFT BUILD MAP</span>
-            <strong>{content.recommendation}</strong>
+            <span>ILLUSTRATIVE CLARITY MAP</span>
+            <strong>Start by locating the unclear step.</strong>
           </div>
-          <p>{content.outcome}</p>
-          <ol>
-            {content.pipeline.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}
-          </ol>
+          <p>This example shows how Nori will structure the question. A live analysis begins only after an approved Nori runtime is connected.</p>
         </div>
       )}
     </section>
@@ -538,14 +535,12 @@ function NoriSystemDossier() {
 
 function DesktopExperience({
   mode,
-  setMode,
   prompt,
   setPrompt,
   previewVisible,
   onPreview,
 }: {
   mode: SystemMode
-  setMode: (mode: SystemMode) => void
   prompt: string
   setPrompt: (value: string) => void
   previewVisible: boolean
@@ -732,7 +727,7 @@ function DesktopExperience({
         </section>
 
         <div ref={mapRef} className="nori-scene nori-scene--map" style={sceneStyle('map')} aria-hidden={scene !== 'map'}>
-          <BuildMapPanel mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
+          <BuildMapPanel prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
         </div>
 
         <section ref={matrixRef} className="nori-scene nori-scene--matrix" style={sceneStyle('matrix')} aria-hidden={scene !== 'matrix'}>
@@ -787,16 +782,15 @@ function FlowHero() {
 
 function FlowExperience({
   mode,
-  setMode,
   prompt,
   setPrompt,
   previewVisible,
   onPreview,
-}: Omit<BuildMapPanelProps, 'compact'>) {
+}: Omit<BuildMapPanelProps, 'compact'> & { mode: SystemMode }) {
   return (
     <main className="nori-flow">
       <FlowHero />
-      <BuildMapPanel compact mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
+      <BuildMapPanel compact prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
       <NoriSystemDossier />
       <section className="nori-flow__section">
         <Pipeline mode={mode} />
@@ -812,14 +806,10 @@ function FlowExperience({
 export default function NoriCinematicPage() {
   const compact = useCompactLayout()
   const reducedMotion = useReducedMotionPreference()
-  const [mode, setMode] = useState<SystemMode>('growth')
+  const [mode] = useState<SystemMode>('growth')
   const [prompt, setPrompt] = useState('')
   const [previewVisible, setPreviewVisible] = useState(false)
   const immersive = !compact && !reducedMotion
-  const selectMode = (nextMode: SystemMode) => {
-    setMode(nextMode)
-    setPreviewVisible(false)
-  }
   const updatePrompt = (nextPrompt: string) => {
     setPrompt(nextPrompt)
     setPreviewVisible(false)
@@ -830,7 +820,6 @@ export default function NoriCinematicPage() {
       {immersive ? (
         <DesktopExperience
           mode={mode}
-          setMode={selectMode}
           prompt={prompt}
           setPrompt={updatePrompt}
           previewVisible={previewVisible}
@@ -839,7 +828,6 @@ export default function NoriCinematicPage() {
       ) : (
         <FlowExperience
           mode={mode}
-          setMode={selectMode}
           prompt={prompt}
           setPrompt={updatePrompt}
           previewVisible={previewVisible}
