@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -225,12 +225,15 @@ function useReducedMotionPreference() {
 function SplitHeroHeadline() {
   return (
     <h1 aria-label={noriHero.headline}>
-      {noriHero.headline.split(' ').map((word, wordIndex) => (
-        <span className="nori-hero__word" aria-hidden="true" key={`${word}-${wordIndex}`}>
-          {Array.from(word).map((letter, letterIndex) => (
-            <span className="nori-hero__letter" key={`${letter}-${letterIndex}`}>{letter}</span>
-          ))}
-        </span>
+      {noriHero.headline.split(' ').map((word, wordIndex, words) => (
+        <Fragment key={`${word}-${wordIndex}`}>
+          <span className="nori-hero__word" aria-hidden="true">
+            {Array.from(word).map((letter, letterIndex) => (
+              <span className="nori-hero__letter" key={`${letter}-${letterIndex}`}>{letter}</span>
+            ))}
+          </span>
+          {wordIndex < words.length - 1 ? ' ' : null}
+        </Fragment>
       ))}
     </h1>
   )

@@ -161,8 +161,7 @@
 
 .nori-hero__copy { max-width: 34rem; position: relative; z-index: 2; }
 .nori-hero__copy h1, .nori-flow__hero h1 { font-family: var(--nori-display); font-size: clamp(2.8rem, 3.35vw, 3.5rem); font-weight: 700; letter-spacing: 0; line-height: 0.96; margin: 0.9rem 0 1rem; max-width: 10ch; }
-.nori-hero__word { display: inline-block; margin-right: 0.24em; white-space: nowrap; }
-.nori-hero__word:last-child { margin-right: 0; }
+.nori-hero__word { display: inline-block; white-space: nowrap; }
 .nori-hero__letter { display: inline-block; transform: translate3d(0, 0, 0); will-change: transform, opacity; }
 .nori-hero__lede, .nori-flow__hero > p:not(.nori-kicker) { color: var(--nori-muted); font-size: clamp(0.96rem, 1.2vw, 1.1rem); line-height: 1.5; margin-bottom: 1.3rem; max-width: 34rem; }
 .nori-offer-path { border-left: 1px solid rgba(212, 175, 55, 0.65); display: flex; flex-wrap: wrap; gap: 0.45rem 1rem; margin: -0.55rem 0 1.7rem; padding: 0.1rem 0 0.1rem 0.8rem; }
