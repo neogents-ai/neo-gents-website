@@ -248,7 +248,7 @@
 .nori-matrix__intro > p:not(.nori-kicker) { color: var(--nori-muted); line-height: 1.6; }
 .nori-matrix__grid { display: grid; gap: 0.65rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .nori-matrix__grid article, .nori-library__grid article { background: rgba(14, 17, 16, 0.78); border: 1px solid rgba(230, 232, 232, 0.13); min-height: 8.3rem; padding: 1rem; position: relative; }
-.nori-matrix__grid article::before { background: var(--nori-green); content: ''; height: 1px; left: 0; position: absolute; top: 0; width: 36%; }
+.nori-matrix__grid article::before { background: var(--nori-gold); content: ''; height: 1px; left: 0; position: absolute; top: 0; width: 36%; }
 .nori-matrix__grid article > span { color: var(--nori-gold); font-family: var(--nori-utility); font-size: 0.65rem; }
 .nori-matrix__grid h3, .nori-library__grid h3 { font-family: var(--nori-display); font-size: 0.88rem; margin: 0.7rem 0 0.45rem; }
 .nori-matrix__grid p, .nori-library__grid p { color: var(--nori-muted); font-size: 0.78rem; line-height: 1.45; }
@@ -261,6 +261,10 @@
 .nori-pipeline ol { align-items: stretch; display: grid; gap: 0.5rem; grid-template-columns: repeat(6, minmax(0, 1fr)); list-style: none; }
 .nori-pipeline li { background: rgba(230, 232, 232, 0.04); border: 1px solid rgba(230, 232, 232, 0.15); display: flex; flex-direction: column; gap: 0.55rem; min-height: 7.25rem; padding: 1rem 0.8rem; text-align: left; }
 .nori-pipeline__number { color: var(--nori-green); font-family: var(--nori-utility); font-size: 0.66rem; }
+.nori-pipeline__owner { color: var(--nori-muted); font-family: var(--nori-utility); font-size: 0.58rem; letter-spacing: 0.08em; }
+.nori-pipeline__owner--nori, .nori-pipeline__owner--you { color: var(--nori-gold); }
+.nori-pipeline li strong { font-family: var(--nori-display); font-size: 0.84rem; }
+.nori-pipeline li p { color: var(--nori-muted); font-size: 0.72rem; line-height: 1.45; }
 .nori-scene--pipeline__actions, .nori-flow__actions { display: flex; gap: 0.7rem; justify-content: center; margin-top: 2rem; }
 
 .nori-scene--dossier { align-items: center; padding-bottom: 1.5rem; padding-top: 7rem; }

@@ -3,48 +3,12 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroMascot3D from '../components/three/HeroMascot3D'
-import { buildMapExamples, leadGenerationExample, noriHero } from '../data/noriPositioning'
+import { buildMapExamples, deliveryPath, leadGenerationExample, noriHero, solutionUseCases } from '../data/noriPositioning'
 import './NoriCinematicPage.css'
 
-type SystemMode = 'growth' | 'creator'
 type Scene = 'hero' | 'map' | 'matrix' | 'pipeline' | 'dossier'
 type AgentDepartmentId = 'sales' | 'ops' | 'content' | 'research' | 'support' | 'creators' | 'finance'
 type DossierChapterId = 'identity' | 'features' | 'network' | 'agents' | 'guardrails'
-
-const systemContent: Record<SystemMode, {
-  label: string
-  eyebrow: string
-  description: string
-  pipeline: string[]
-  recommendation: string
-  outcome: string
-}> = {
-  growth: {
-    label: 'Growth System',
-    eyebrow: 'BUSINESS OPERATIONS',
-    description: 'Turn an operating bottleneck into a human-approved workflow.',
-    pipeline: ['Capture', 'Qualify', 'Follow up', 'Book', 'Human handoff'],
-    recommendation: 'Lead response and qualification map',
-    outcome: 'A clear handoff from first signal to a real person.',
-  },
-  creator: {
-    label: 'Creator System',
-    eyebrow: 'CREATOR OPERATIONS',
-    description: 'Turn a content idea into a repeatable publishing rhythm.',
-    pipeline: ['Concept', 'Script', 'Produce', 'Repurpose', 'Review', 'Publish'],
-    recommendation: 'Content production and review map',
-    outcome: 'A repeatable route from raw idea to approved distribution.',
-  },
-}
-
-const agentLanes = [
-  { code: '01', name: 'Strategy', detail: 'Clarify the goal, constraints, and next decision.' },
-  { code: '02', name: 'Agent Design', detail: 'Scope the workflow before anything is built.' },
-  { code: '03', name: 'Security', detail: 'Keep permissions, data, and approvals in their lane.' },
-  { code: '04', name: 'Research', detail: 'Collect evidence before the system recommends action.' },
-  { code: '05', name: 'Distribution', detail: 'Prepare content and outreach workflows for review.' },
-  { code: '06', name: 'Production', detail: 'Turn approved plans into polished assets and handoffs.' },
-]
 
 const systemCapabilities = [
   { label: 'Business Strategy', owner: 'NORI', detail: 'Revenue operations, priorities, decisions, and cross-functional routing.' },
@@ -309,20 +273,42 @@ function BuildMapPanel({
   )
 }
 
-function Pipeline({ mode }: { mode: SystemMode }) {
-  const content = systemContent[mode]
+function SolutionUseCases() {
   return (
-    <div className="nori-pipeline" aria-label={`${content.label} steps`}>
+    <>
+      <div className="nori-matrix__intro">
+        <p className="nori-kicker">PRACTICAL AI USE CASES</p>
+        <h2>Start with the work, not the technology.</h2>
+        <p>Nori connects the confusing part of the business to a solution you can understand and approve.</p>
+      </div>
+      <div className="nori-matrix__grid">
+        {solutionUseCases.map((useCase, index) => (
+          <article key={useCase.id}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3>{useCase.label}</h3>
+            <p>{useCase.detail}</p>
+          </article>
+        ))}
+      </div>
+    </>
+  )
+}
+
+function DeliveryPath() {
+  return (
+    <div className="nori-pipeline" aria-label="From a confusing problem to an installed solution">
       <div className="nori-pipeline__heading">
-        <span className="nori-kicker">{content.eyebrow}</span>
-        <h2>{content.label}</h2>
-        <p>{content.description}</p>
+        <span className="nori-kicker">HOW NORI + NEO GENTS WORK</span>
+        <h2>From confusion to an installed solution.</h2>
+        <p>Nori designs the solution. You approve it. NEO Gents installs the workflow.</p>
       </div>
       <ol>
-        {content.pipeline.map((step, index) => (
-          <li key={step}>
+        {deliveryPath.map((stage, index) => (
+          <li key={stage.label}>
             <span className="nori-pipeline__number">{String(index + 1).padStart(2, '0')}</span>
-            <span>{step}</span>
+            <span className={`nori-pipeline__owner nori-pipeline__owner--${stage.owner.toLowerCase().replaceAll(' ', '-')}`}>{stage.owner}</span>
+            <strong>{stage.label}</strong>
+            <p>{stage.detail}</p>
           </li>
         ))}
       </ol>
@@ -534,13 +520,11 @@ function NoriSystemDossier() {
 }
 
 function DesktopExperience({
-  mode,
   prompt,
   setPrompt,
   previewVisible,
   onPreview,
 }: {
-  mode: SystemMode
   prompt: string
   setPrompt: (value: string) => void
   previewVisible: boolean
@@ -698,11 +682,11 @@ function DesktopExperience({
         <div className="nori-cinematic__stars" aria-hidden="true" />
         <div className="nori-cinematic__horizon" aria-hidden="true" />
         <div className="nori-cinematic__progress" aria-hidden="true">
-          <span className={scene === 'hero' ? 'is-current' : ''}>01 ROOT</span>
-          <span className={scene === 'map' ? 'is-current' : ''}>02 MAP</span>
-          <span className={scene === 'matrix' ? 'is-current' : ''}>03 ROUTE</span>
-          <span className={scene === 'pipeline' ? 'is-current' : ''}>04 SYSTEM</span>
-          <span className={scene === 'dossier' ? 'is-current' : ''}>05 FILE</span>
+          <span className={scene === 'hero' ? 'is-current' : ''}>01 CLARITY</span>
+          <span className={scene === 'map' ? 'is-current' : ''}>02 EXAMPLE</span>
+          <span className={scene === 'matrix' ? 'is-current' : ''}>03 USE CASES</span>
+          <span className={scene === 'pipeline' ? 'is-current' : ''}>04 DELIVERY</span>
+          <span className={scene === 'dossier' ? 'is-current' : ''}>05 PROOF</span>
         </div>
 
         <section ref={heroRef} className="nori-scene nori-scene--hero" style={sceneStyle('hero')} aria-hidden={scene !== 'hero'}>
@@ -731,26 +715,13 @@ function DesktopExperience({
         </div>
 
         <section ref={matrixRef} className="nori-scene nori-scene--matrix" style={sceneStyle('matrix')} aria-hidden={scene !== 'matrix'}>
-          <div className="nori-matrix__intro">
-            <p className="nori-kicker">THE NEO GENTS MATRIX</p>
-            <h2>One root agent. Clear lanes.</h2>
-            <p>Nori does not blur every task into one black box. It identifies the job, then holds the boundaries around it.</p>
-          </div>
-          <div className="nori-matrix__grid">
-            {agentLanes.map((lane) => (
-              <article key={lane.code}>
-                <span>{lane.code}</span>
-                <h3>{lane.name}</h3>
-                <p>{lane.detail}</p>
-              </article>
-            ))}
-          </div>
+          <SolutionUseCases />
         </section>
 
         <section ref={pipelineRef} className="nori-scene nori-scene--pipeline" style={sceneStyle('pipeline')} aria-hidden={scene !== 'pipeline'}>
-          <Pipeline mode={mode} />
+          <DeliveryPath />
           <div className="nori-scene--pipeline__actions">
-            <Link className="nori-command-button" to="/waitlist?profile=nori">Request your Build Map <span aria-hidden="true">-&gt;</span></Link>
+            <Link className="nori-command-button" to="/waitlist?profile=nori">Request your clarity map <span aria-hidden="true">-&gt;</span></Link>
             <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
           </div>
         </section>
@@ -781,21 +752,23 @@ function FlowHero() {
 }
 
 function FlowExperience({
-  mode,
   prompt,
   setPrompt,
   previewVisible,
   onPreview,
-}: Omit<BuildMapPanelProps, 'compact'> & { mode: SystemMode }) {
+}: Omit<BuildMapPanelProps, 'compact'>) {
   return (
     <main className="nori-flow">
       <FlowHero />
       <BuildMapPanel compact prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
+      <section className="nori-flow__section">
+        <SolutionUseCases />
+      </section>
       <NoriSystemDossier />
       <section className="nori-flow__section">
-        <Pipeline mode={mode} />
+        <DeliveryPath />
         <div className="nori-flow__actions">
-          <Link className="nori-command-button" to="/waitlist?profile=nori">Request your Build Map <span aria-hidden="true">-&gt;</span></Link>
+          <Link className="nori-command-button" to="/waitlist?profile=nori">Request your clarity map <span aria-hidden="true">-&gt;</span></Link>
           <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
         </div>
       </section>
@@ -806,7 +779,6 @@ function FlowExperience({
 export default function NoriCinematicPage() {
   const compact = useCompactLayout()
   const reducedMotion = useReducedMotionPreference()
-  const [mode] = useState<SystemMode>('growth')
   const [prompt, setPrompt] = useState('')
   const [previewVisible, setPreviewVisible] = useState(false)
   const immersive = !compact && !reducedMotion
@@ -819,7 +791,6 @@ export default function NoriCinematicPage() {
     <div className="nori-cinematic">
       {immersive ? (
         <DesktopExperience
-          mode={mode}
           prompt={prompt}
           setPrompt={updatePrompt}
           previewVisible={previewVisible}
@@ -827,7 +798,6 @@ export default function NoriCinematicPage() {
         />
       ) : (
         <FlowExperience
-          mode={mode}
           prompt={prompt}
           setPrompt={updatePrompt}
           previewVisible={previewVisible}
