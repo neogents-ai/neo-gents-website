@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroMascot3D from '../components/three/HeroMascot3D'
+import { noriHero } from '../data/noriPositioning'
 import './NoriCinematicPage.css'
 
 type SystemMode = 'growth' | 'creator'
@@ -221,12 +222,10 @@ function useReducedMotionPreference() {
   return reducedMotion
 }
 
-const heroHeadline = 'Turn your bottleneck into an agent system.'
-
 function SplitHeroHeadline() {
   return (
-    <h1 aria-label={heroHeadline}>
-      {heroHeadline.split(' ').map((word, wordIndex) => (
+    <h1 aria-label={noriHero.headline}>
+      {noriHero.headline.split(' ').map((word, wordIndex) => (
         <span className="nori-hero__word" aria-hidden="true" key={`${word}-${wordIndex}`}>
           {Array.from(word).map((letter, letterIndex) => (
             <span className="nori-hero__letter" key={`${letter}-${letterIndex}`}>{letter}</span>
@@ -559,6 +558,7 @@ function DesktopExperience({
   const matrixRef = useRef<HTMLElement>(null)
   const pipelineRef = useRef<HTMLElement>(null)
   const dossierRef = useRef<HTMLElement>(null)
+  const scrollToMap = () => window.scrollBy({ top: window.innerHeight * 1.1, behavior: 'smooth' })
 
   useLayoutEffect(() => {
     const track = trackRef.current
@@ -709,16 +709,16 @@ function DesktopExperience({
 
         <section ref={heroRef} className="nori-scene nori-scene--hero" style={sceneStyle('hero')} aria-hidden={scene !== 'hero'}>
           <div className="nori-hero__copy">
-            <p className="nori-kicker">N.O.R.I. / AI OPERATING SYSTEM</p>
+            <p className="nori-kicker">{noriHero.kicker}</p>
             <SplitHeroHeadline />
-            <p className="nori-hero__lede">For businesses and creators: Nori maps the work, recommends the right agent lane, and gives you a human-approved system plan to install.</p>
-            <div className="nori-offer-path" aria-label="Nori Build Map delivery path">
-              <span><b>01</b> Map the bottleneck</span>
-              <span><b>02</b> Review the system</span>
-              <span><b>03</b> Approve the install</span>
+            <p className="nori-hero__lede">{noriHero.lede}</p>
+            <div className="nori-offer-path" aria-label="How Nori turns confusion into a solution">
+              {noriHero.steps.map((step, index) => (
+                <span key={step}><b>{String(index + 1).padStart(2, '0')}</b>{step}</span>
+              ))}
             </div>
-            <button className="nori-command-button" type="button" onClick={() => window.scrollBy({ top: window.innerHeight * 1.1, behavior: 'smooth' })}>
-              Build your system <span aria-hidden="true">-&gt;</span>
+            <button className="nori-command-button" type="button" onClick={scrollToMap}>
+              {noriHero.cta} <span aria-hidden="true">-&gt;</span>
             </button>
           </div>
           <div className="nori-hero__mascot-wrap">
@@ -766,6 +766,22 @@ function DesktopExperience({
   )
 }
 
+function FlowHero() {
+  return (
+    <section className="nori-flow__hero">
+      <p className="nori-kicker">{noriHero.kicker}</p>
+      <h1>{noriHero.headline}</h1>
+      <p>{noriHero.lede}</p>
+      <div className="nori-offer-path" aria-label="How Nori turns confusion into a solution">
+        {noriHero.steps.map((step, index) => (
+          <span key={step}><b>{String(index + 1).padStart(2, '0')}</b>{step}</span>
+        ))}
+      </div>
+      <img src="/nori-full.png" alt="Nori, the NEO Gents guide to practical AI" />
+    </section>
+  )
+}
+
 function FlowExperience({
   mode,
   setMode,
@@ -776,17 +792,7 @@ function FlowExperience({
 }: Omit<BuildMapPanelProps, 'compact'>) {
   return (
     <main className="nori-flow">
-      <section className="nori-flow__hero">
-        <p className="nori-kicker">N.O.R.I. / AI OPERATING SYSTEM</p>
-        <h1>Turn your bottleneck into an agent system.</h1>
-        <p>For businesses and creators: Nori maps the work, recommends the right agent lane, and gives you a human-approved system plan to install.</p>
-        <div className="nori-offer-path" aria-label="Nori Build Map delivery path">
-          <span><b>01</b> Map the bottleneck</span>
-          <span><b>02</b> Review the system</span>
-          <span><b>03</b> Approve the install</span>
-        </div>
-        <img src="/nori-full.png" alt="Nori, the NEO Gents root agent" />
-      </section>
+      <FlowHero />
       <BuildMapPanel compact mode={mode} setMode={setMode} prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
       <NoriSystemDossier />
       <section className="nori-flow__section">

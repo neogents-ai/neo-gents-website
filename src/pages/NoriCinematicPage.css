@@ -159,12 +159,12 @@
 
 .nori-scene--hero { grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1.2fr); gap: 3rem; }
 
-.nori-hero__copy { max-width: 37rem; position: relative; z-index: 2; }
-.nori-hero__copy h1, .nori-flow__hero h1 { font-family: var(--nori-display); font-size: clamp(3.1rem, 6vw, 6.5rem); font-weight: 700; letter-spacing: 0; line-height: 0.96; margin: 1.15rem 0 1.35rem; max-width: 10ch; }
+.nori-hero__copy { max-width: 34rem; position: relative; z-index: 2; }
+.nori-hero__copy h1, .nori-flow__hero h1 { font-family: var(--nori-display); font-size: clamp(2.8rem, 3.35vw, 3.5rem); font-weight: 700; letter-spacing: 0; line-height: 0.96; margin: 0.9rem 0 1rem; max-width: 10ch; }
 .nori-hero__word { display: inline-block; margin-right: 0.24em; white-space: nowrap; }
 .nori-hero__word:last-child { margin-right: 0; }
 .nori-hero__letter { display: inline-block; transform: translate3d(0, 0, 0); will-change: transform, opacity; }
-.nori-hero__lede, .nori-flow__hero > p:not(.nori-kicker) { color: var(--nori-muted); font-size: clamp(1rem, 1.45vw, 1.3rem); line-height: 1.6; margin-bottom: 2rem; max-width: 37rem; }
+.nori-hero__lede, .nori-flow__hero > p:not(.nori-kicker) { color: var(--nori-muted); font-size: clamp(0.96rem, 1.2vw, 1.1rem); line-height: 1.5; margin-bottom: 1.3rem; max-width: 34rem; }
 .nori-offer-path { border-left: 1px solid rgba(212, 175, 55, 0.65); display: flex; flex-wrap: wrap; gap: 0.45rem 1rem; margin: -0.55rem 0 1.7rem; padding: 0.1rem 0 0.1rem 0.8rem; }
 .nori-offer-path span { color: var(--nori-muted); font-size: 0.76rem; white-space: nowrap; }
 .nori-offer-path b { color: var(--nori-gold); font-family: var(--nori-utility); font-size: 0.64rem; margin-right: 0.45rem; }
@@ -340,8 +340,8 @@
 @media (min-width: 900px) and (max-width: 1100px) {
   .nori-scene { padding: 7rem 4.5rem 1.25rem; }
   .nori-scene--hero { gap: 1.5rem; grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr); }
-  .nori-hero__copy h1 { font-size: clamp(3rem, 5.2vw, 3.45rem); margin: 0.75rem 0 0.9rem; max-width: 11ch; }
-  .nori-hero__lede { font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.15rem; }
+  .nori-hero__copy h1 { font-size: clamp(2.45rem, 4.05vw, 2.75rem); margin: 0.65rem 0 0.75rem; max-width: 10ch; }
+  .nori-hero__lede { font-size: 0.82rem; line-height: 1.4; margin-bottom: 0.85rem; }
   .nori-offer-path { gap: 0.3rem 0.65rem; margin: -0.15rem 0 1rem; }
   .nori-offer-path span { font-size: 0.66rem; }
   .nori-hero__mascot-wrap, .nori-hero__mascot { min-height: 27rem; }
