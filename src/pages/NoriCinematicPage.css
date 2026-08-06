@@ -273,7 +273,7 @@
 .nori-dossier__intro { align-items: end; display: grid; gap: 2rem; grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.1fr); padding-bottom: 1.35rem; }
 .nori-dossier__intro h2 { font-family: var(--nori-display); font-size: clamp(1.8rem, 3.2vw, 3.2rem); font-weight: 700; line-height: 1.02; margin-top: 0.55rem; max-width: 16ch; }
 .nori-dossier__intro > p:last-child { color: var(--nori-muted); font-size: 0.9rem; line-height: 1.55; max-width: 40rem; }
-.nori-dossier__chapters { border-bottom: 1px solid rgba(230, 232, 232, 0.18); border-top: 1px solid rgba(230, 232, 232, 0.18); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.nori-dossier__chapters { border-bottom: 1px solid rgba(230, 232, 232, 0.18); border-top: 1px solid rgba(230, 232, 232, 0.18); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .nori-dossier__chapters button { background: transparent; border: 0; border-right: 1px solid rgba(230, 232, 232, 0.1); color: var(--nori-muted); cursor: pointer; font-size: 0.76rem; min-height: 3.25rem; padding: 0.65rem 0.8rem; text-align: left; }
 .nori-dossier__chapters button:last-child { border-right: 0; }
 .nori-dossier__chapters button span { color: rgba(230, 232, 232, 0.35); display: block; font-family: var(--nori-utility); font-size: 0.56rem; margin-bottom: 0.2rem; }
@@ -289,6 +289,14 @@
 .nori-dossier__sequence span, .nori-approval-path li span { color: var(--nori-green); font-family: var(--nori-utility); font-size: 0.6rem; }
 .nori-dossier__sequence strong { display: block; font-family: var(--nori-display); font-size: 0.92rem; margin: 0.65rem 0 0.35rem; }
 .nori-dossier__sequence p { color: var(--nori-muted); font-size: 0.76rem; line-height: 1.45; }
+.nori-comparison { align-items: start; display: grid; gap: 3rem; grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr); padding: 1rem 0.5rem 0; position: relative; z-index: 1; }
+.nori-comparison h3 { font-family: var(--nori-display); font-size: clamp(1.55rem, 2.6vw, 2.6rem); line-height: 1.12; margin: 0.75rem 0; max-width: 18ch; }
+.nori-comparison > div > p:not(.nori-kicker) { color: var(--nori-muted); line-height: 1.6; max-width: 32rem; }
+.nori-comparison__note { border-left: 1px solid var(--nori-gold); font-size: 0.76rem; margin-top: 1rem; padding-left: 0.75rem; }
+.nori-comparison dl { display: grid; gap: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nori-comparison dl > div { border-top: 1px solid rgba(230, 232, 232, 0.14); padding: 0.85rem 1rem 0.85rem 0; }
+.nori-comparison dt { color: var(--nori-gold); font-family: var(--nori-utility); font-size: 0.58rem; letter-spacing: 0.08em; margin-bottom: 0.45rem; text-transform: uppercase; }
+.nori-comparison dd { color: var(--nori-muted); font-size: 0.76rem; line-height: 1.45; margin: 0; max-width: 17rem; }
 .nori-feature-overview { position: relative; z-index: 1; }
 .nori-feature-overview__intro { align-items: end; display: grid; gap: 2rem; grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr); margin-bottom: 1.2rem; padding-right: 7rem; }
 .nori-feature-overview__intro h3, .nori-agent-roster__intro h3 { font-family: var(--nori-display); font-size: clamp(1.45rem, 2.4vw, 2.4rem); line-height: 1.08; margin-top: 0.55rem; }
@@ -363,7 +371,7 @@
   .nori-build-map__actions { align-items: flex-start; flex-direction: column; }
   .nori-build-map__actions .nori-command-button { width: 100%; justify-content: center; }
   .nori-library__grid { grid-template-columns: 1fr; }
-  .nori-dossier__intro, .nori-dossier__identity, .nori-dossier__sequence, .nori-feature-overview__intro, .nori-feature-group, .nori-skill-network, .nori-agent-roster__intro, .nori-agent-panel, .nori-approval-path { grid-template-columns: 1fr; }
+  .nori-dossier__intro, .nori-dossier__identity, .nori-dossier__sequence, .nori-comparison, .nori-feature-overview__intro, .nori-feature-group, .nori-skill-network, .nori-agent-roster__intro, .nori-agent-panel, .nori-approval-path { grid-template-columns: 1fr; }
   .nori-dossier__chapters { display: flex; overflow-x: auto; }
   .nori-dossier__chapters button { flex: 0 0 8rem; }
   .nori-dossier__identity { gap: 2rem; }
@@ -375,7 +383,7 @@
 @media (max-width: 560px) {
   .nori-flow { padding-inline: 1rem; }
   .nori-flow__hero h1 { font-size: clamp(2.6rem, 14vw, 4rem); }
-  .nori-flow .nori-pipeline ol, .nori-matrix__grid, .nori-feature-grid, .nori-skill-network ul, .nori-agent-panel ul { grid-template-columns: 1fr; }
+  .nori-flow .nori-pipeline ol, .nori-matrix__grid, .nori-comparison dl, .nori-feature-grid, .nori-skill-network ul, .nori-agent-panel ul { grid-template-columns: 1fr; }
   .nori-dossier__folio { display: none; }
   .nori-feature-switcher { margin-inline: -0.25rem; }
   .nori-feature-switcher button { padding-inline: 0.7rem; }

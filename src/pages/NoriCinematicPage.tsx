@@ -8,7 +8,7 @@ import './NoriCinematicPage.css'
 
 type Scene = 'hero' | 'map' | 'matrix' | 'pipeline' | 'dossier'
 type AgentDepartmentId = 'sales' | 'ops' | 'content' | 'research' | 'support' | 'creators' | 'finance'
-type DossierChapterId = 'identity' | 'features' | 'network' | 'agents' | 'guardrails'
+type DossierChapterId = 'comparison' | 'identity' | 'features' | 'network' | 'agents' | 'guardrails'
 
 const systemCapabilities = [
   { label: 'Business Strategy', owner: 'NORI', detail: 'Revenue operations, priorities, decisions, and cross-functional routing.' },
@@ -151,6 +151,7 @@ const agentDepartments: Array<{
 const approvalStages = ['Clarify the job', 'Draft the agent', 'Review the build', 'Approve deployment']
 
 const dossierChapters: Array<{ id: DossierChapterId; label: string }> = [
+  { id: 'comparison', label: 'Nori vs Hermes' },
   { id: 'identity', label: 'Identity' },
   { id: 'features', label: 'Capabilities' },
   { id: 'network', label: 'Skill network' },
@@ -426,7 +427,7 @@ function NoriAgentRoster() {
 }
 
 function NoriSystemDossier() {
-  const [activeChapter, setActiveChapter] = useState<DossierChapterId>('identity')
+  const [activeChapter, setActiveChapter] = useState<DossierChapterId>('comparison')
   const activeChapterIndex = dossierChapters.findIndex((chapter) => chapter.id === activeChapter)
 
   return (
@@ -462,7 +463,24 @@ function NoriSystemDossier() {
         id={`nori-dossier-panel-${activeChapter}`}
         role="tabpanel"
       >
-        <span className="nori-dossier__folio" aria-hidden="true">{String(activeChapterIndex + 1).padStart(2, '0')} / 05</span>
+        <span className="nori-dossier__folio" aria-hidden="true">{String(activeChapterIndex + 1).padStart(2, '0')} / 06</span>
+
+        {activeChapter === 'comparison' && (
+          <section className="nori-comparison" aria-labelledby="nori-comparison-heading">
+            <div>
+              <p className="nori-kicker">NORI VS HERMES</p>
+              <h3 id="nori-comparison-heading">Not just an agent. A business operating partner.</h3>
+              <p>Hermes is a powerful general autonomous-agent platform. Nori is built for business owners who need a system designed around their workflow, installed after approval, and maintained by NEO Gents.</p>
+              <p className="nori-comparison__note">Nori Runtime is being built to cover the same core capability families: skills, memory, models, tools, automation, browser and media, and integrations. Availability is verified per approved client deployment.</p>
+            </div>
+            <dl>
+              <div><dt>Starting point</dt><dd>Hermes starts with a general agent platform. Nori starts with one business problem and an approved operating plan.</dd></div>
+              <div><dt>Who stays with the work</dt><dd>NEO Gents installs, monitors, updates, and maintains the client-specific Nori runtime.</dd></div>
+              <div><dt>Control</dt><dd>The client approves the plan, provider access, budget, agent changes, and consequential external actions.</dd></div>
+              <div><dt>How you begin</dt><dd>Start with a managed Nori runtime or a single approved agent, then grow into the operating system when ready.</dd></div>
+            </dl>
+          </section>
+        )}
 
         {activeChapter === 'identity' && (
           <div className="nori-dossier__identity">
