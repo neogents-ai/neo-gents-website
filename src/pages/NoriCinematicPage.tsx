@@ -433,10 +433,10 @@ function NoriSystemDossier() {
     <section className="nori-dossier" aria-labelledby="nori-dossier-heading">
       <header className="nori-dossier__intro">
         <div>
-          <p className="nori-kicker">NORI OPERATING FILE / 05</p>
-          <h2 id="nori-dossier-heading">What she is. What she can build.</h2>
+          <p className="nori-kicker">HOW NORI DELIVERS / TECHNICAL PROOF</p>
+          <h2 id="nori-dossier-heading">The system behind the solution.</h2>
         </div>
-        <p>Nori's complete operating model, condensed into one inspectable file. Select a chapter to see the underlying capability, ownership, roster, or approval boundary.</p>
+        <p>Use cases come first. This file shows the skills, specialists, memory, controls, and approval boundaries Nori can use to design the work responsibly.</p>
       </header>
       <div className="nori-dossier__chapters" role="tablist" aria-label="Nori operating file chapters">
         {dossierChapters.map((chapter, index) => (
@@ -467,9 +467,9 @@ function NoriSystemDossier() {
         {activeChapter === 'identity' && (
           <div className="nori-dossier__identity">
             <div>
-              <p className="nori-kicker">ROOT INTELLIGENCE</p>
-              <h3>N.O.R.I. means NEO Optimization &amp; Revenue Infrastructure.</h3>
-              <p>She listens to the bottleneck, audits the moving parts, and routes the next strategic move without pretending one agent should own every job.</p>
+              <p className="nori-kicker">CLEAR ROLES</p>
+              <h3>Nori designs. NEO Gents installs. You approve.</h3>
+              <p>Nori listens to one confusing process, maps the connected work, and recommends a practical solution without pretending one agent should own every job.</p>
             </div>
             <ol className="nori-dossier__sequence" aria-label="Nori's internal operating sequence">
               <li><span>01</span><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
@@ -761,10 +761,9 @@ function FlowExperience({
     <main className="nori-flow">
       <FlowHero />
       <BuildMapPanel compact prompt={prompt} setPrompt={setPrompt} previewVisible={previewVisible} onPreview={onPreview} />
-      <section className="nori-flow__section">
+      <section className="nori-flow__section nori-flow__use-cases">
         <SolutionUseCases />
       </section>
-      <NoriSystemDossier />
       <section className="nori-flow__section">
         <DeliveryPath />
         <div className="nori-flow__actions">
@@ -772,6 +771,7 @@ function FlowExperience({
           <a className="nori-link-button" href="https://neogents.tech">Open Command Center <span aria-hidden="true">-&gt;</span></a>
         </div>
       </section>
+      <NoriSystemDossier />
     </main>
   )
 }
