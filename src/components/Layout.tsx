@@ -26,9 +26,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Link to="/" className="flex items-center gap-3 group">
             {isSoulFoodSushiPage ? (
               <img
-                src="/soulfood-sushi-logo.png"
+                src="/soulfood-sushi-logo.png?v=2"
                 alt="SoulFood Sushi"
-                className="h-20 w-auto object-contain -ml-1"
+                className="h-28 w-auto object-contain -ml-1"
               />
             ) : (
               <>
