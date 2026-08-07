@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo — per-page branding */}
-          <Link to="/" className="flex items-center gap-3 group" style={{ color: '#C9A962' }}>
+          <Link to="/" className="flex items-center gap-3 group">
             {isSoulFoodSushiPage ? (
               <img
                 src="/soulfood-sushi-logo.png?v=3"
@@ -32,16 +32,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               />
             ) : (
               <>
-                <div
-                  className="w-8 h-8 flex items-center justify-center transition-colors duration-300"
-                  style={{ border: '1px solid rgba(201,169,98,0.6)', transform: 'rotate(45deg)' }}
-                >
-                  <div className="w-3 h-3" style={{ backgroundColor: '#C9A962' }} />
+                <div className="w-8 h-8 border border-gold/60 rotate-45 flex items-center justify-center group-hover:border-gold transition-colors duration-300">
+                  <div className="w-3 h-3 bg-gold rotate-0" />
                 </div>
-                <span
-                  className="font-display font-700 text-sm tracking-[0.2em] uppercase"
-                  style={{ color: '#C9A962' }}
-                >
+                <span className="font-display font-700 text-sm tracking-[0.2em] uppercase text-gold">
                   NEO GENTS
                 </span>
               </>
