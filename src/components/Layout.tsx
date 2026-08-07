@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <img
                 src="/soulfood-sushi-logo.png"
                 alt="SoulFood Sushi"
-                className="h-14 w-auto object-contain -ml-1"
+                className="h-20 w-auto object-contain -ml-1"
               />
             ) : (
               <>
