@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HeroMascot3D from '../components/three/HeroMascot3D'
-import { buildMapExamples, deliveryPath, leadGenerationExample, noriHero, solutionUseCases } from '../data/noriPositioning'
+import { buildMapExamples, clientCaseStudies, deliveryPath, leadGenerationExample, noriHero, solutionUseCases } from '../data/noriPositioning'
+import { noriSceneLabels, noriSceneOrder, type NoriScene } from './nori/sceneRegistry'
 import './NoriCinematicPage.css'
 
-type Scene = 'hero' | 'map' | 'matrix' | 'pipeline' | 'dossier'
+type Scene = NoriScene
 type AgentDepartmentId = 'sales' | 'ops' | 'content' | 'research' | 'support' | 'creators' | 'finance'
 type DossierChapterId = 'comparison' | 'identity' | 'features' | 'network' | 'agents' | 'guardrails'
 
 const systemCapabilities = [
   { label: 'Business Strategy', owner: 'NORI', detail: 'Revenue operations, priorities, decisions, and cross-functional routing.' },
   { label: 'Research & Intelligence', owner: 'ARIA', detail: 'Evidence gathering, market signals, and source-grounded briefs.' },
-  { label: 'Content & Distribution', owner: 'TRINITY / REMI', detail: 'Content systems, creative direction, publishing, and workflow triggers.' },
+  { label: 'Content & Distribution', owner: 'REMI', detail: 'Content systems, creative direction, publishing, and workflow triggers.' },
   { label: 'Agent & System Design', owner: 'SOLITH', detail: 'Agent architecture, product builds, integrations, and technical execution.' },
   { label: 'Security & Governance', owner: 'CISO', detail: 'Permissions, safe defaults, review, and security escalation.' },
   { label: 'Production & Delivery', owner: 'NEO PRODUCTION', detail: 'Approved media production, delivery assets, and production handoffs.' },
@@ -27,14 +28,15 @@ const featureGroups = [
       { title: 'Root-agent routing', detail: 'Nori receives the business request, identifies the owner, and keeps one lane accountable for the result.', status: 'SDK DEFINED' },
       { title: 'Progressive skill loading', detail: 'A mapped network of 242 skills can be loaded by job instead of crowding every request with every instruction.', status: 'SDK DEFINED' },
       { title: 'Agent registry', detail: 'Specialists carry an ID, role, prompt, workflow, parameters, and assigned skills so the workforce stays inspectable.', status: 'SDK DEFINED' },
-      { title: 'Model routing', detail: 'Complex agent design and lighter operational work can be assigned to different approved model tiers.', status: 'RUNTIME HOOK' },
+      { title: 'Research proposals', detail: 'When a specialist needs current information or a repeated gap needs study, Nori can propose a research agent, explain its job and access, and wait for approval before creating it.', status: 'APPROVAL GATED' },
+      { title: 'Improvement proposals', detail: 'When Nori sees a repeat problem, it explains why a new skill, agent, or change could help and asks before it creates or activates anything.', status: 'APPROVAL GATED' },
     ],
   },
   {
     label: 'Orchestration',
     description: 'How Nori turns one request into a coordinated, reviewable operating flow.',
     features: [
-      { title: 'Specialist delegation', detail: 'Nori breaks the job into bounded assignments and briefs the right sales, operations, research, content, or security specialist.', status: 'SDK DEFINED' },
+      { title: 'Multi-specialist delegation', detail: 'Nori acts as the seed agent: it maps the job, proposes the right specialists and skills, then coordinates the approved work across sales, operations, research, content, and security lanes.', status: 'SDK DEFINED' },
       { title: 'Triggered work sessions', detail: 'The runtime plan supports deliberate wake events from the dashboard, a message, or a system check-in.', status: 'RUNTIME HOOK' },
       { title: 'Morning business brief', detail: 'A daily brief can combine agent errors, handoff failures, activity, service health, and recommended next moves.', status: 'RUNTIME HOOK' },
       { title: 'Fleet monitoring', detail: 'Nori watches for repeated tool errors, lane violations, failed handoffs, drift, and service-health anomalies.', status: 'SDK DEFINED' },
@@ -51,23 +53,33 @@ const featureGroups = [
     ],
   },
   {
-    label: 'Connections',
-    description: 'Nori connects to business systems through narrow interfaces rather than uncontrolled access.',
+    label: 'Models & routing',
+    description: 'Choose an approved model provider, then let Nori route each job to the right capability and cost tier.',
     features: [
-      { title: 'MCP tool layer', detail: 'Defined tools can list agents, read prompts, inspect performance, log bugs, and raise alerts through authenticated interfaces.', status: 'INTEGRATION' },
-      { title: 'Command Center', detail: 'The dashboard is the operator surface for briefs, approvals, health, agent status, and the next recommended move.', status: 'RUNTIME HOOK' },
-      { title: 'Database-backed records', detail: 'Agent proposals, runs, messages, handoffs, reports, and approval queues have defined storage contracts.', status: 'INTEGRATION' },
-      { title: 'Provider flexibility', detail: 'The runtime design separates the Nori identity from the approved model provider used for a particular job.', status: 'RUNTIME HOOK' },
+      { title: 'Task-aware model routing', detail: 'Nori is designed to select the least expensive capable approved model for the job instead of sending every request to the largest model.', status: 'RUNTIME REQUIRED' },
+      { title: 'Provider choice', detail: 'An installed runtime can be configured around approved OpenAI, Claude, Google, or Kimi model options and provider policy.', status: 'RUNTIME REQUIRED' },
+      { title: 'Client key or managed usage', detail: 'The planned product supports a client-owned provider key or NEO Gents-managed usage, each with an explicit spend policy.', status: 'RUNTIME REQUIRED' },
+      { title: 'Rate and spend protection', detail: 'Per-client budgets, rate limits, approved fallback chains, and usage audit records are required before a provider key is enabled.', status: 'RUNTIME REQUIRED' },
     ],
   },
   {
-    label: 'Control & safety',
+    label: 'Control',
     description: 'Nori can prepare and stage work. External action stays under explicit operator control.',
     features: [
       { title: 'Four-stage approval gate', detail: 'Every new or modified agent moves through Draft, Build, Deploy, and Live checkpoints.', status: 'APPROVAL GATED' },
       { title: 'Lane enforcement', detail: 'Sales sells, fulfillment delivers, operations coordinates, security governs, and content stays in its assigned scope.', status: 'APPROVAL GATED' },
       { title: 'Backups & rollback', detail: 'Prompt changes are designed to create backups and support rollback before a replacement becomes final.', status: 'SDK DEFINED' },
-      { title: 'CISO escalation', detail: 'Secrets, permissions, public actions, payments, legal work, and deployment risks route through the required review lane.', status: 'APPROVAL GATED' },
+      { title: 'Consequential-action review', detail: 'Sending, publishing, charging, deploying, deleting, credential changes, and sensitive-data work remain approval-gated.', status: 'APPROVAL GATED' },
+    ],
+  },
+  {
+    label: 'Security & privacy',
+    description: 'NEO Gents operates the security work around the client-specific system, so the client is not expected to become the IT, cloud, IAM, or AI-security team.',
+    features: [
+      { title: 'Signed tool gateway', detail: 'The existing control plane uses HMAC request signing, timestamp freshness, replay protection, and typed tool allow-lists.', status: 'CURRENT SAFEGUARD' },
+      { title: 'Secret and audit hygiene', detail: 'Secret-like values are redacted from audit records; client runtime credentials require server-side storage and scoped access before release.', status: 'CURRENT + RUNTIME GATE' },
+      { title: 'CISO runtime coverage', detail: 'Nori is backed by a CISO-led security team spanning cloud, DevOps, IAM, network, application, AI-runtime monitoring, tool auditing, credential review, and incident reconstruction.', status: 'OPERATIONS MODEL' },
+      { title: 'Standards and data scope', detail: 'NIST CSF, CIS Controls, OWASP, least privilege, PII minimization, and approval-led data handling shape the control plan. Formal certification is not claimed.', status: 'SECURITY PROGRAM' },
     ],
   },
 ]
@@ -148,16 +160,55 @@ const agentDepartments: Array<{
   },
 ]
 
-const approvalStages = ['Clarify the job', 'Draft the agent', 'Review the build', 'Approve deployment']
+const guardrailGroups = [
+  { label: 'Human approval', detail: 'Nori can explain and draft a plan, but a person approves the scope, access, budget, agent changes, and consequential actions.' },
+  { label: 'Security boundaries', detail: 'Approved tools, scoped permissions, credential handling, audit records, and operational escalation limit what a client system can do.' },
+  { label: 'Prompt boundaries', detail: 'Instructions found in files, websites, or messages are treated as untrusted content. Nori does not let them override the client-approved plan.' },
+  { label: 'Intelligence boundaries', detail: 'Nori separates evidence from recommendations, explains uncertainty, and asks before creating, changing, or activating a skill or agent.' },
+]
 
 const dossierChapters: Array<{ id: DossierChapterId; label: string }> = [
   { id: 'comparison', label: 'Nori vs Hermes' },
   { id: 'identity', label: 'Identity' },
   { id: 'features', label: 'Capabilities' },
-  { id: 'network', label: 'Skill network' },
+  { id: 'network', label: 'Skills matrix' },
   { id: 'agents', label: 'Agent roster' },
   { id: 'guardrails', label: 'Guardrails' },
 ]
+
+function getClarityDirection(prompt: string) {
+  const normalized = prompt.toLowerCase()
+
+  if (/(content|post|publish|video|social|caption)/.test(normalized)) {
+    return {
+      focus: 'Content path',
+      detail: 'Start with the point where an idea turns into a draft, review, and published work. We will identify what keeps content from moving forward and what should stay in your hands.',
+      checkpoint: 'Bring the platforms, approval steps, and the part of publishing that feels hardest to repeat.',
+    }
+  }
+
+  if (/(customer|lead|sale|sales|marketing|follow.?up|booking|book)/.test(normalized)) {
+    return {
+      focus: 'Customer path',
+      detail: 'Start with how someone finds you, gets a response, and becomes a booking or sale. We will identify the handoff where interest is getting lost.',
+      checkpoint: 'Bring the way people contact you today and what happens after the first message or inquiry.',
+    }
+  }
+
+  if (/(repeat|admin|schedule|invoic|manual|spreadsheet|organize)/.test(normalized)) {
+    return {
+      focus: 'Repeat-work path',
+      detail: 'Start with the work you repeat and the handoffs around it. We will separate the steps that need your judgment from the steps that can become a clear routine.',
+      checkpoint: 'Bring one real example of the work and the places where you copy, re-enter, or chase information.',
+    }
+  }
+
+  return {
+    focus: 'Work path',
+    detail: 'Start with how this work begins, moves between people or tools, and gets checked. We will locate the unclear step before recommending any system.',
+    checkpoint: 'Bring one recent example and the outcome you want instead.',
+  }
+}
 
 function useCompactLayout() {
   const [compact, setCompact] = useState(false)
@@ -219,26 +270,51 @@ function BuildMapPanel({
   onPreview,
   compact = false,
 }: BuildMapPanelProps) {
+  const [promptError, setPromptError] = useState(false)
+  const clarityDirection = getClarityDirection(prompt)
+  const claritySessionUrl = `/waitlist?profile=nori&source=nori-clarity-map&bottleneck=${encodeURIComponent(prompt)}`
+
+  const handlePreview = () => {
+    if (!prompt.trim()) {
+      setPromptError(true)
+      return
+    }
+    setPromptError(false)
+    onPreview()
+  }
+
   return (
     <section className={`nori-build-map ${compact ? 'nori-build-map--compact' : ''}`} aria-labelledby="build-map-heading">
       <div className="nori-build-map__topline">
-        <span className="nori-kicker">BUILD MAP / LOCAL PREVIEW</span>
-        <span className="nori-build-map__status">NO DATA SENT</span>
+        <span className="nori-kicker">FREE NORI CLARITY MAP</span>
+        <span className="nori-build-map__status">NOTHING SENT YET</span>
       </div>
       <h2 id="build-map-heading">What part of your business is unclear or not working the way you want?</h2>
-      <div className="nori-example">
-        <p className="nori-kicker">ONE QUESTION / THE CONNECTED WORK</p>
-        <h2>{leadGenerationExample.request}</h2>
-        <p>{leadGenerationExample.explanation}</p>
-        <ol className="nori-example__path" aria-label="Customer acquisition workflow">
-          {leadGenerationExample.stages.map((stage, index) => (
-            <li key={stage}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{stage}</strong>
-            </li>
-          ))}
-        </ol>
-      </div>
+      {previewVisible ? (
+        <section className="nori-preview" aria-live="polite">
+          <div>
+            <span>YOUR INITIAL CLARITY MAP</span>
+            <strong>{clarityDirection.focus}</strong>
+          </div>
+          <p><b>What Nori heard:</b> {prompt}</p>
+          <p>{clarityDirection.detail}</p>
+          <p className="nori-preview__checkpoint"><b>For your free clarity session:</b> {clarityDirection.checkpoint}</p>
+          <Link className="nori-preview__session-link" to={claritySessionUrl}>Request your free clarity session <span aria-hidden="true">-&gt;</span></Link>
+        </section>
+      ) : (
+        <div className="nori-example">
+          <p className="nori-kicker">ONE QUESTION / THE CONNECTED WORK</p>
+          <h2>{leadGenerationExample.request}</h2>
+          <p>{leadGenerationExample.explanation}</p>
+          <ol className="nori-example__path" aria-label="Customer acquisition workflow">
+            {leadGenerationExample.stages.map((stage) => (
+              <li key={stage}>
+                <strong>{stage}</strong>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
       <label className="nori-build-map__label" htmlFor={compact ? 'nori-goal-compact' : 'nori-goal'}>
         Describe one problem in plain language.
       </label>
@@ -250,69 +326,189 @@ function BuildMapPanel({
       <textarea
         id={compact ? 'nori-goal-compact' : 'nori-goal'}
         value={prompt}
-        onChange={(event) => setPrompt(event.target.value.slice(0, 420))}
+        onChange={(event) => {
+          setPromptError(false)
+          setPrompt(event.target.value.slice(0, 420))
+        }}
         placeholder="Example: I need more customers."
         maxLength={420}
         rows={compact ? 4 : 3}
       />
       <div className="nori-build-map__actions">
-        <p>Use non-confidential details only. Nothing is sent or analyzed by AI in this preview.</p>
-        <button className="nori-command-button" type="button" onClick={onPreview}>
-          Generate example map <span aria-hidden="true">-&gt;</span>
+        <p>Use non-confidential details only. You will review the initial map before requesting a free clarity session.</p>
+        <button className="nori-command-button" type="button" onClick={handlePreview}>
+          {previewVisible ? 'Update my clarity map' : 'Build my free clarity map'} <span aria-hidden="true">-&gt;</span>
         </button>
       </div>
-      {previewVisible && (
-        <div className="nori-preview" role="status">
-          <div>
-            <span>ILLUSTRATIVE CLARITY MAP</span>
-            <strong>Start by locating the unclear step.</strong>
-          </div>
-          <p>This example shows how Nori will structure the question. A live analysis begins only after an approved Nori runtime is connected.</p>
-        </div>
-      )}
+      {promptError && <p className="nori-build-map__error" role="alert">Describe one part of the work first so Nori can build your initial clarity map.</p>}
     </section>
   )
 }
 
 function SolutionUseCases() {
+  const [activeUseCaseId, setActiveUseCaseId] = useState<string | null>(null)
+  const activeUseCase = solutionUseCases.find((useCase) => useCase.id === activeUseCaseId)
+
   return (
     <>
       <div className="nori-matrix__intro">
         <p className="nori-kicker">PRACTICAL AI USE CASES</p>
         <h2>Start with the work, not the technology.</h2>
         <p>Nori connects the confusing part of the business to a solution you can understand and approve.</p>
+        <p className="nori-matrix__example"><em>Example: you keep putting off content because every post feels like starting over. Nori maps a simple path from one idea to draft, review, and publishing before recommending what to automate.</em></p>
       </div>
-      <div className="nori-matrix__grid">
-        {solutionUseCases.map((useCase, index) => (
-          <article key={useCase.id}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <h3>{useCase.label}</h3>
-            <p>{useCase.detail}</p>
-          </article>
-        ))}
+      <div className="nori-matrix__cases" onMouseLeave={() => setActiveUseCaseId(null)}>
+        <div className="nori-matrix__grid">
+          {solutionUseCases.map((useCase) => (
+            <button
+              aria-controls="nori-use-case-detail"
+              aria-expanded={activeUseCaseId === useCase.id}
+              className={activeUseCaseId === useCase.id ? 'is-active' : ''}
+              key={useCase.id}
+              onClick={() => setActiveUseCaseId((current) => current === useCase.id ? null : useCase.id)}
+              onFocus={() => setActiveUseCaseId(useCase.id)}
+              onMouseEnter={() => setActiveUseCaseId(useCase.id)}
+              type="button"
+            >
+              <h3>{useCase.label}</h3>
+            </button>
+          ))}
+        </div>
+        {activeUseCase && (
+          <section className="nori-use-case-detail" id="nori-use-case-detail" aria-live="polite">
+            <p className="nori-kicker">HOW NORI WOULD START</p>
+            <h3>{activeUseCase.label}</h3>
+            <p>{activeUseCase.detail}</p>
+            <p className="nori-use-case-detail__benefit"><span>What this helps:</span>{activeUseCase.benefit}</p>
+          </section>
+        )}
       </div>
+      <ClientProofRail />
     </>
   )
 }
 
-function DeliveryPath() {
+function ClientProofRail() {
+  const [activeClientCaseId, setActiveClientCaseId] = useState(clientCaseStudies[0].id)
+  const activeClientCase = clientCaseStudies.find((caseStudy) => caseStudy.id === activeClientCaseId) ?? clientCaseStudies[0]
+  const activeClientMedia = activeClientCase.detailImage ?? activeClientCase.image
+  const activeClientMediaAlt = activeClientCase.detailImageAlt ?? activeClientCase.imageAlt
+  const clientRailRef = useRef<HTMLDivElement>(null)
+
+  const selectClientCase = (id: string, centerInRail = false) => {
+    setActiveClientCaseId(id)
+    if (centerInRail && clientRailRef.current) {
+      const rail = clientRailRef.current
+      const caseButton = rail.querySelector<HTMLElement>(`[data-case-id="${id}"]`)
+      if (caseButton) {
+        rail.scrollTo({
+          behavior: 'smooth',
+          left: Math.max(0, caseButton.offsetLeft - (rail.clientWidth - caseButton.offsetWidth) / 2),
+        })
+      }
+    }
+  }
+
+  const moveClientCase = (direction: -1 | 1) => {
+    const currentIndex = clientCaseStudies.findIndex((caseStudy) => caseStudy.id === activeClientCaseId)
+    const nextIndex = (currentIndex + direction + clientCaseStudies.length) % clientCaseStudies.length
+    selectClientCase(clientCaseStudies[nextIndex].id, true)
+  }
+
   return (
-    <div className="nori-pipeline" aria-label="From a confusing problem to an installed solution">
+    <section className="nori-client-rail" aria-label="Selected NEO Gents client systems">
+      <header>
+        <div>
+          <p className="nori-kicker">CLIENT PROOF / SELECTED SYSTEMS</p>
+          <p>Built, being built, or actively maintained by NEO Gents. Select a case sleeve for the story behind it.</p>
+        </div>
+      </header>
+      <div className="nori-client-rail__shelf">
+        <div className="nori-client-rail__track" ref={clientRailRef}>
+          {clientCaseStudies.map((caseStudy) => (
+            <button
+              aria-pressed={activeClientCaseId === caseStudy.id}
+              className={activeClientCaseId === caseStudy.id ? 'is-active' : ''}
+              data-case-id={caseStudy.id}
+              key={caseStudy.id}
+              onClick={() => selectClientCase(caseStudy.id, true)}
+              onFocus={() => selectClientCase(caseStudy.id)}
+              onMouseEnter={() => selectClientCase(caseStudy.id)}
+              type="button"
+            >
+              {caseStudy.image ? <img alt="" src={caseStudy.image} /> : <span aria-hidden="true" className="nori-client-rail__wordmark">{caseStudy.label}</span>}
+              <span className="nori-client-rail__label">{caseStudy.label}</span>
+            </button>
+          ))}
+        </div>
+        <div className="nori-client-rail__controls" aria-label="Client case navigation">
+          <button aria-label="Previous client case" onClick={() => moveClientCase(-1)} title="Previous client case" type="button">&lt;-</button>
+          <button aria-label="Next client case" onClick={() => moveClientCase(1)} title="Next client case" type="button">-&gt;</button>
+        </div>
+      </div>
+      <section className={`nori-use-case-detail nori-use-case-detail--client ${activeClientMedia || activeClientCase.detailPlaceholder ? 'has-media' : ''}`} aria-live="polite">
+        <div>
+          <p className="nori-kicker">{activeClientCase.phase}</p>
+          <h3>{activeClientCase.label}</h3>
+          <p>{activeClientCase.detail}</p>
+          <p className="nori-use-case-detail__benefit"><span>What this proves:</span>{activeClientCase.benefit}</p>
+          {activeClientCase.quote && <blockquote>{activeClientCase.quote}</blockquote>}
+          {activeClientCase.links && (
+            <div className="nori-use-case-detail__links">
+              {activeClientCase.links.map((link) => <a href={link.href} key={link.href} rel="noreferrer" target="_blank">{link.label} <span aria-hidden="true">-&gt;</span></a>)}
+            </div>
+          )}
+        </div>
+        {activeClientCase.detailPlaceholder ? (
+          <div className="nori-use-case-detail__placeholder" aria-label={activeClientCase.detailPlaceholder}>
+            <span>{activeClientCase.detailPlaceholder}</span>
+          </div>
+        ) : activeClientMedia && (
+          <figure className="nori-use-case-detail__media">
+            <img alt={activeClientMediaAlt} src={activeClientMedia} />
+          </figure>
+        )}
+      </section>
+    </section>
+  )
+}
+
+function DeliveryPath() {
+  const [activeStageLabel, setActiveStageLabel] = useState(deliveryPath[0].label)
+  const activeStage = deliveryPath.find((stage) => stage.label === activeStageLabel) ?? deliveryPath[0]
+
+  return (
+    <div className="nori-pipeline" aria-label="From a confusing problem to a managed Nori solution">
       <div className="nori-pipeline__heading">
         <span className="nori-kicker">HOW NORI + NEO GENTS WORK</span>
-        <h2>From confusion to an installed solution.</h2>
-        <p>Nori designs the solution. You approve it. NEO Gents installs the workflow.</p>
+        <h2>From confusion to a solution.</h2>
+        <p>You stay in control. Nori designs a client-specific solution, you approve the plan, and NEO Gents installs it. Then Nori automates the approved workflow while NEO Gents monitors and maintains it on our managed infrastructure.</p>
+        <p className="nori-pipeline__security">You do not have to become the IT, cloud, IAM, AI-security, or monitoring team. If the system is breached, prompt-injected, or otherwise compromised, we treat it as our incident to contain, investigate, and fix. We do not hand the blame back to you.</p>
       </div>
       <ol>
-        {deliveryPath.map((stage, index) => (
+        {deliveryPath.map((stage) => (
           <li key={stage.label}>
-            <span className="nori-pipeline__number">{String(index + 1).padStart(2, '0')}</span>
-            <span className={`nori-pipeline__owner nori-pipeline__owner--${stage.owner.toLowerCase().replaceAll(' ', '-')}`}>{stage.owner}</span>
-            <strong>{stage.label}</strong>
-            <p>{stage.detail}</p>
+            <button
+              aria-controls="nori-stage-detail"
+              aria-pressed={activeStage.label === stage.label}
+              className={activeStage.label === stage.label ? 'is-active' : ''}
+              onClick={() => setActiveStageLabel(stage.label)}
+              onFocus={() => setActiveStageLabel(stage.label)}
+              onMouseEnter={() => setActiveStageLabel(stage.label)}
+              type="button"
+            >
+              <span className={`nori-pipeline__owner nori-pipeline__owner--${stage.owner.toLowerCase().replaceAll(' ', '-')}`}>{stage.owner}</span>
+              <strong>{stage.label}</strong>
+              <p>{stage.detail}</p>
+            </button>
           </li>
         ))}
       </ol>
+      <div className="nori-pipeline__stage-detail" id="nori-stage-detail" role="status">
+        <span>WHY THIS STAGE MATTERS</span>
+        <strong>{activeStage.label}</strong>
+        <p>{activeStage.whyItMatters}</p>
+      </div>
     </div>
   )
 }
@@ -342,7 +538,6 @@ function NoriFeatureOverview() {
             role="tab"
             type="button"
           >
-            <span>{String(index + 1).padStart(2, '0')}</span>
             {group.label}
           </button>
         ))}
@@ -356,6 +551,11 @@ function NoriFeatureOverview() {
         <div className="nori-feature-group__intro">
           <h4>{activeGroup.label}</h4>
           <p>{activeGroup.description}</p>
+          {activeGroup.label === 'Security & privacy' && (
+            <a className="nori-security-link" href="https://henrialfonso.com/" target="_blank" rel="noreferrer">
+              Security advisory direction backed by Henri Alfonso <span aria-hidden="true">-&gt;</span>
+            </a>
+          )}
         </div>
         <div className="nori-feature-grid">
           {activeGroup.features.map((feature) => (
@@ -366,6 +566,24 @@ function NoriFeatureOverview() {
             </article>
           ))}
         </div>
+      </section>
+      <section className="nori-runtime-brief" aria-label="How Nori works with your business">
+        <p className="nori-kicker">NORI OPERATING BRIEF</p>
+        <dl>
+          <div>
+            <dt>What Nori does</dt>
+            <dd>Turns the work you describe into a plain-language map, recommends the smallest useful system, and explains the agents, skills, and access it would need.</dd>
+          </div>
+          <div>
+            <dt>What you see first</dt>
+            <dd>A draft plan with the work to automate, the human checkpoints, and an estimate of implementation time and expected model usage before anything is activated.</dd>
+          </div>
+          <div>
+            <dt>How Nori improves</dt>
+            <dd>Nori retains approved lessons and proven paths to solutions. It proposes new skills and agents when they would help, then assigns them to a research agent that keeps the approved library current. Every change is explained and approved first.</dd>
+          </div>
+        </dl>
+        <p className="nori-runtime-brief__note">Model usage can be billed through a client-selected provider or managed by NEO Gents. Provider choice, routing rules, rate limits, and spending boundaries are confirmed in the approved plan.</p>
       </section>
     </section>
   )
@@ -397,7 +615,6 @@ function NoriAgentRoster() {
             type="button"
           >
             <span>{department.label}</span>
-            <b>{String(department.agents.length).padStart(2, '0')}</b>
           </button>
         ))}
       </div>
@@ -421,15 +638,13 @@ function NoriAgentRoster() {
           ))}
         </ul>
       </div>
-      <p className="nori-agent-roster__boundary">Legal, financial, payment, credential, publishing, and production actions always require the appropriate review before execution.</p>
+      <p className="nori-agent-roster__boundary">Legal, financial, payment, credential, publishing, and production actions or agents always require the appropriate review before execution.</p>
     </section>
   )
 }
 
 function NoriSystemDossier() {
   const [activeChapter, setActiveChapter] = useState<DossierChapterId>('comparison')
-  const activeChapterIndex = dossierChapters.findIndex((chapter) => chapter.id === activeChapter)
-
   return (
     <section className="nori-dossier" aria-labelledby="nori-dossier-heading">
       <header className="nori-dossier__intro">
@@ -440,7 +655,7 @@ function NoriSystemDossier() {
         <p>Use cases come first. This file shows the skills, specialists, memory, controls, and approval boundaries Nori can use to design the work responsibly.</p>
       </header>
       <div className="nori-dossier__chapters" role="tablist" aria-label="Nori operating file chapters">
-        {dossierChapters.map((chapter, index) => (
+        {dossierChapters.map((chapter) => (
           <button
             aria-controls={`nori-dossier-panel-${chapter.id}`}
             aria-selected={activeChapter === chapter.id}
@@ -451,7 +666,6 @@ function NoriSystemDossier() {
             role="tab"
             type="button"
           >
-            <span>{String(index + 1).padStart(2, '0')}</span>
             {chapter.label}
           </button>
         ))}
@@ -463,13 +677,11 @@ function NoriSystemDossier() {
         id={`nori-dossier-panel-${activeChapter}`}
         role="tabpanel"
       >
-        <span className="nori-dossier__folio" aria-hidden="true">{String(activeChapterIndex + 1).padStart(2, '0')} / 06</span>
-
         {activeChapter === 'comparison' && (
           <section className="nori-comparison" aria-labelledby="nori-comparison-heading">
             <div>
               <p className="nori-kicker">NORI VS HERMES</p>
-              <h3 id="nori-comparison-heading">Not just an agent. A business operating partner.</h3>
+              <h3 id="nori-comparison-heading">A self-improving business operating partner.</h3>
               <p>Hermes is a powerful general autonomous-agent platform. Nori is built for business owners who need a system designed around their workflow, installed after approval, and maintained by NEO Gents.</p>
               <p className="nori-comparison__note">Nori Runtime is being built to cover the same core capability families: skills, memory, models, tools, automation, browser and media, and integrations. Availability is verified per approved client deployment.</p>
             </div>
@@ -477,7 +689,7 @@ function NoriSystemDossier() {
               <div><dt>Starting point</dt><dd>Hermes starts with a general agent platform. Nori starts with one business problem and an approved operating plan.</dd></div>
               <div><dt>Who stays with the work</dt><dd>NEO Gents installs, monitors, updates, and maintains the client-specific Nori runtime.</dd></div>
               <div><dt>Control</dt><dd>The client approves the plan, provider access, budget, agent changes, and consequential external actions.</dd></div>
-              <div><dt>How you begin</dt><dd>Start with a managed Nori runtime or a single approved agent, then grow into the operating system when ready.</dd></div>
+              <div><dt>How you begin</dt><dd>Start with a managed Nori runtime or one approved agent automated by Nori, then grow into the operating system when ready.</dd></div>
             </dl>
           </section>
         )}
@@ -490,9 +702,9 @@ function NoriSystemDossier() {
               <p>Nori listens to one confusing process, maps the connected work, and recommends a practical solution without pretending one agent should own every job.</p>
             </div>
             <ol className="nori-dossier__sequence" aria-label="Nori's internal operating sequence">
-              <li><span>01</span><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
-              <li><span>02</span><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
-              <li><span>03</span><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
+              <li><strong>Listener</strong><p>Captures the real goal, context, and constraint.</p></li>
+              <li><strong>Auditor</strong><p>Finds the handoffs, risks, and repeat work.</p></li>
+              <li><strong>Strategist</strong><p>Recommends the next system and the right owner.</p></li>
             </ol>
           </div>
         )}
@@ -502,9 +714,9 @@ function NoriSystemDossier() {
         {activeChapter === 'network' && (
           <section className="nori-skill-network" aria-labelledby="nori-skill-network-heading">
             <header>
-              <p className="nori-kicker">ROUTED SKILL NETWORK</p>
-              <h3 id="nori-skill-network-heading">242 mapped skills. Clear ownership.</h3>
-              <p>Nori routes work through a defined network and keeps each specialist in its lane.</p>
+              <p className="nori-kicker">AGENT-SKILL MATRIX</p>
+              <h3 id="nori-skill-network-heading">A skills matrix with clear ownership.</h3>
+              <p>The current matrix maps 242 skills to seed agents, runtime classes, and lane rules so Nori can route approved work without assigning every task to one generalist.</p>
             </header>
             <ul>
               {systemCapabilities.map((capability) => (
@@ -523,13 +735,13 @@ function NoriSystemDossier() {
         {activeChapter === 'guardrails' && (
           <aside className="nori-approval-path">
             <div>
-              <p className="nori-kicker">HUMAN APPROVAL REQUIRED</p>
-              <h3>No agent goes live by accident.</h3>
-              <p>Nori can recommend and draft the system. A person approves the plan, build, and deployment before it becomes active.</p>
+              <p className="nori-kicker">GUARDRAILS BEFORE ACTION</p>
+              <h3>More than a human approval list.</h3>
+              <p>Nori can recommend and draft the system, but every client runtime operates inside human, security, prompt, and intelligence boundaries.</p>
             </div>
-            <ol>
-              {approvalStages.map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, '0')}</span>{stage}</li>)}
-            </ol>
+            <ul className="nori-guardrail-grid">
+              {guardrailGroups.map((group) => <li key={group.label}><strong>{group.label}</strong><p>{group.detail}</p></li>)}
+            </ul>
           </aside>
         )}
       </div>
@@ -558,7 +770,7 @@ function DesktopExperience({
   const matrixRef = useRef<HTMLElement>(null)
   const pipelineRef = useRef<HTMLElement>(null)
   const dossierRef = useRef<HTMLElement>(null)
-  const scrollToMap = () => window.scrollBy({ top: window.innerHeight * 1.1, behavior: 'smooth' })
+  const sceneTriggerRef = useRef<ScrollTrigger | null>(null)
 
   useLayoutEffect(() => {
     const track = trackRef.current
@@ -596,7 +808,7 @@ function DesktopExperience({
           end: '+=5200',
           pin: track,
           pinSpacing: true,
-          scrub: 1.05,
+          scrub: 1.35,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: ({ progress }) => {
@@ -605,10 +817,10 @@ function DesktopExperience({
               : progress < 0.38
                 ? 'map'
                 : progress < 0.59
-                  ? 'matrix'
+                  ? 'dossier'
                   : progress < 0.79
-                    ? 'pipeline'
-                    : 'dossier'
+                      ? 'matrix'
+                      : 'pipeline'
             setScene((current) => current === next ? current : next)
           },
         },
@@ -624,15 +836,17 @@ function DesktopExperience({
         .fromTo(map, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 0.82)
         .addLabel('map', 1.5)
         .to(map, { autoAlpha: 0, z: 720, scale: 1.16, yPercent: -5, duration: 0.5 }, 1.8)
-        .fromTo(matrix, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 2.02)
-        .addLabel('matrix', 2.7)
-        .to(matrix, { autoAlpha: 0, z: 720, scale: 1.15, yPercent: -5, duration: 0.5 }, 3)
-        .fromTo(pipeline, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 3.22)
-        .addLabel('pipeline', 3.9)
-        .to(pipeline, { autoAlpha: 0, z: 720, scale: 1.14, yPercent: -5, duration: 0.5 }, 4.2)
-        .fromTo(dossier, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 4.42)
-        .addLabel('dossier', 5.1)
-        .to(dossier, { z: 70, scale: 1.01, duration: 0.7, ease: 'power1.out' }, 5.1)
+        .fromTo(dossier, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 2.02)
+        .addLabel('dossier', 2.7)
+        .to(dossier, { autoAlpha: 0, z: 720, scale: 1.15, yPercent: -5, duration: 0.5 }, 3)
+        .fromTo(matrix, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 3.22)
+        .addLabel('matrix', 3.9)
+        .to(matrix, { autoAlpha: 0, z: 720, scale: 1.14, yPercent: -5, duration: 0.5 }, 4.2)
+        .fromTo(pipeline, incoming, { autoAlpha: 1, z: 0, scale: 1, duration: 0.68, immediateRender: false }, 4.42)
+        .addLabel('pipeline', 5.1)
+        .to(pipeline, { z: 70, scale: 1.01, duration: 0.7, ease: 'power1.out' }, 5.1)
+
+      sceneTriggerRef.current = timeline.scrollTrigger ?? null
 
       if (cursor && window.matchMedia('(pointer: fine)').matches) {
         gsap.set(cursor, { autoAlpha: 0 })
@@ -646,7 +860,7 @@ function DesktopExperience({
         window.addEventListener('pointermove', handlePointerMove)
         cleanups.push(() => window.removeEventListener('pointermove', handlePointerMove))
 
-        track.querySelectorAll<HTMLElement>('.nori-command-button, .nori-link-button').forEach((button) => {
+        track.querySelectorAll<HTMLElement>('.nori-command-button, .nori-link-button, .nori-scene-jump, .nori-scene-back').forEach((button) => {
           const enter = () => gsap.to(cursor, { scale: 1.8, duration: 0.35, ease: 'power3.out' })
           const move = (event: PointerEvent) => {
             const bounds = button.getBoundingClientRect()
@@ -678,11 +892,19 @@ function DesktopExperience({
     return () => {
       window.cancelAnimationFrame(refreshFrame)
       cleanups.forEach((cleanup) => cleanup())
+      sceneTriggerRef.current = null
       context.revert()
     }
   }, [])
 
   const sceneStyle = (name: Scene) => ({ pointerEvents: scene === name ? 'auto' as const : 'none' as const })
+  const moveToScene = (target: Scene) => {
+    const trigger = sceneTriggerRef.current
+    if (!trigger) return
+    trigger.scroll(trigger.labelToScroll(target === 'hero' ? 'root' : target))
+  }
+  const previousScene = noriSceneOrder[Math.max(noriSceneOrder.indexOf(scene) - 1, 0)]
+  const nextScene = noriSceneOrder[Math.min(noriSceneOrder.indexOf(scene) + 1, noriSceneOrder.length - 1)]
 
   return (
     <section className="nori-cinematic__track" ref={trackRef}>
@@ -699,13 +921,29 @@ function DesktopExperience({
         <div className="nori-cinema__depth nori-cinema__depth--near" aria-hidden="true" />
         <div className="nori-cinematic__stars" aria-hidden="true" />
         <div className="nori-cinematic__horizon" aria-hidden="true" />
-        <div className="nori-cinematic__progress" aria-hidden="true">
-          <span className={scene === 'hero' ? 'is-current' : ''}>01 CLARITY</span>
-          <span className={scene === 'map' ? 'is-current' : ''}>02 EXAMPLE</span>
-          <span className={scene === 'matrix' ? 'is-current' : ''}>03 USE CASES</span>
-          <span className={scene === 'pipeline' ? 'is-current' : ''}>04 DELIVERY</span>
-          <span className={scene === 'dossier' ? 'is-current' : ''}>05 PROOF</span>
-        </div>
+        <nav className="nori-cinematic__progress" aria-label="Nori experience sections">
+          {noriSceneOrder.map((target) => (
+            <button
+              aria-current={scene === target ? 'step' : undefined}
+              className={scene === target ? 'is-current' : ''}
+              key={target}
+              onClick={() => moveToScene(target)}
+              type="button"
+            >
+              {noriSceneLabels[target]}
+            </button>
+          ))}
+          </nav>
+          {scene !== 'hero' && (
+            <button className="nori-scene-back" onClick={() => moveToScene(previousScene)} type="button" aria-label={`Back to ${noriSceneLabels[previousScene]}`} title={`Back to ${noriSceneLabels[previousScene]}`}>
+              <span aria-hidden="true">&lt;-</span>
+            </button>
+          )}
+          {scene !== 'pipeline' && (
+          <button className="nori-scene-jump" onClick={() => moveToScene(nextScene)} type="button" aria-label={`Go to ${noriSceneLabels[nextScene]}`} title={`Go to ${noriSceneLabels[nextScene]}`}>
+            <span aria-hidden="true">-&gt;</span>
+          </button>
+        )}
 
         <section ref={heroRef} className="nori-scene nori-scene--hero" style={sceneStyle('hero')} aria-hidden={scene !== 'hero'}>
           <div className="nori-hero__copy">
@@ -713,11 +951,11 @@ function DesktopExperience({
             <SplitHeroHeadline />
             <p className="nori-hero__lede">{noriHero.lede}</p>
             <div className="nori-offer-path" aria-label="How Nori turns confusion into a solution">
-              {noriHero.steps.map((step, index) => (
-                <span key={step}><b>{String(index + 1).padStart(2, '0')}</b>{step}</span>
+              {noriHero.steps.map((step) => (
+                <span key={step}>{step}</span>
               ))}
             </div>
-            <button className="nori-command-button" type="button" onClick={scrollToMap}>
+            <button className="nori-command-button" type="button" onClick={() => moveToScene('map')}>
               {noriHero.cta} <span aria-hidden="true">-&gt;</span>
             </button>
           </div>
@@ -760,8 +998,8 @@ function FlowHero() {
       <h1>{noriHero.headline}</h1>
       <p>{noriHero.lede}</p>
       <div className="nori-offer-path" aria-label="How Nori turns confusion into a solution">
-        {noriHero.steps.map((step, index) => (
-          <span key={step}><b>{String(index + 1).padStart(2, '0')}</b>{step}</span>
+        {noriHero.steps.map((step) => (
+          <span key={step}>{step}</span>
         ))}
       </div>
       <img src="/nori-full.png" alt="Nori, the NEO Gents guide to practical AI" />

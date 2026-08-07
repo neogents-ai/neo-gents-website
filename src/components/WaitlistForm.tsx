@@ -11,6 +11,8 @@ interface Props {
   /** Preselect a buyer profile when embedded on a profile page */
   defaultProfile?: WaitlistProfile
   accentColor?: string
+  defaultBottleneck?: string
+  onProfileChange?: (profile: WaitlistProfile) => void
 }
 
 // Intake questions double as lead-scoring signals (GTM: gauge upsell from questions)
@@ -28,14 +30,16 @@ const TIMELINES = [
   { value: 'exploring', label: 'Just exploring' },
 ]
 
-export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }: Props) {
+export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017', defaultBottleneck = '', onProfileChange }: Props) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [profile, setProfile] = useState<WaitlistProfile>(defaultProfile ?? 'soulfood-sushi')
   const [role, setRole] = useState('')
-  const [bottleneck, setBottleneck] = useState('')
+  const [bottleneck, setBottleneck] = useState(defaultBottleneck)
   const [timeline, setTimeline] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
+  const profileAccentColor = profile === 'nori' ? '#00B359' : accentColor
+  const activeIntent = profile === 'nori' ? 'clarity-map' : 'waitlist'
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,6 +52,7 @@ export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }
       role,
       bottleneck,
       timeline,
+      intent: activeIntent,
       source: window.location.pathname,
       _subject: `Cohort waitlist — ${profile} — ${name}`,
     }
@@ -65,13 +70,34 @@ export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }
     }
   }
 
+  if (status === 'done' && activeIntent === 'clarity-map') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="p-8 border text-center"
+        style={{ borderColor: `${profileAccentColor}40`, background: `${profileAccentColor}08` }}
+      >
+        <p className="font-display font-800 text-2xl text-light mb-2">Your clarity session is requested.</p>
+        <p className="font-body text-sm text-muted mb-6">We will follow up to validate your first path and discuss the practical next step before any setup or model usage begins.</p>
+        <Link
+          to="/intro-session"
+          className="inline-block px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: profileAccentColor }}
+        >
+          View intro session details
+        </Link>
+      </motion.div>
+    )
+  }
+
   if (status === 'done') {
     return (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="p-8 border text-center"
-        style={{ borderColor: `${accentColor}40`, background: `${accentColor}08` }}
+        style={{ borderColor: `${profileAccentColor}40`, background: `${profileAccentColor}08` }}
       >
         <p className="font-display font-800 text-2xl text-light mb-2">You're on the list.</p>
         <p className="font-body text-sm text-muted mb-6">
@@ -80,7 +106,7 @@ export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }
         <Link
           to="/intro-session"
           className="inline-block px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: accentColor }}
+          style={{ backgroundColor: profileAccentColor }}
         >
           Book my intro session →
         </Link>
@@ -107,7 +133,10 @@ export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }
           <button
             key={val}
             type="button"
-            onClick={() => setProfile(val)}
+            onClick={() => {
+              setProfile(val)
+              onProfileChange?.(val)
+            }}
             className={`flex-1 px-3 py-2.5 font-mono text-[10px] tracking-[0.15em] uppercase border transition-all duration-200 ${
               profile === val ? 'text-black' : 'border-gold/20 text-muted hover:border-gold/40'
             }`}
@@ -135,20 +164,35 @@ export default function WaitlistForm({ defaultProfile, accentColor = '#D4A017' }
         {TIMELINES.map(t => <option key={t.value} value={t.value} className="bg-black">{t.label}</option>)}
       </select>
 
+      {activeIntent === 'clarity-map' && (
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className="px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity disabled:opacity-50"
+          style={{ backgroundColor: profileAccentColor }}
+        >
+          {status === 'sending' ? 'Sending...' : 'Request Clarity Map'}
+        </button>
+      )}
+      {activeIntent !== 'clarity-map' && (
       <button
         type="submit"
         disabled={status === 'sending'}
         className="px-8 py-3 font-display font-700 text-sm tracking-[0.12em] uppercase text-black hover:opacity-90 transition-opacity disabled:opacity-50"
-        style={{ backgroundColor: accentColor }}
+        style={{ backgroundColor: profileAccentColor }}
       >
-        {status === 'sending' ? 'Joining…' : 'Join the cohort waitlist →'}
+        {status === 'sending' ? 'Joining...' : 'Join the Cohort'}
       </button>
+      )}
       {status === 'error' && (
         <p className="font-body text-xs text-red-400">Something broke — email us at npcneogents@gmail.com and we'll add you by hand.</p>
       )}
+      {activeIntent === 'clarity-map' && <p className="font-mono text-[10px] text-muted/40 tracking-wide">Free clarity map -&gt; free clarity session -&gt; approved plan. No card required.</p>}
+      {activeIntent !== 'clarity-map' && (
       <p className="font-mono text-[10px] text-muted/40 tracking-wide">
         Waitlist → 30-min intro session → 14-day free trial. No card required.
       </p>
+      )}
     </form>
   )
 }

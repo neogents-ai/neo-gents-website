@@ -3,14 +3,15 @@ import { motion } from 'framer-motion'
 import CaveBackground from './CaveBackground'
 
 const navLinks = [
-  { href: '/soulfood-sushi', label: 'Soulfood Sushi', hud: '01' },
-  { href: '/nori',           label: 'Nori',           hud: '02' },
-  { href: '/agents',         label: 'Agents',         hud: '03' },
-  { href: '/pricing',        label: 'Pricing',        hud: '04' },
+  { href: '/soulfood-sushi', label: 'Soulfood Sushi' },
+  { href: '/nori',           label: 'Nori' },
+  { href: '/agents',         label: 'Agents' },
+  { href: '/pricing',        label: 'Pricing' },
 ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
+  const isNoriPage = location.pathname === '/nori'
 
   return (
     <div className="min-h-screen bg-black text-light flex flex-col scanline-green relative">
@@ -32,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Nav links — desktop */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map(({ href, label, hud }) => (
+            {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 to={href}
@@ -42,15 +43,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     : 'text-muted hover:text-light'
                 }`}
               >
-                <span className="font-mono text-[9px] text-muted/40">{hud}/</span>
                 {label}
               </Link>
             ))}
           </div>
 
           {/* CTA */}
-          <Link
-            to="/waitlist"
+            <Link
+              to={isNoriPage ? '/waitlist?source=nori-clarity-map&profile=nori' : '/waitlist'}
             className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border text-[10px] tracking-[0.15em] uppercase font-body transition-all duration-200"
             style={{
               borderColor: 'rgba(0,179,89,0.4)',
@@ -65,7 +65,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,179,89,0.4)'
             }}
           >
-            JOIN THE COHORT →
+               {isNoriPage ? 'REQUEST CLARITY MAP →' : 'JOIN THE COHORT →'}
           </Link>
 
           {/* Mobile menu button */}
@@ -110,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </span>
             </div>
             <p className="font-body text-xs text-muted leading-relaxed max-w-xs">
-              Pain-point-first AI consultancy. We audit bottlenecks, install AI teams, and stack solutions.
+              Practical AI for business. We clarify what is not working, install AI teams, and maintain the solution.
             </p>
             <p className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(0,179,89,0.35)' }}>
               neogents.io
@@ -121,13 +121,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col gap-3">
             <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-muted/40">Tracks</span>
             <div className="flex flex-col gap-2">
-              {navLinks.map(({ href, label, hud }) => (
+              {navLinks.map(({ href, label }) => (
                 <Link
                   key={href}
                   to={href}
                   className="font-body text-xs text-muted hover:text-green transition-colors flex items-center gap-2"
                 >
-                  <span className="font-mono text-[9px] text-muted/30">{hud}/</span>
                   {label}
                 </Link>
               ))}
