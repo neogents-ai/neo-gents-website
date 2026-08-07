@@ -28,13 +28,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <img
                 src="/soulfood-sushi-logo.png"
                 alt="SoulFood Sushi"
-                className="h-12 w-auto object-contain -ml-1"
+                className="h-10 w-auto object-contain -ml-1"
+                style={{ mixBlendMode: 'screen' }}
               />
             ) : (
               <img
                 src="/neo-gents-logo.png"
                 alt="NEO GENTS"
-                className="h-11 w-auto object-contain"
+                className="h-8 w-auto object-contain"
+                style={{ mixBlendMode: 'screen' }}
               />
             )}
           </Link>
