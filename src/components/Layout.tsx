@@ -31,14 +31,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 className="h-28 w-auto object-contain -ml-1"
               />
             ) : (
-              <>
-                <div className="w-8 h-8 border border-gold/60 rotate-45 flex items-center justify-center group-hover:border-gold transition-colors duration-300">
-                  <div className="w-3 h-3 bg-gold rotate-0" />
-                </div>
-                <span className="font-display font-700 text-sm tracking-[0.2em] uppercase text-gold">
-                  NEO GENTS
-                </span>
-              </>
+              <img
+                src="/neo-gents-logo.png?v=3"
+                alt="NEO GENTS"
+                className="h-11 w-auto object-contain"
+              />
             )}
           </Link>
 
