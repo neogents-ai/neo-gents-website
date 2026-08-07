@@ -24,16 +24,16 @@ export default function CaveBackground() {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
 
-      {/* Base cave atmosphere */}
+      {/* Clean near-black base — no grey fog */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 130% 80% at 50% 105%, #1a221a 0%, #161b22 50%, #111820 100%)',
+            'radial-gradient(ellipse 140% 90% at 50% 110%, #111111 0%, #0a0a0a 55%, #000000 100%)',
         }}
       />
 
-      {/* Ambient glow orbs */}
+      {/* Subtle ambient glow orbs — reduced haze */}
       {ORBS.map((orb, i) => (
         <motion.div
           key={i}
@@ -42,10 +42,11 @@ export default function CaveBackground() {
             left: orb.x, top: orb.y,
             width: orb.size, height: orb.size,
             background: orb.color,
-            filter: 'blur(90px)',
+            filter: 'blur(110px)',
             transform: 'translate(-50%,-50%)',
+            opacity: 0.55,
           }}
-          animate={{ scale: [1, 1.18, 1], opacity: [0.7, 1, 0.7] }}
+          animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.6, 0.45] }}
           transition={{ duration: 9 + i * 1.8, repeat: Infinity, ease: 'easeInOut' }}
         />
       ))}
@@ -69,7 +70,7 @@ export default function CaveBackground() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to bottom, #161b22 0%, transparent 30%, transparent 75%, #161b22 100%)',
+              'linear-gradient(to bottom, #0a0a0a 0%, transparent 30%, transparent 75%, #0a0a0a 100%)',
           }}
         />
       </div>

@@ -12,6 +12,7 @@ const navLinks = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const isNoriPage = location.pathname === '/nori'
+  const isSoulFoodSushiPage = location.pathname === '/soulfood-sushi'
 
   return (
     <div className="min-h-screen bg-black text-light flex flex-col scanline-green relative">
@@ -21,13 +22,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo — per-page branding */}
           <Link to="/" className="flex items-center gap-3 group">
-            <img
-              src="/neo-gents-logo.png"
-              alt="NEO GENTS"
-              className="h-8 w-auto object-contain"
-            />
+            {isSoulFoodSushiPage ? (
+              <img
+                src="/soulfood-sushi-logo.png"
+                alt="SoulFood Sushi"
+                className="h-8 w-auto object-contain"
+              />
+            ) : (
+              <img
+                src="/neo-gents-logo.png"
+                alt="NEO GENTS"
+                className="h-8 w-auto object-contain"
+                style={{ mixBlendMode: 'screen' }}
+              />
+            )}
           </Link>
 
           {/* Nav links — desktop */}
