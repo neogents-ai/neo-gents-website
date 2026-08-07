@@ -22,14 +22,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo — per-page branding */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 border border-gold/60 rotate-45 flex items-center justify-center group-hover:border-gold transition-colors duration-300">
-              <div className="w-3 h-3 bg-gold rotate-0" />
-            </div>
-            <span className="font-display font-700 text-sm tracking-[0.2em] uppercase text-gold">
-              NEO GENTS
-            </span>
+            {isSoulFoodSushiPage ? (
+              <img
+                src="/soulfood-sushi-logo.png"
+                alt="SoulFood Sushi"
+                className="h-14 w-auto object-contain -ml-1"
+              />
+            ) : (
+              <>
+                <div className="w-8 h-8 border border-gold/60 rotate-45 flex items-center justify-center group-hover:border-gold transition-colors duration-300">
+                  <div className="w-3 h-3 bg-gold rotate-0" />
+                </div>
+                <span className="font-display font-700 text-sm tracking-[0.2em] uppercase text-gold">
+                  NEO GENTS
+                </span>
+              </>
+            )}
           </Link>
 
           {/* Nav links — desktop */}
