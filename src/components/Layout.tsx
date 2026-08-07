@@ -23,12 +23,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 border border-gold/60 rotate-45 flex items-center justify-center group-hover:border-gold transition-colors duration-300">
-              <div className="w-3 h-3 bg-gold rotate-0" />
-            </div>
-            <span className="font-display font-700 text-sm tracking-[0.2em] uppercase text-gold">
-              NEO GENTS
-            </span>
+            <img
+              src="/neo-gents-logo.png"
+              alt="NEO GENTS"
+              className="h-8 w-auto object-contain"
+            />
           </Link>
 
           {/* Nav links — desktop */}
