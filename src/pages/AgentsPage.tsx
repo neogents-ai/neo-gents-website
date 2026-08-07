@@ -25,7 +25,7 @@ export default function AgentsPage() {
       </div>
       <div
         className="fixed inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, #161b22 0%, #111820 50%, #161b22 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #0a0a0a 0%, #050505 50%, #0a0a0a 100%)' }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24">

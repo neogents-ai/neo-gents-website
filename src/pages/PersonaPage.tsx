@@ -36,7 +36,7 @@ export default function PersonaPage({ persona }: Props) {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 50% 40% at 50% 0%, ${persona.glowColor} 0%, transparent 70%), linear-gradient(180deg, #161b22 0%, #111820 50%, #161b22 100%)`,
+          background: `radial-gradient(ellipse 50% 40% at 50% 0%, ${persona.glowColor} 0%, transparent 70%), linear-gradient(180deg, #0a0a0a 0%, #050505 50%, #0a0a0a 100%)`,
         }}
       />
 

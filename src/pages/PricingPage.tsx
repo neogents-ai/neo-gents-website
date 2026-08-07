@@ -84,7 +84,7 @@ export default function PricingPage() {
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(22,27,34,0.35) 0%, transparent 70%), #161b22',
+          background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(10,10,10,0.8) 0%, transparent 70%), #0a0a0a',
         }}
       />
 

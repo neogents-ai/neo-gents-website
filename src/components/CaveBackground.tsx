@@ -10,14 +10,13 @@ const PARTICLES = Array.from({ length: 26 }, (_, i) => ({
   color:
     i % 3 === 0 ? 'rgba(0,179,89,0.65)'
     : i % 3 === 1 ? 'rgba(212,160,23,0.48)'
-    : 'rgba(30,41,59,0.55)',
+    : 'rgba(212,160,23,0.25)',
 }))
 
 const ORBS = [
-  { x: '10%', y: '72%', color: 'rgba(0,179,89,0.18)',   size: 420 },
-  { x: '34%', y: '58%', color: 'rgba(212,160,23,0.14)', size: 360 },
-  { x: '63%', y: '48%', color: 'rgba(30,41,59,0.25)',   size: 340 },
-  { x: '86%', y: '38%', color: 'rgba(0,179,89,0.12)',   size: 300 },
+  { x: '10%', y: '72%', color: 'rgba(0,179,89,0.12)',   size: 420 },
+  { x: '34%', y: '58%', color: 'rgba(212,160,23,0.10)', size: 360 },
+  { x: '86%', y: '38%', color: 'rgba(0,179,89,0.08)',   size: 300 },
 ]
 
 export default function CaveBackground() {
@@ -122,13 +121,13 @@ export default function CaveBackground() {
       {/* Top fog */}
       <div
         className="absolute top-0 left-0 right-0"
-        style={{ height: '14%', background: 'linear-gradient(to bottom, #161b22, transparent)' }}
+        style={{ height: '14%', background: 'linear-gradient(to bottom, #0a0a0a, transparent)' }}
       />
 
       {/* Bottom fog */}
       <div
         className="absolute bottom-0 left-0 right-0"
-        style={{ height: '12%', background: 'linear-gradient(to top, #161b22, transparent)' }}
+        style={{ height: '12%', background: 'linear-gradient(to top, #0a0a0a, transparent)' }}
       />
 
       <div className="scanline-green" />
