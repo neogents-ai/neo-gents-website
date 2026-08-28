@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -385,6 +385,77 @@ function SolutionUseCases() {
       </div>
       <ClientProofRail />
     </>
+  )
+}
+
+function NoriCinematicIntro({ onComplete }: { onComplete: () => void }) {
+  const rootRef = useRef<HTMLDivElement>(null)
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
+  const completeRef = useRef(false)
+
+  const finish = useCallback(() => {
+    if (completeRef.current) return
+    completeRef.current = true
+    onComplete()
+  }, [onComplete])
+
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+
+    const context = gsap.context(() => {
+      const rice = gsap.utils.toArray<HTMLElement>('.nori-intro__rice-particle')
+      const timeline = gsap.timeline({ defaults: { ease: 'power3.inOut' }, onComplete: finish })
+      timelineRef.current = timeline
+
+      timeline
+        .set('.nori-intro__plate--impact, .nori-intro__plate--arrival, .nori-intro__counter, .nori-intro__rice-particle', { autoAlpha: 0 })
+        .fromTo('.nori-intro__plate--overwhelm', { scale: 1.04, xPercent: -1.5 }, { scale: 1.13, xPercent: 1.3, duration: 1.35, ease: 'none' })
+        .fromTo('.nori-intro__eyebrow, .nori-intro__warning', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.36, stagger: 0.1 }, 0.18)
+        .to('.nori-intro__plate--overwhelm', { filter: 'brightness(0.52) contrast(1.22)', duration: 0.18 }, 1.14)
+        .to('.nori-intro__flash', { autoAlpha: 1, duration: 0.045 }, 1.19)
+        .to('.nori-intro__flash', { autoAlpha: 0, duration: 0.22 }, 1.24)
+        .to('.nori-intro__plate--impact', { autoAlpha: 1, duration: 0.08 }, 1.2)
+        .fromTo('.nori-intro__plate--impact', { scale: 1.16, xPercent: -1 }, { scale: 1.03, xPercent: 1, duration: 0.85 }, 1.2)
+        .to('.nori-intro__counter', { autoAlpha: 1, duration: 0.18 }, 1.3)
+        .to(rice, { autoAlpha: 1, duration: 0.08, stagger: 0.012, x: (index) => ((index % 5) - 2) * 70, y: (index) => -28 - Math.floor(index / 5) * 30 - (index % 3) * 12, rotation: (index) => (index % 2 ? 1 : -1) * (70 + index * 12) }, 1.28)
+        .to(rice, { autoAlpha: 0, y: '+=95', duration: 0.48, stagger: 0.02, ease: 'power2.in' }, 1.54)
+        .to('.nori-intro__plate--impact', { autoAlpha: 0, duration: 0.34 }, 2.15)
+        .to('.nori-intro__eyebrow, .nori-intro__warning, .nori-intro__counter', { autoAlpha: 0, duration: 0.22 }, 2.2)
+        .to('.nori-intro__plate--arrival', { autoAlpha: 1, duration: 0.42 }, 2.26)
+        .fromTo('.nori-intro__plate--arrival', { scale: 1.13 }, { scale: 1, duration: 1.55, ease: 'power2.out' }, 2.26)
+        .to('.nori-intro__arrival-copy', { autoAlpha: 1, y: 0, duration: 0.34 }, 2.76)
+        .to(root, { autoAlpha: 0, duration: 0.48 }, 4.4)
+    }, root)
+
+    return () => {
+      timelineRef.current = null
+      context.revert()
+    }
+  }, [finish])
+
+  const skip = () => {
+    if (completeRef.current) return
+    timelineRef.current?.kill()
+    gsap.to(rootRef.current, { autoAlpha: 0, duration: 0.2, onComplete: finish })
+  }
+
+  return (
+    <section className="nori-intro" ref={rootRef} aria-label="Nori cinematic introduction">
+      <div className="nori-intro__plate nori-intro__plate--overwhelm" aria-hidden="true"><img src="/media/nori-intro/source-frames/shot-01-overwhelm-start.png" alt="" /></div>
+      <div className="nori-intro__plate nori-intro__plate--impact" aria-hidden="true"><img src="/media/nori-intro/source-frames/shot-02-clarity-counter-impact.png" alt="" /></div>
+      <div className="nori-intro__plate nori-intro__plate--arrival" aria-hidden="true"><img src="/media/nori-intro/source-frames/shot-03-command-chamber-arrival.png" alt="" /></div>
+      <div className="nori-intro__shade" aria-hidden="true" />
+      <div className="nori-intro__flash" aria-hidden="true" />
+      <div className="nori-intro__rice" aria-hidden="true">{Array.from({ length: 14 }, (_, index) => <i className="nori-intro__rice-particle" key={index} />)}</div>
+      <div className="nori-intro__copy">
+        <p className="nori-intro__eyebrow">NORI SIGNAL / CLARITY COUNTER</p>
+        <p className="nori-intro__warning">When every tactic screams at once, Nori reads the pattern.</p>
+        <p className="nori-intro__counter">CLARITY COUNTER / SIGNAL RESOLVED</p>
+        <p className="nori-intro__arrival-copy">ONE CLEAR PATH. <strong>ENTER HQ.</strong></p>
+      </div>
+      <button className="nori-intro__skip" onClick={skip} type="button">Skip intro</button>
+    </section>
   )
 }
 
@@ -1037,7 +1108,9 @@ export default function NoriCinematicPage() {
   const reducedMotion = useReducedMotionPreference()
   const [prompt, setPrompt] = useState('')
   const [previewVisible, setPreviewVisible] = useState(false)
+  const [showIntro, setShowIntro] = useState(true)
   const immersive = !compact && !reducedMotion
+  const finishIntro = useCallback(() => setShowIntro(false), [])
   const updatePrompt = (nextPrompt: string) => {
     setPrompt(nextPrompt)
     setPreviewVisible(false)
@@ -1045,6 +1118,7 @@ export default function NoriCinematicPage() {
 
   return (
     <div className="nori-cinematic">
+      {!reducedMotion && showIntro ? <NoriCinematicIntro onComplete={finishIntro} /> : null}
       {immersive ? (
         <DesktopExperience
           prompt={prompt}
