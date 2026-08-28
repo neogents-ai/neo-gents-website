@@ -20,6 +20,23 @@
   font: inherit;
 }
 
+.nori-intro { background: #030504; inset: 0; isolation: isolate; overflow: hidden; position: fixed; z-index: 100; }
+.nori-intro__plate, .nori-intro__shade, .nori-intro__flash, .nori-intro__rice { inset: 0; pointer-events: none; position: absolute; }
+.nori-intro__plate { overflow: hidden; will-change: opacity, transform; }
+.nori-intro__plate img { display: block; height: 100%; object-fit: cover; width: 100%; }
+.nori-intro__shade { background: linear-gradient(90deg, rgba(2, 4, 3, 0.86), rgba(2, 4, 3, 0.18) 58%, rgba(2, 4, 3, 0.56)); box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.88); z-index: 2; }
+.nori-intro__flash { background: rgba(232, 255, 238, 0.92); opacity: 0; z-index: 6; }
+.nori-intro__copy { bottom: clamp(3rem, 8vh, 6.4rem); left: clamp(2rem, 7vw, 8rem); max-width: 34rem; position: absolute; z-index: 7; }
+.nori-intro__eyebrow, .nori-intro__counter, .nori-intro__arrival-copy { color: #d4af37; font-family: var(--nori-utility); font-size: clamp(0.66rem, 0.85vw, 0.86rem); font-weight: 700; letter-spacing: 0.14em; margin: 0; }
+.nori-intro__warning { color: #f5f5f5; font-family: var(--nori-display); font-size: clamp(1.75rem, 4.3vw, 4.25rem); font-weight: 800; letter-spacing: 0; line-height: 0.98; margin: 0.75rem 0 0; max-width: 11ch; }
+.nori-intro__counter { margin-top: 1.1rem; }
+.nori-intro__arrival-copy { color: #f5f5f5; margin-top: 1.2rem; transform: translate3d(0, 16px, 0); visibility: hidden; }
+.nori-intro__arrival-copy strong { color: #00b359; }
+.nori-intro__rice { z-index: 6; }
+.nori-intro__rice-particle { background: #f6f0da; border-radius: 50% 42% 48% 45%; box-shadow: 0 0 8px rgba(255, 247, 220, 0.48); height: 0.46rem; left: 55%; position: absolute; top: 48%; visibility: hidden; width: 0.68rem; }
+.nori-intro__skip { background: transparent; border: 1px solid rgba(245, 245, 245, 0.42); bottom: 2.2rem; color: rgba(245, 245, 245, 0.84); cursor: pointer; font-family: var(--nori-utility); font-size: 0.64rem; letter-spacing: 0.12em; padding: 0.65rem 0.8rem; position: absolute; right: 2.5rem; transition: border-color 200ms ease, color 200ms ease; z-index: 8; }
+.nori-intro__skip:hover, .nori-intro__skip:focus-visible { border-color: #d4af37; color: #d4af37; }
+
 .nori-kicker {
   color: var(--nori-gold);
   font-family: var(--nori-utility);
@@ -427,6 +444,14 @@
 
 @media (max-width: 899px) {
   .nori-cinematic { margin-top: -5rem; }
+  .nori-intro { min-height: 100dvh; }
+  .nori-intro__plate--overwhelm img { object-position: 58% center; }
+  .nori-intro__plate--impact img { object-position: 54% center; }
+  .nori-intro__plate--arrival img { object-position: 55% center; }
+  .nori-intro__copy { bottom: max(4.6rem, calc(env(safe-area-inset-bottom) + 4rem)); left: 1.25rem; max-width: min(29rem, calc(100vw - 2.5rem)); }
+  .nori-intro__warning { font-size: clamp(2rem, 10.5vw, 3.7rem); max-width: 12ch; }
+  .nori-intro__skip { bottom: max(1rem, env(safe-area-inset-bottom)); right: 1.25rem; }
+  .nori-intro__rice-particle { left: 53%; top: 46%; }
   .nori-pipeline__heading h2 { white-space: normal; }
   .nori-build-map__actions { align-items: flex-start; flex-direction: column; }
   .nori-build-map__actions .nori-command-button { width: 100%; justify-content: center; }
@@ -441,6 +466,9 @@
 }
 
 @media (max-width: 560px) {
+  .nori-intro__eyebrow, .nori-intro__counter, .nori-intro__arrival-copy { font-size: 0.58rem; letter-spacing: 0.1em; }
+  .nori-intro__warning { font-size: clamp(1.85rem, 11vw, 2.7rem); }
+  .nori-intro__skip { font-size: 0.58rem; padding: 0.58rem 0.68rem; }
   .nori-flow { padding-inline: 1rem; }
   .nori-flow__hero h1 { font-size: clamp(2.6rem, 14vw, 4rem); }
   .nori-flow .nori-pipeline ol, .nori-matrix__grid, .nori-comparison dl, .nori-feature-grid, .nori-skill-network ul, .nori-agent-panel ul, .nori-guardrail-grid { grid-template-columns: 1fr; }
