@@ -81,8 +81,8 @@ export default function NoriSplashPage() {
             </div>
 
             <div className="nori-splash__cta-row">
-              {/* Booking URL is TBD. Keep #book until Darion’s link exists. */}
-              <a className="nori-splash__btn nori-splash__btn-primary" id="book" href="#book">
+              {/* Booking URL is TBD. Scroll to the form until Darion’s link exists. */}
+              <a className="nori-splash__btn nori-splash__btn-primary" href="#lead">
                 Book a consult
               </a>
             </div>
