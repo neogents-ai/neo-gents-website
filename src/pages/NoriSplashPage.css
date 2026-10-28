@@ -12,6 +12,10 @@
   font-weight: 600;
 }
 
+html:has(.nori-splash) {
+  scroll-padding-top: 52px;
+}
+
 .nori-splash__draft {
   position: sticky;
   top: 0;
@@ -143,6 +147,15 @@
   grid-template-columns: 1fr;
   gap: 10px;
   max-width: 520px;
+}
+
+.nori-splash__tile,
+.nori-splash__form,
+.nori-splash__btn,
+.nori-splash input,
+.nori-splash select,
+.nori-splash textarea {
+  scroll-margin-top: 52px;
 }
 
 .nori-splash__tile {
