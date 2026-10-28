@@ -11,7 +11,12 @@ const navLinks = [
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
-  const isNoriPage = location.pathname === '/nori'
+
+  // Mix C `/nori` is splash-first. Site nav, cave backdrop, and footer
+  // fight that frame and the nav CTA is waitlist language.
+  if (location.pathname === '/nori') {
+    return <>{children}</>
+  }
 
   return (
     <div className="min-h-screen bg-black text-light flex flex-col scanline-green relative">
@@ -50,7 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* CTA */}
             <Link
-              to={isNoriPage ? '/waitlist?source=nori-clarity-map&profile=nori' : '/waitlist'}
+              to="/waitlist"
             className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border text-[10px] tracking-[0.15em] uppercase font-body transition-all duration-200"
             style={{
               borderColor: 'rgba(0,179,89,0.4)',
@@ -65,7 +70,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               ;(e.currentTarget as HTMLElement).style.borderColor = 'rgba(0,179,89,0.4)'
             }}
           >
-               {isNoriPage ? 'REQUEST CLARITY MAP →' : 'JOIN THE COHORT →'}
+               JOIN THE COHORT →
           </Link>
 
           {/* Mobile menu button */}

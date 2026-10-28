@@ -1,6 +1,9 @@
 # Nori Cinematic Sections
 
-The Nori page is a five-chapter depth-scroll experience. Keep the order in
+`/nori` renders the Mix C splash (`NoriSplashPage`). This note describes the
+unused cinematic scroll experience kept in `NoriCinematicPage.tsx`.
+
+The cinematic page is a five-chapter depth-scroll experience. Keep the order in
 `sceneRegistry.ts` aligned with the GSAP labels in `NoriCinematicPage.tsx`.
 
 1. **Clarity**: Hero framing, Nori's promise, and the entry CTA.

@@ -8,7 +8,7 @@ import AgentsPage from './pages/AgentsPage'
 import WaitlistPage from './pages/WaitlistPage'
 import IntroSessionPage from './pages/IntroSessionPage'
 import ComingSoonPage from './pages/ComingSoonPage'
-import NoriCinematicPage from './pages/NoriCinematicPage'
+import NoriSplashPage from './pages/NoriSplashPage'
 import { personas } from './data/personas'
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/nori" element={<NoriCinematicPage />} />
+          <Route path="/nori" element={<NoriSplashPage />} />
           {personas.filter(p => p.id !== 'nori').map(p => (
             <Route key={p.id} path={p.route} element={<PersonaPage persona={p} />} />
           ))}

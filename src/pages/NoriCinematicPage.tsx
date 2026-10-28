@@ -1,3 +1,7 @@
+/**
+ * Unused by the router. `/nori` renders NoriSplashPage (Mix C splash).
+ * Kept so the cinematic scroll experience stays in history — do not delete.
+ */
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'

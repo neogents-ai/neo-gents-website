@@ -1,0 +1,332 @@
+.nori-splash {
+  --black: #0d0d0d;
+  --emerald: #00b359;
+  --gold: #d4a017;
+  --violet: #1e0d3d;
+  --rice: #f5f0e8;
+  --muted: #9aa39a;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--rice);
+  font-family: "Work Sans", "DM Sans", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.nori-splash__draft {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #3a2200;
+  color: #ffd27a;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.nori-splash__frame {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 16px 48px;
+  position: relative;
+}
+
+.nori-splash__glow {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  width: min(380px, 80vw);
+  height: min(380px, 80vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 179, 89, 0.4), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.nori-splash__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.nori-splash__mark {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+.nori-splash__mark span {
+  color: var(--emerald);
+}
+
+.nori-splash__chip {
+  font-family: Jura, Syne, sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid #2a2a2a;
+  padding: 8px 12px;
+  border-radius: 999px;
+}
+
+.nori-splash__hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.nori-splash__kicker {
+  font-family: Jura, Syne, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--emerald);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.nori-splash h1 {
+  font-size: clamp(30px, 8vw, 46px);
+  line-height: 1.08;
+  font-weight: 700;
+  max-width: 20ch;
+  margin-bottom: 14px;
+}
+
+.nori-splash__l2 {
+  display: block;
+  color: var(--emerald);
+  font-size: 0.92em;
+  margin-top: 0.12em;
+}
+
+.nori-splash__sub {
+  font-size: 17px;
+  line-height: 1.45;
+  color: #c9d0c9;
+  font-weight: 600;
+  max-width: 42ch;
+  margin-bottom: 18px;
+}
+
+.nori-splash__rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  max-width: 200px;
+  margin: 12px 0 18px;
+}
+
+.nori-splash h2 {
+  font-family: Jura, Syne, sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--emerald);
+  margin: 22px 0 12px;
+}
+
+.nori-splash__tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-width: 520px;
+}
+
+.nori-splash__tile {
+  background: var(--violet);
+  border: 1px solid #2c184f;
+  border-radius: 12px;
+  padding: 14px 14px 12px;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  min-height: 44px;
+}
+
+.nori-splash__tile:hover,
+.nori-splash__tile[aria-pressed="true"] {
+  border-color: var(--emerald);
+  box-shadow: 0 0 0 1px var(--emerald);
+}
+
+.nori-splash__tile strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.nori-splash__tile span {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.nori-splash__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 8px;
+}
+
+.nori-splash__btn {
+  appearance: none;
+  border: 0;
+  font-family: "Work Sans", "DM Sans", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  min-height: 44px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nori-splash__btn-primary {
+  background: var(--emerald);
+  color: #04140a;
+  box-shadow: 0 0 24px rgba(0, 179, 89, 0.35);
+}
+
+.nori-splash__btn:focus-visible,
+.nori-splash__tile:focus-visible,
+.nori-splash input:focus-visible,
+.nori-splash select:focus-visible,
+.nori-splash textarea:focus-visible {
+  outline: 2px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+.nori-splash__micro {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.nori-splash__micro--form {
+  margin-bottom: 8px;
+}
+
+.nori-splash__success {
+  margin-top: 10px;
+}
+
+.nori-splash__success[hidden] {
+  display: none;
+}
+
+.nori-splash__stage {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 220px;
+}
+
+.nori-splash__stage img {
+  width: min(380px, 92%);
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.55));
+}
+
+.nori-splash__form {
+  margin-top: 18px;
+  background: #120a22;
+  border: 1px solid #2c184f;
+  border-radius: 16px;
+  padding: 20px;
+  max-width: 520px;
+}
+
+.nori-splash__form h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.nori-splash label {
+  display: block;
+  font-family: Jura, Syne, sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 10px 0 6px;
+}
+
+.nori-splash input,
+.nori-splash select,
+.nori-splash textarea {
+  width: 100%;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: var(--rice);
+  padding: 11px 12px;
+  font: 600 16px "Work Sans", "DM Sans", system-ui, sans-serif;
+}
+
+.nori-splash textarea {
+  min-height: 64px;
+  resize: vertical;
+}
+
+.nori-splash__footer {
+  margin-top: 40px;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+@media (min-width: 480px) {
+  .nori-splash__tiles {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nori-splash input,
+  .nori-splash select,
+  .nori-splash textarea {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 861px) {
+  .nori-splash__frame {
+    padding: 40px 24px 56px;
+  }
+
+  .nori-splash__header {
+    margin-bottom: 36px;
+  }
+
+  .nori-splash__hero {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 36px;
+  }
+
+  .nori-splash h1 {
+    font-size: clamp(30px, 4.4vw, 46px);
+  }
+
+  .nori-splash__stage {
+    min-height: 360px;
+  }
+}
